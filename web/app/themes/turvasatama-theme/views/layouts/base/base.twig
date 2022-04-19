@@ -15,9 +15,9 @@
 
   <body class="{{ body_class }}">
 		{# Skip links for a11y purposes. Should always be the first thing after the body tag #}
-		<a href="#main-content" class="skip-link">{{ __( 'Skip to main content', 'pixels-text-domain' ) }}</a>
+		<a href="#main-content" class="skip-link">{{ __( 'Skip to main content', 'turvasatama-theme' ) }}</a>
 		{# Element with id of 'main-menu' is in components/site-header/site-header.twig #}
-		<a href="#main-menu" class="skip-link">{{ __( 'Skip to menu menu', 'pixels-text-domain' ) }}</a>
+		<a href="#main-menu" class="skip-link">{{ __( 'Skip to menu menu', 'turvasatama-theme' ) }}</a>
 
     {{ function('wp_body_open') }}
 
@@ -29,7 +29,7 @@
 
       <main id="main-content" role="main">
 				{% block site_content %}
-					{{ __('Sorry, no content was found!', 'pixels-text-domain') }}
+					{{ __('Sorry, no content was found!', 'turvasatama-theme') }}
 				{% endblock %}
       </main>
 

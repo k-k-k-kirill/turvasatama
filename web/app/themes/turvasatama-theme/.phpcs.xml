@@ -31,7 +31,7 @@
   <rule ref="WordPress.WP.I18n">
 		<properties>
 			<!-- Value: replace the text domain used. -->
-			<property name="text_domain" type="array" value="pixels-text-domain"/>
+			<property name="text_domain" type="array" value="turvasatama-theme"/>
 		</properties>
 	</rule>
   <!-- Skips WordPress naming conventions that don't work with WP themes. -->

@@ -8,7 +8,7 @@
 
 {% block site_content %}
 	<div class="ds">
-		<h1 class="ds__title">{{ __('Design System', 'pixels-text-domain') }}</h1>
+		<h1 class="ds__title">{{ __('Design System', 'turvasatama-theme') }}</h1>
 		<div class="ds__navigation">
 			<div class="ds__navigation-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 				{% for navigation_item in navigation %}
@@ -42,7 +42,7 @@
 							</div>
 						{% endfor %}
 					{% else %}
-						<p>{{ __('No valid data file found for <code>%s</code>. Create one to display an example of this component. If you have created a file, check that the file contains vaild JSON syntax.', 'pixels-text-domain')|format(variation.filename) }}</p>
+						<p>{{ __('No valid data file found for <code>%s</code>. Create one to display an example of this component. If you have created a file, check that the file contains vaild JSON syntax.', 'turvasatama-theme')|format(variation.filename) }}</p>
 					{% endif %}
 				{% endfor %}
 

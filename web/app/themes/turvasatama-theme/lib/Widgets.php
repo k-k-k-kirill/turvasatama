@@ -37,7 +37,7 @@ class Widgets {
 		);
 		register_sidebar(
 			array(
-				'name' => __( 'Footer', 'pixels-text-domain' ),
+				'name' => __( 'Footer', 'turvasatama-theme' ),
 				'id'   => 'site-footer-widgets',
 			) + $config
 		);

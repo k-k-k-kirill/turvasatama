@@ -38,7 +38,7 @@ class Search extends BreadcrumbsTrail {
 
 		// Create breadcrumb for search.
 		$crumb = new Breadcrumb();
-		$label = apply_filters( 'pixels_breadcrumbs_search_label', __( 'Search', 'pixels-text-domain' ) );
+		$label = apply_filters( 'pixels_breadcrumbs_search_label', __( 'Search', 'turvasatama-theme' ) );
 		$url   = apply_filters( 'pixels_breadcrumbs_search_url', '#' );
 
 		$crumb->set_label( $label );

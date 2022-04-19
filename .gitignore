@@ -6,6 +6,10 @@ web/app/upgrade
 web/app/uploads/*
 !web/app/uploads/.gitkeep
 web/app/cache/*
+!web/app/plugins/turvasatama-plugin
+!web/app/plugins/advanced-custom-fields-pro
+!web/app/plugins/polylang-pro
+sql
 
 # WordPress
 web/wp

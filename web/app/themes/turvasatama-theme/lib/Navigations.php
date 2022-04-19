@@ -42,9 +42,9 @@ class Navigations {
 	 */
 	public function setup_menus() {
 		$this->menus = array(
-			'desktop' => __( 'Primary Menu', 'pixels-text-domain' ),
-			'mobile'  => __( 'Mobile Menu', 'pixels-text-domain' ),
-			'footer'  => __( 'Footer Menu', 'pixels-text-domain' ),
+			'desktop' => __( 'Primary Menu', 'turvasatama-theme' ),
+			'mobile'  => __( 'Mobile Menu', 'turvasatama-theme' ),
+			'footer'  => __( 'Footer Menu', 'turvasatama-theme' ),
 		);
 	}
 

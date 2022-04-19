@@ -42,7 +42,7 @@ class Author extends BreadcrumbsTrail {
 		if ( $show_author ) :
 
 			$crumb = new Breadcrumb();
-			$label = apply_filters( 'pixels_breadcrumbs_author_label', __( 'Author', 'pixels-text-domain' ) );
+			$label = apply_filters( 'pixels_breadcrumbs_author_label', __( 'Author', 'turvasatama-theme' ) );
 			$url   = apply_filters( 'pixels_breadcrumbs_author_url', '#' );
 
 			$crumb->set_label( $label );

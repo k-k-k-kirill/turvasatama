@@ -17,7 +17,7 @@ $controller = new ArchiveController();
 $controller->set_templates( array( 'search/search.twig', 'index/index.twig' ) );
 
 /* Translators: Placeholder is the search term */
-$controller->add_context( 'title', sprintf( __( 'Search results for %s', 'pixels-text-domain' ), get_search_query() ) );
+$controller->add_context( 'title', sprintf( __( 'Search results for %s', 'turvasatama-theme' ), get_search_query() ) );
 
 // Render Twig.
 $controller->render();

@@ -19,34 +19,34 @@ Please read the documentation below before using. **If things are not clear or y
 
 This theme uses the following:
 
-* Sass for stylesheets
-* ES6 for Javascript
-* Composer for PSR-4 autoloading and PHP dependencies
-* [Webpack](https://webpack.github.io/) for compiling assets
-* [Browsersync](http://www.browsersync.io/) for synchronised browser testing
-* [Timber](https://timber.github.io/docs/) as a templating engine
+- Sass for stylesheets
+- ES6 for Javascript
+- Composer for PSR-4 autoloading and PHP dependencies
+- [Webpack](https://webpack.github.io/) for compiling assets
+- [Browsersync](http://www.browsersync.io/) for synchronised browser testing
+- [Timber](https://timber.github.io/docs/) as a templating engine
 
 ## Requirements
 
 To install this theme the server instance must have the following setup:
 
-* [WordPress](https://wordpress.org/) >= 5.6
-* [PHP](http://php.net/manual/en/install.php) >= 7.4
+- [WordPress](https://wordpress.org/) >= 5.6
+- [PHP](http://php.net/manual/en/install.php) >= 7.4
 
 To develop this theme you must also have the following:
 
-* [Composer](https://getcomposer.org/download/)
-* [Node.js](http://nodejs.org/) >= 14 (use nvm to switch on your local environment)
-* [Yarn](https://yarnpkg.com/en/docs/install) >= 1.0
+- [Composer](https://getcomposer.org/download/)
+- [Node.js](http://nodejs.org/) >= 14 (use nvm to switch on your local environment)
+- [Yarn](https://yarnpkg.com/en/docs/install) >= 1.0
 
 ## Theme Installation
 
-*Hopefully in a future update this will be automated in some way*
+_Hopefully in a future update this will be automated in some way_
 
 1. Download this repository as a ZIP (don't clone!).
 2. Drop it into the theme folder of your WordPress installation and rename the folder to `<client or project name>-theme`.
 3. Open the theme in your favourite text editor.
-4. Search `pixels-text-domain`and replace with `<client or project>-theme` through the entire theme directory. This should be the same as the theme folder name name from step 2.
+4. Search `turvasatama-theme`and replace with `<client or project>-theme` through the entire theme directory. This should be the same as the theme folder name name from step 2.
 5. Update `Theme Name` and `Description` in `style.css`. Note don't call the theme '<Project name> theme', call it simply the name of the client or project.
 
 ## Theme Development
@@ -54,24 +54,26 @@ To develop this theme you must also have the following:
 To start developing do the following:
 
 1. Update `assets/config.js` settings:
-  * `devUrl` should be your development URL.
+
+- `devUrl` should be your development URL.
+
 2. In Terminal run `yarn` in the theme directory to install dependencies.
 
-*It may be possible in the future to have a local config that allows you to have different devUrl if needed*
+_It may be possible in the future to have a local config that allows you to have different devUrl if needed_
 
 ### Build Commands
 
-* `yarn start` -- Compile assets when file changes are made, start Browsersync session
-* `yarn build` -- Compile and optimize the files in your assets directory
+- `yarn start` -- Compile assets when file changes are made, start Browsersync session
+- `yarn build` -- Compile and optimize the files in your assets directory
 
 ### Lint Commands
 
 Lint commands check that code is structured and written nicely. If the commands above return lint errors, run one of the following (based on the error) to get a more detailed explanation.
 
-* `yarn lint` -- Checks JS and SCSS for errors, formatting and other issues.
-* `yarn lint:scripts` -- Checks JS *only* for errors, formatting and other issues.
-* `yarn lint:styles` -- Checks *SCSS* for errors, formatting and other issues.
-* `composer test` -- Checks *PHP* for errors, formatting and other issues.
+- `yarn lint` -- Checks JS and SCSS for errors, formatting and other issues.
+- `yarn lint:scripts` -- Checks JS _only_ for errors, formatting and other issues.
+- `yarn lint:styles` -- Checks _SCSS_ for errors, formatting and other issues.
+- `composer test` -- Checks _PHP_ for errors, formatting and other issues.
 
 ## Theme Structure
 
@@ -97,7 +99,7 @@ pixels-starter-theme/                # -> Theme root folder
   |-- Twig/                          # -> Classes related to Twig and Timber
   |-- Utils/.                        # -> General purpose theme classes
   |-- Assets.php                     # -> Handle theme assets
-  |-- Config.php                     # -> Set up theme  
+  |-- Config.php                     # -> Set up theme
   |-- Hooks.php                      # -> Theme actions & filters (general purpose)
   |-- Images.php                     # -> Theme image size & method handling
   |-- Navigations.php                # -> Theme menus registration & custom logic
@@ -125,7 +127,7 @@ Any references to assets (in particular font files and images) should be made vi
 
 ### components/ and views/
 
-`views/components/` are where all reusable components live and `views/layouts/` where layouts live. Each broad component and view has its own directory, in which there is *at least* a twig template file, and optionally a SCSS file.
+`views/components/` are where all reusable components live and `views/layouts/` where layouts live. Each broad component and view has its own directory, in which there is _at least_ a twig template file, and optionally a SCSS file.
 
 #### PHP files
 
@@ -147,7 +149,7 @@ SCSS files must be included explicitly in `assets/styles/main.scss`.
 
 This theme uses a linter that will force certain styling of SCSS and JS. This is to ensure more consistent and better structured SCSS.
 
-*in the future JS files will also be put here*
+_in the future JS files will also be put here_
 
 ### dist/
 

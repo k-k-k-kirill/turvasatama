@@ -56,7 +56,7 @@ class Compatibility {
 
 		if ( version_compare( self::PHP_VERSION, phpversion(), '>=' ) ) {
 			// phpcs:ignore
-			wp_die( esc_attr( __( 'You must be using PHP ' . self::PHP_VERSION . ' or greater.', 'pixels-text-domain' ) ), esc_attr( __( 'Theme &rsaquo; Error', 'pixels-text-domain' ) ) );
+			wp_die( esc_attr( __( 'You must be using PHP ' . self::PHP_VERSION . ' or greater.', 'turvasatama-theme' ) ), esc_attr( __( 'Theme &rsaquo; Error', 'turvasatama-theme' ) ) );
 
 			$compatible = false;
 		}
@@ -78,7 +78,7 @@ class Compatibility {
 			return $compatible;
 		} else {
 			// phpcs:ignore
-			wp_die( esc_attr( __( 'You must be using WordPress ' . self::WP_VERSION . ' or greater.', 'pixels-text-domain' ) ), esc_attr( __( 'Theme &rsaquo; Error', 'pixels-text-domain' ) ) );
+			wp_die( esc_attr( __( 'You must be using WordPress ' . self::WP_VERSION . ' or greater.', 'turvasatama-theme' ) ), esc_attr( __( 'Theme &rsaquo; Error', 'turvasatama-theme' ) ) );
 
 			$compatible = false;
 		}

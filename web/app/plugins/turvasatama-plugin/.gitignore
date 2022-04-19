@@ -1,0 +1,14 @@
+# Dependencies
+vendor
+node_modules
+bower_components
+dist
+
+# Misc logs
+.cache-loader
+npm-debug.log
+yarn-error.log
+
+# Mac OS
+.DS_Store
+/.phpunit.result.cache
