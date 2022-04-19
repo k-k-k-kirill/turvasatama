@@ -1,0 +1,18 @@
+{#
+ # View template for 404.
+ #
+ $ Note that even though this is not content in terms of something someone wants to access,
+ # it *is* a singular object of content, and so we use the article tag for this.
+ #}
+
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+	<article class="single single-404">
+		<h1 class="single__title single-404__title">{{ title }}</h1>
+
+		<div class="single__content single-404__content">
+			{{ __('Sorry, we couldn\'t find what you\'re looking for.', 'pixels-text-domain') }}
+		</div>
+	</article>
+{% endblock %}

@@ -1,0 +1,17 @@
+{#
+ # Template for the site header.
+ #}
+
+<header class="site-header {{ fn('is_admin_bar_showing') ? 'admin-bar-showing' : '' }}">
+		<a class="site-header__brand" href="/">{{ site.title }}</a>
+		<button class="site-header__nav-toggler js-site-header__nav-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ _x('Toggle navigation', 'Accessibility label for toggling menu', 'pixels-text-domain') }}">
+			<span class="site-header__nav-toggler__icon"></span>
+		</button>
+
+		<nav id="site-header__nav-wrap" class="site-header__nav-wrap js-site-header__nav-wrap">
+			{% include '@components/nav/nav.twig' with {
+				nav_items: menu.desktop.get_items,
+				classes: 'site-header__nav'
+			} %}
+		</nav>
+</header>

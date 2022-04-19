@@ -1,0 +1,44 @@
+{#
+ # @version 1.0.0
+ #
+ # @var classes           Classes for the input.
+ # @var cols              Width of the text area in single character widths.
+ # @var disabled          If the input is disabled.
+ # @var help_text         Help text for the input.
+ # @var help_text_classes Classes for the help text.
+ # @var id                Id attribute for the input.
+ # @var label             Label for the input.
+ # @var label_classes     Label for the <label> element.
+ # @var name              Name attribute for the input
+ # @var placeholder       Placeholder for the input.
+ # @var readonly          If the input is read-only.
+ # @var required          If the input is required.
+ # @var rows              Height of the text area in rows.
+ # @var type              The input type.
+ # @var value             The value of the input.
+ #}
+
+{% extends 'input/input.twig' %}
+
+{% if pattern_library %}
+  {% set classes = '' %}
+  {% set disabled = false %}
+  {% set help_text = __('Helper text for the field above.', 'pixels-text-domain') %}
+  {% set id = '' %}
+  {% set label = '' %}
+  {% set label_classes = '' %}
+  {% set name = '' %}
+  {% set placeholder = '' %}
+  {% set readonly = false %}
+  {% set required = false %}
+  {% set rows = 3 %}
+  {% set cols = 60 %}
+  {% set value = '' %}
+{% endif %}
+
+{% block label %}
+  <label for="{{ id }}" class="{{ label_classes }}">{{ label }}</label>
+{% endblock %}
+{% block input %}
+  <textarea class="{{ classes }}" id="{{ id }}" name="{{ name }}" {{ rows ? 'rows="' ~ rows ~ '"' }} {{ cols ? 'cols="' ~ cols ~ '"' }} {{ help_text ? 'aria-describedby="' ~ help_text ~ '"' }} {{ disabled ? 'disabled' }} {{ readonly ? 'readonly' }} {{ required ? 'required' }} {{ placeholder ? 'placeholder="' ~ placeholder ~ '"' }}>{{ value }}</textarea>
+{% endblock %}

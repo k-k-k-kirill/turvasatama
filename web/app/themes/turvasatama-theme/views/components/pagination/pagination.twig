@@ -1,0 +1,44 @@
+{#
+ # Template for pagination.
+ #
+ # @version 1.0.0
+ #
+ # @var pagination        The pagination object from an index page or single content.
+ # @var pagination_title  The ARIA descriptor for this pagination.
+ #}
+
+{% if pagination %}
+  <nav class="pagination" aria-label="{{ pagination_title }}">
+    <ul class="pagination__list {{ classes }}">
+      {% if pagination.prev %}
+        <li class="pagination__list__item {{ pagination.prev.link|length ?: 'disabled' }}">
+          <a class="pagination__list__item__link" href="{{ pagination.prev.link }}" {{ pagination.prev.link|length ?: 'tabindex="-1"' }}>
+						{{ _x('Previous', 'Pagination previous link', 'pixels-text-domain') }}
+					</a>
+        </li>
+      {% endif %}
+
+      {% for page in pagination.pages %}
+        <li class="pagination__list__item {{ page.current ? 'active' }}">
+          <a class="pagination__list__item__link" href="{{ page.link }}">
+						{{ page.title }}
+
+						{% if page.current %}
+							<span class="sr-only">
+								{{ _x('current', 'Pagination current page indicator', 'pixels-text-domain') }}
+							</span>
+						{% endif %}
+					</a>
+        </li>
+      {% endfor %}
+
+      {% if pagination.next %}
+        <li class="pagination__list__item {{ pagination.next.link|length ?: 'disabled' }}">
+          <a class="pagination__list__item__link" href="{{ pagination.next.link }}" {{ pagination.next.link|length ?: 'tabindex="-1"' }}>
+						{{ _x('Next', 'Pagination next link',  'pixels-text-domain') }}
+					</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

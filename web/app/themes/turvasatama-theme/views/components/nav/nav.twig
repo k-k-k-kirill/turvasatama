@@ -1,0 +1,31 @@
+{#
+ # Template for navigation.
+ #
+ # @version 1.0.0
+ #
+ # @var nav_items	Array of menu items from WordPress.
+ #}
+
+{% if nav_items %}
+	<ul class="{{ subnav ? 'sub-nav' : 'nav'}} {{ classes }}">
+		{% for item in nav_items %}
+			<li class="{{ subnav ? 'sub-nav' : 'nav'}}__item {% if item.get_children %}{{ subnav ? 'sub-nav' : 'nav'}}__item--sub-nav{% endif %} {{ item.classes|join(' ') }}">
+				{% if not item.get_children %}
+					<a class="{{ subnav ? 'sub-nav' : 'nav'}}__item__link" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+				{% else %}
+					<span class="{{ subnav ? 'sub-nav' : 'nav'}}__item__link-wrap">
+						<a class="{{ subnav ? 'sub-nav' : 'nav'}}__item__link" target="{{ item.target }}" href="{{ item.link }}">
+							{{ item.title }}
+						</a>
+						<a class="{{ subnav ? 'sub-nav' : 'nav'}}__item__sub-nav-toggle" target="{{ item.target }}" href="{{ item.link }}" id="{{ item.slug }}-sub-nav" aria-haspopup="true" aria-expanded="false">
+							<span="sr-only">{{ _x( 'Toggle sub menu under menu item: %s', 'Screen reader text for drop down toggle', 'pixels-text-domain' )|format(item.title) }}</span>
+						</a>
+					</span>
+					<div class="{{ subnav ? 'sub-nav' : 'nav'}}__item__sub-nav-menu" aria-labelledby="{{ item.slug }}-sub-nav">
+						{% include '@components/nav/nav.twig' with {nav_items: item.get_children, subnav: true} %}
+					</div>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endif %}

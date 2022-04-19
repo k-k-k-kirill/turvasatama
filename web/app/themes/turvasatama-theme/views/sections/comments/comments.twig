@@ -1,0 +1,21 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="section-commments__wrap">
+		<h2 class="section-comments__title">{{ __('Comments', 'pixels-text-domain') }}</h2>
+
+		{% if section.comments %}
+			{% include '@components/comments-loop/comments-loop.twig' with { comments: section.comments } %}
+		{% else %}
+			<p>{{ __('No comments yet for this post.', 'pixels-text-domain') }}</p>
+		{% endif %}
+
+		{% if section.comment_status == "closed" %}
+			<p>{{ __('Comments for this post are closed.', 'pixels-text-domain') }}</p>
+		{% else %}
+			<div class="comments__form">
+				{% include '@components/form/form-new-comment.twig' %}
+			</div>
+		{% endif %}
+  </div>
+{% endblock %}

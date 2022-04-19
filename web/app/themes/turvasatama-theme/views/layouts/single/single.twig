@@ -1,0 +1,30 @@
+{#
+ # View template for a single content item.
+ #}
+
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+  <article class="single single-{{ post.type }}">
+    {% include ['@sections/header/header-' ~ post.type ~ '.twig', '@sections/header/header.twig']
+			with {
+				section: {
+					acf_fc_layout: 'header',
+					title: post.title,
+					post_type: post.type,
+				}
+			}
+		%}
+
+    {% include ['@sections/content/content-' ~ post.type ~ '.twig', '@sections/content/content.twig']
+			with {
+				section: {
+					acf_fc_layout: 'content',
+					content: post.get_paged_content,
+					paged: true,
+					pagination: post.pagination,
+				}
+			}
+		%}
+  </article>
+{% endblock %}

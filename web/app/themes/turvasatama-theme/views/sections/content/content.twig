@@ -1,0 +1,19 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="section-content__wrap">
+		{% include ['@components/content/content.twig']
+			with {
+				content: section.content,
+			}
+		%}
+
+		{% if section.paged and section.pagination %}
+			{% include ['@components/pagination/pagination.twig']
+				with {
+					pagination: section.pagination,
+				}
+			%}
+		{% endif %}
+  </div>
+{% endblock %}
