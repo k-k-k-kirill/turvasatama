@@ -8,6 +8,7 @@ module.exports = {
   'rules': {
     'value-keyword-case': null,
     'no-empty-source': null,
+    'no-missing-end-of-source-newline': null,
     'string-quotes': 'double',
     'at-rule-no-unknown': [
       true,

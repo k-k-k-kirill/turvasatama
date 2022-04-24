@@ -8,7 +8,7 @@
 
 namespace Pixels\TurvaSatama\Admin;
 
-use Pixels\TurvaSatama\Admin\OptionsPages\Example;
+use Pixels\TurvaSatama\Admin\OptionsPages\Header;
 
 /**
  * Instantiates individual options pages
@@ -19,9 +19,9 @@ class OptionsPages
 	/**
 	 * Options page.
 	 *
-	 * @var Example
+	 * @var Header
 	 */
-	private $example;
+	private $header;
 
 	/**
 	 * Class constructor
@@ -42,6 +42,6 @@ class OptionsPages
 	{
 
 		// Load options pages.
-		// $this->example = new OptionsPages\Example();.
+		$this->header = new OptionsPages\Header();
 	}
 }

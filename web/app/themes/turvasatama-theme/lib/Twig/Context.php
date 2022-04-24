@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Timber Context setup.
  *
@@ -20,7 +21,8 @@ use Timber\Menu as TimberMenu;
  *
  * Add custom Timber context variables
  */
-class Context {
+class Context
+{
 
 	/**
 	 * Navigations instance of theme.
@@ -34,22 +36,23 @@ class Context {
 	 *
 	 * @param Navigations $navigations of theme.
 	 */
-	public function __construct( $navigations ) {
+	public function __construct($navigations)
+	{
 
 		$this->navigations = $navigations;
 
 		// Actions.
-		add_filter( 'timber_context', array( $this, 'add_general_context' ) );
-		add_filter( 'timber_context', array( $this, 'add_menus_context' ) );
+		add_filter('timber_context', array($this, 'add_general_context'));
+		add_filter('timber_context', array($this, 'add_menus_context'));
 
 		// Uncomment to automatically add all archive links to context.
 		// add_filter( 'timber_context', array( $this, 'add_archive_links_context' ) );.
 
 		// Language actions.
-		add_filter( 'timber_context', array( $this, 'add_site_languages_context' ) );
+		add_filter('timber_context', array($this, 'add_site_languages_context'));
 
 		// Key Pages
-		add_filter( 'timber_context', array( $this, 'add_key_pages_context' ) );
+		add_filter('timber_context', array($this, 'add_key_pages_context'));
 	}
 
 	/**
@@ -58,7 +61,8 @@ class Context {
 	 * @param array $context The Timber global context.
 	 * @return array $context that has been updated.
 	 */
-	public function add_general_context( $context ) {
+	public function add_general_context($context)
+	{
 
 		/**
 		 * Site-wide information.
@@ -68,6 +72,7 @@ class Context {
 		$context['site']                      = $this;
 		$context['site']->site_url            = get_site_url(); // Since timber only returns home URL as 'link'.
 		$context['site']->language_attributes = get_language_attributes();
+		$context['site']->header_cta 					= get_field('header_cta', 'option');
 
 		return $context;
 	}
@@ -81,7 +86,8 @@ class Context {
 	 * @param array $context The Timber global context.
 	 * @return array $context that has been updated.
 	 */
-	public function add_menus_context( $context ) {
+	public function add_menus_context($context)
+	{
 
 		// Registered menus from Navigations class.
 		$menus = $this->navigations->get_menus();
@@ -89,10 +95,10 @@ class Context {
 		/**
 		 * Loop menus to context.
 		 */
-		foreach ( $menus as $menu => $title ) :
+		foreach ($menus as $menu => $title) :
 
 			// Append items to context array.
-			$context['menu'][ $menu ] = new TimberMenu( $menu );
+			$context['menu'][$menu] = new TimberMenu($menu);
 		endforeach;
 
 		return $context;
@@ -105,13 +111,14 @@ class Context {
 	 * @param array $context The Timber global context.
 	 * @return array $context that has been updated.
 	 */
-	public function add_archive_links_context( $context ) {
+	public function add_archive_links_context($context)
+	{
 
 		$types = Common::get_post_types();
 
-		if ( ! empty( $types ) ) :
-			foreach ( $types as $type ) :
-				$context['links'][ $type->name ] = get_post_type_archive_link( $type->name );
+		if (!empty($types)) :
+			foreach ($types as $type) :
+				$context['links'][$type->name] = get_post_type_archive_link($type->name);
 			endforeach;
 
 		endif;
@@ -128,13 +135,14 @@ class Context {
 	 * @param array $context The Timber global context.
 	 * @return array $context that has been updated.
 	 */
-	public function add_site_languages_context( $context ) {
+	public function add_site_languages_context($context)
+	{
 
-		if ( function_exists( 'pll_the_languages' ) ) :
+		if (function_exists('pll_the_languages')) :
 			$site_languages = array(
 				'home'      => pll_home_url(),
-				'current'   => pll_current_language( 'slug' ),
-				'languages' => pll_the_languages( array( 'raw' => 1 ) ),
+				'current'   => pll_current_language('slug'),
+				'languages' => pll_the_languages(array('raw' => 1)),
 			);
 
 			$context['site']->multilingual = $site_languages;
@@ -151,13 +159,14 @@ class Context {
 	 * @param array $context The Timber global context.
 	 * @return array $context that has been updated.
 	 */
-	public function add_key_pages_context( $context ) {
+	public function add_key_pages_context($context)
+	{
 		$key_pages = array();
 
 		/**
 		 * Privacy policy page, if it exists.
 		 */
-		if ( function_exists( 'get_privacy_policy_url' ) ) {
+		if (function_exists('get_privacy_policy_url')) {
 			$key_pages['privacy_policy'] = get_privacy_policy_url();
 		}
 

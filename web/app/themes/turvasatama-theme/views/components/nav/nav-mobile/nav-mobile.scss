@@ -1,0 +1,69 @@
+.nav-mobile {
+  display: none;
+  background-color: $color-gray;
+
+  &.show {
+    display: block;
+    width: 100vw;
+    height: calc(100vh - 95px);
+    position: fixed;
+    top: 95px;
+    left: 0;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    height: 100%;
+    padding-top: 40px;
+  }
+
+  &__toggle {
+    display: flex;
+    align-items: center;
+
+    @media (min-width: $media-md) {
+      display: none;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &__item {
+    text-align: right;
+  }
+
+  &__link {
+    color: $color-body;
+
+    &__arrow {
+      display: inline-block;
+
+      svg {
+        display: inline-block;
+        margin-bottom: 2px;
+      }
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__dropdown-menu {
+    display: none;
+    padding: 20px 0;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  &__dropdown-item {
+    display: block;
+    color: $color-body;
+  }
+}

@@ -1,0 +1,21 @@
+{% if nav_items %}
+	<ul class="nav-desktop {{ classes }}">
+		{% for item in nav_items %}
+			<li class="nav-desktop__item {{ item.get_children ? 'nav-desktop__item--dropdown' }} {{ item.classes|join(' ') }} lg:ml-4">
+				{% if not item.get_children %}
+					<a class="nav-desktop__link" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+				{% else %}
+					<a class="nav-desktop__link nav-desktop__link--toggle" target="{{ item.target }}" href="{{ item.link }}" data-toggle="{{item.slug}}-dropdown" aria-haspopup="true" aria-expanded="false">
+						<span>{{ item.title }}</span>
+						{% include 'assets/images/chevron-down.svg' %}
+					</a>
+					<div class="nav-desktop__dropdown-menu" aria-labelledby="{{ item.slug }}-dropdown" id="{{item.slug}}-dropdown">
+						{% for sub_item in item.get_children %}
+							<a class="nav-desktop__dropdown-item {{ sub_item.classes|join(' ') }} {{loop.last == false ? 'mb-2' : ''}}" target="{{ sub_item.target }}" href="{{ sub_item.link }}">{{ sub_item.title }}</a>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+{% endif %}

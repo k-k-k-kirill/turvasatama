@@ -1,0 +1,28 @@
+{% if nav_items %}
+	<div class="nav-mobile__toggle js-mobile-nav-toggle">
+		{% include "assets/images/hamburger.svg" %}
+	</div>
+	<div class="nav-mobile js-mobile-nav {{ classes }}">
+		<ul class="container">
+			{% for item in nav_items %}
+				<li class="nav-mobile__item {{loop.last ? '' : 'mb-2'}} {{ item.get_children ? 'nav-mobile__item--dropdown' }} {{ item.classes|join(' ') }} lg:ml-4">
+					{% if not item.get_children %}
+						<a class="nav-mobile__link" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+					{% else %}
+						<div data-toggle="{{item.slug}}-dropdown" aria-haspopup="true" aria-expanded="false">
+							<a class="nav-mobile__link nav-mobile__link--toggle" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+							<div data-toggle="{{item.slug}}-mobile-dropdown" class="nav-mobile__link__arrow js-mobile-dropdown-toggle">
+								{% include 'assets/images/chevron-down.svg' %}
+							</div>
+						</div>
+						<div class="nav-mobile__dropdown-menu js-mobile-dropdown-menu" aria-labelledby="{{ item.slug }}-mobile-dropdown" id="{{item.slug}}-mobile-dropdown">
+							{% for sub_item in item.get_children %}
+								<a class="nav-mobile__dropdown-item {{ sub_item.classes|join(' ') }} {{loop.last == false ? 'mb-1' : ''}}" target="{{ sub_item.target }}" href="{{ sub_item.link }}">{{ sub_item.title }}</a>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endif %}

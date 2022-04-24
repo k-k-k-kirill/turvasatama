@@ -8,4 +8,37 @@
   }
 }
 
+.site-header {
+  display: flex;
+  justify-content: space-between;
+
+  &__brand {
+    background-color: $color-red;
+    padding: 25px 0;
+
+    @media (min-width: $media-md) {
+      padding: 40px 20px;
+    }
+
+    svg {
+      @media (max-width: $media-md) {
+        height: 45px;
+      }
+    }
+  }
+
+  &__nav-wrap {
+    display: flex;
+  }
+
+  &__cta {
+    display: none;
+    align-items: center;
+
+    @media (min-width: $media-md) {
+      display: flex;
+    }
+  }
+}
+
 /************************************ SITE HEADER ENDS ************************************/
