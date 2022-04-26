@@ -49,7 +49,8 @@ const pixelsThemeApp = (function main() {
 
 
 		if (mobileNavToggle) {
-			mobileNavToggle.addEventListener('click', () => {
+			mobileNavToggle.addEventListener('click', (e) => {
+				mobileNavToggle.classList.toggle('open');
 				const mobileNav = document.querySelector('.js-mobile-nav');
 				mobileNav.classList.toggle('show');
 			})
