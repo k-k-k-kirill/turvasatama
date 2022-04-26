@@ -10,6 +10,7 @@ module.exports = {
     'no-empty-source': null,
     'no-missing-end-of-source-newline': null,
     'string-quotes': 'double',
+    'no-descending-specificity': null,
     'at-rule-no-unknown': [
       true,
       {

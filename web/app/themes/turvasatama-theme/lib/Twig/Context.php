@@ -73,6 +73,14 @@ class Context
 		$context['site']->site_url            = get_site_url(); // Since timber only returns home URL as 'link'.
 		$context['site']->language_attributes = get_language_attributes();
 		$context['site']->header_cta 					= get_field('header_cta', 'option');
+		$context['site']->street_address		  = get_field('street_address', 'option');
+		$context['site']->postal_code		 	    = get_field('postal_code', 'option');
+		$context['site']->city							  = get_field('city', 'option');
+		$context['site']->email							  = get_field('email', 'option');
+		$context['site']->facebook						= get_field('facebook', 'option');
+		$context['site']->linkedin						= get_field('linkedin', 'option');
+		$context['site']->youtube							= get_field('youtube', 'option');
+
 
 		return $context;
 	}

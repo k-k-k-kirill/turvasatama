@@ -24,6 +24,13 @@ class OptionsPages
 	private $header;
 
 	/**
+	 * Options page.
+	 *
+	 * @var CompanyInfo
+	 */
+	private $companyInfo;
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct()
@@ -43,5 +50,6 @@ class OptionsPages
 
 		// Load options pages.
 		$this->header = new OptionsPages\Header();
+		$this->companyInfo = new OptionsPages\CompanyInfo();
 	}
 }

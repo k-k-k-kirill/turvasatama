@@ -1,0 +1,62 @@
+.site-footer {
+  background-color: $dark-blue;
+  padding-top: 80px;
+  padding-bottom: 40px;
+  color: $color-gray;
+
+  &__content {
+    border-bottom: 1px solid $pale-gray;
+  }
+
+  &__social {
+    display: flex;
+
+    @media (min-width: 1024px) {
+      justify-content: flex-end;
+    }
+
+    a {
+      svg {
+        height: 30px;
+        width: auto;
+        color: white;
+        fill: white;
+        transition: all 0.1s ease-in-out;
+      }
+
+      &:hover {
+        svg {
+          fill: $color-navy;
+          color: $color-navy;
+        }
+      }
+    }
+  }
+
+  a {
+    &:hover {
+      color: $color-gray;
+    }
+  }
+
+  &__email {
+    display: block;
+    color: $color-gray;
+    text-decoration: underline;
+  }
+
+  &__credits {
+    display: flex;
+    justify-content: space-between;
+    color: $pale-gray;
+    padding-top: 35px;
+
+    a {
+      color: $pale-gray;
+
+      &:hover {
+        color: $pale-gray;
+      }
+    }
+  }
+}
