@@ -12,6 +12,38 @@ const pixelsThemeApp = (function main() {
 		makeEmbedsResponsive(videos);
 	};
 
+	const handleDropdownToggleClick = () => {
+		const desktopDropdownToggles = document.querySelectorAll('.js-desktop-dropdown-toggle');
+		const mobileDropdownToggles = document.querySelectorAll('.js-mobile-dropdown-toggle');
+		const allToggles = [...desktopDropdownToggles, ...mobileDropdownToggles];
+
+		if (allToggles.length > 0) {
+			allToggles.forEach((toggle) => {
+				toggle.addEventListener('click', (e) => {
+					const dropdownMenuId = toggle.dataset.toggle;
+					const dropdownMenu = document.getElementById(dropdownMenuId);
+
+					if (dropdownMenu) {
+						hideAllDropdowns(dropdownMenuId);
+						dropdownMenu.classList.toggle('show');
+					}
+				})
+			})
+		}
+	}
+
+	const hideAllDropdowns = (currentDropdownId = null) => {
+		const dropdowns = document.querySelectorAll('.js-dropdown-menu');
+
+		if(dropdowns.length > 0) {
+			dropdowns.forEach(dropdown => {
+				if (currentDropdownId !== dropdown.id) {
+					dropdown.classList.remove('show');
+				}
+			})
+		}
+	}
+
 	const handleMobileNavToggleClick = () => {
 		const mobileNavToggle = document.querySelector('.js-mobile-nav-toggle');
 
@@ -20,24 +52,6 @@ const pixelsThemeApp = (function main() {
 			mobileNavToggle.addEventListener('click', () => {
 				const mobileNav = document.querySelector('.js-mobile-nav');
 				mobileNav.classList.toggle('show');
-			})
-		}
-	}
-
-	const handleMobileDropdownToggleClick = () => {
-		const mobileDropdownToggles = document.querySelectorAll('.js-mobile-dropdown-toggle');
-
-		if (mobileDropdownToggles.length > 0) {
-			mobileDropdownToggles.forEach(toggle => {
-				toggle.addEventListener('click', (e) => {
-					const dropdownMenuId = toggle.dataset.toggle;
-					const dropdownMenu = document.getElementById(dropdownMenuId);
-
-					if (dropdownMenu) {
-						dropdownMenu.classList.toggle('show');
-						e.currentTarget.classList.toggle('open');
-					}
-				})
 			})
 		}
 	}
@@ -56,7 +70,7 @@ const pixelsThemeApp = (function main() {
 	const init = () => {
 		handleResponsiveVideos();
 		handleMobileNavToggleClick();
-		handleMobileDropdownToggleClick();
+		handleDropdownToggleClick();
 	};
 
 	// Scroll actions.

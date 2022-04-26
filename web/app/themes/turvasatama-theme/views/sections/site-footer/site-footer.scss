@@ -11,7 +11,7 @@
   &__social {
     display: flex;
 
-    @media (min-width: 1024px) {
+    @media (min-width: $media-lg) {
       justify-content: flex-end;
     }
 

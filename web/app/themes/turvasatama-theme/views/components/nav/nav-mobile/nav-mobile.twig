@@ -15,7 +15,7 @@
 								{% include 'assets/images/chevron-down.svg' %}
 							</div>
 						</div>
-						<div class="nav-mobile__dropdown-menu js-mobile-dropdown-menu" aria-labelledby="{{ item.slug }}-mobile-dropdown" id="{{item.slug}}-mobile-dropdown">
+						<div class="nav-mobile__dropdown-menu js-dropdown-menu" aria-labelledby="{{ item.slug }}-mobile-dropdown" id="{{item.slug}}-mobile-dropdown">
 							{% for sub_item in item.get_children %}
 								<a class="nav-mobile__dropdown-item {{ sub_item.classes|join(' ') }} {{loop.last == false ? 'mb-1' : ''}}" target="{{ sub_item.target }}" href="{{ sub_item.link }}">{{ sub_item.title }}</a>
 							{% endfor %}
