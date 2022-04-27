@@ -26,6 +26,21 @@
 					{% endif %}
 				</li>
 			{% endfor %}
+
+			{% if site.multilingual and site.multilingual.languages|length > 1 %}
+				<li class="nav-mobile__languages mt-3">
+					<div class="capitalize nav-mobile__languages__language nav-mobile__languages__language--active">
+						<span>{{site.multilingual.current}}</span>
+					</div>
+					{% for language in site.multilingual.languages %}
+						{% if language.slug != site.multilingual.current %}
+							<a href="{{language.url}}" class="capitalize nav-mobile__languages__language {{language.slug == site.multilingual.current ? 'nav-mobile__languages__language--active' : ''}} ">
+								<span>{{language.slug}}</span>
+							</a>
+						{% endif %}
+					{% endfor %}
+				</li>
+			{% endif %}
 		</ul>
 	</div>
 {% endif %}
