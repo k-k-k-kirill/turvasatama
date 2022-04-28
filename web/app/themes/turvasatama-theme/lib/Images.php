@@ -29,6 +29,7 @@ class Images {
 	const SIZES = array(
 		'page-hero'        => array( 1100, 500, true, true ),
 		'page-hero-mobile' => array( 375, 500, true, true ),
+		'cta'              => array( 640, 245, true, true ),
 	);
 
 	/**
