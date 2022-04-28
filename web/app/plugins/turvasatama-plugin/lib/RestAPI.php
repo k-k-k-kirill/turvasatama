@@ -56,19 +56,19 @@ class RestAPI
 	{
 
 		// Create example endpoint.
-		register_rest_route(
-			self::REST_NAMESPACE,
-			'example',
-			array(
-				array(
-					'methods'  => 'GET',
-					'callback' => array($this->example_controller, 'get'),
-				),
-				array(
-					'methods'  => 'POST',
-					'callback' => array($this->example_controller, 'post'),
-				),
-			)
-		);
+		// register_rest_route(
+		// 	self::REST_NAMESPACE,
+		// 	'example',
+		// 	array(
+		// 		array(
+		// 			'methods'  => 'GET',
+		// 			'callback' => array($this->example_controller, 'get'),
+		// 		),
+		// 		array(
+		// 			'methods'  => 'POST',
+		// 			'callback' => array($this->example_controller, 'post'),
+		// 		),
+		// 	)
+		// );
 	}
 } // end RestAPI

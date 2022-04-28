@@ -18,10 +18,167 @@
             "layouts": {
                 "layout_62601d8e7a05f": {
                     "key": "layout_62601d8e7a05f",
-                    "name": "",
-                    "label": "",
+                    "name": "hero",
+                    "label": "Hero",
                     "display": "block",
-                    "sub_fields": [],
+                    "sub_fields": [
+                        {
+                            "key": "field_626abc2bd26da",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Title of the hero section.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_626abc41d26db",
+                            "label": "Image",
+                            "name": "image",
+                            "type": "image",
+                            "instructions": "Image to be used in hero section.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "preview_size": "medium",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "translations": "sync"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_626ac7f367700": {
+                    "key": "layout_626ac7f367700",
+                    "name": "cta",
+                    "label": "CTA",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_626ac82f67701",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Title of CTA section.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_626ac88f67705",
+                            "label": "Image",
+                            "name": "image",
+                            "type": "image",
+                            "instructions": "Image of the CTA section.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "preview_size": "medium",
+                            "library": "all",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "translations": "sync"
+                        },
+                        {
+                            "key": "field_626ac84a67702",
+                            "label": "Subtitle",
+                            "name": "subtitle",
+                            "type": "text",
+                            "instructions": "Subtitle of CTA section.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_626ac85867703",
+                            "label": "Content",
+                            "name": "content",
+                            "type": "textarea",
+                            "instructions": "Content of CTA section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": "",
+                            "rows": "",
+                            "new_lines": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_626ac88067704",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "CTA link of the section.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "translations": "sync"
+                        }
+                    ],
                     "min": "",
                     "max": ""
                 }
@@ -49,5 +206,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1650466216
+    "modified": 1651165347
 }

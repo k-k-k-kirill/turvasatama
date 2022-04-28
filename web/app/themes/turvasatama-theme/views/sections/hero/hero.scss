@@ -1,0 +1,23 @@
+.section-hero {
+  &__title {
+    width: 90%;
+    text-align: center;
+    text-transform: uppercase;
+
+    @media (min-width: $media-md) {
+      width: 40%;
+    }
+
+    &__wrap {
+      display: flex;
+      justify-content: center;
+      transform: translateY(50%);
+    }
+  }
+
+  .container {
+    @media (max-width: $media-md) {
+      padding: 0;
+    }
+  }
+}
