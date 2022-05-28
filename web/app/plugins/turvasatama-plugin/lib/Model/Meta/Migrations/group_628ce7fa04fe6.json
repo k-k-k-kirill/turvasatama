@@ -1,0 +1,71 @@
+{
+    "key": "group_628ce7fa04fe6",
+    "title": "Blog fields",
+    "fields": [
+        {
+            "key": "field_628ce81003419",
+            "label": "Additional images",
+            "name": "additional_images",
+            "type": "repeater",
+            "instructions": "Here you can upload additional images for this post.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add image",
+            "sub_fields": [
+                {
+                    "key": "field_628ce86e0341a",
+                    "label": "Image",
+                    "name": "image",
+                    "type": "image",
+                    "instructions": "Upload image here.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "min_width": "",
+                    "min_height": "",
+                    "min_size": "",
+                    "max_width": "",
+                    "max_height": "",
+                    "max_size": "",
+                    "mime_types": "",
+                    "translations": "sync"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1653401731
+}

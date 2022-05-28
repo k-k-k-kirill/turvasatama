@@ -5,7 +5,7 @@
 {% extends 'base/base.twig' %}
 
 {% block site_content %}
-  <article class="single single-{{ post.type }}">
+  <article class="single container single-{{ post.type }}">
     {% include ['@sections/header/header-' ~ post.type ~ '.twig', '@sections/header/header.twig']
 			with {
 				section: {
@@ -23,16 +23,6 @@
 					content: post.get_paged_content,
 					paged: true,
 					pagination: post.pagination,
-				}
-			}
-		%}
-
-		{% include ['@sections/comments/comments-' ~ post.type ~ '.twig', '@sections/comments/comments.twig']
-			with {
-				section: {
-					acf_fc_layout: 'comments',
-					comments: post.comments,
-					comment_status: post.comment_status,
 				}
 			}
 		%}

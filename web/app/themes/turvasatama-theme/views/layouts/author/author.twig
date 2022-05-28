@@ -1,0 +1,81 @@
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+  <section class="author__header mb-12">
+    <div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8">
+      {% if author_info.photo %}
+        <div class="author__photo">
+            {% set image_object = TimberImage(author_info.photo.id) %}
+            {{responsive_image(image_object.id, 'portrait', 'portrait', image_object.alt)}}
+        </div>
+      {% endif %}
+
+      <div class="lg:col-span-2 flex flex-col justify-center">
+        <h1 class="author__name mb-4">{{author.name}}</h1>
+        <div class="author__separator mb-4"></div>
+
+        {% if author_info.description %}
+          <p class="author__description mb-6">{{author_info.description}}</p>
+        {% endif %}
+
+        {% if author_info.phone %}
+          <a href="tel:{{author_info.phone}}" class="author__header__link">{{author_info.phone}}</a>
+        {% endif %}
+
+        {% if author_info.email %}
+          <a href="mailto:{{author_info.email}}" class="author__header__link">{{author_info.email}}</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+  {% if author_info.skills %}
+    <section class="container mb-12">
+      <h2 class="author__skills__title pb-10">{{__('Consultation topics', 'turvasatama-theme')}}</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
+        {% for skill in author_info.skills %}
+          <div class="mb-10 author__skills__item">
+            <div class="author__skills__item__circle mb-4"></div>
+            <h5>{{skill.title}}</h5>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if author_info.about %}
+    <section class="mb-12">
+      <div class="container grid grid-cols-1 lg:grid-cols-3 pt-6 author__about">
+        <div>
+          <h2 class="mb-4 lg:mb-0">{{__('About','turvasatama-theme')}}</h2>
+        </div>
+
+        <div class="lg:col-span-2 lead">{{author_info.about}}</div>
+      </div>
+    </section>
+  {% endif %}
+  
+  {% if author_info.education %}
+    <section class="py-12 author__education mb-12">
+      <div class="container">
+        <h2 class="mb-8">{{__('Qualification', 'turvasatama-theme')}}</h2>
+
+        <div>
+          {% for education in author_info.education %}
+            <details class="py-4">
+              <summary>
+                <h5>{{education.title}}</h5>
+                <span class="author__summary__icon author__summary__icon--open">+</span>
+                <span class="author__summary__icon author__summary__icon--closed">-</span>
+              </summary>
+              <p class="pt-4 lead">{{education.description}}</p>
+            </details>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+  
+  
+{% endblock %}

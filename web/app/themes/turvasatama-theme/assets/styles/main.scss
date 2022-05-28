@@ -32,6 +32,7 @@
 @import "../../views/components/nav/nav-desktop/nav-desktop.scss";
 @import "../../views/components/nav/nav-mobile/nav-mobile.scss";
 @import "../../views/components/nav/nav-footer/nav-footer.scss";
+@import "../../views/components/teaser/teaser-post/teaser-post.scss";
 
 // ****************
 // Section styles
@@ -41,8 +42,11 @@
 @import "../../views/sections/site-footer/site-footer.scss";
 @import "../../views/sections/hero/hero.scss";
 @import "../../views/sections/cta/cta.scss";
+@import "../../views/sections/header/header-post.scss";
 
 // ***********
 // Layout styles
 // ***********
 @import "../../views/layouts/design-system/design-system";
+@import "../../views/layouts/author/author.scss";
+@import "../../views/layouts/single/single-post/single-post.scss";

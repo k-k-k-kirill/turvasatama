@@ -6,6 +6,14 @@
  # @var post	The Timber Post object.
  #}
 
-<div class="content content-{{ post_type }}">
+<div class="content col-span-2 lead content-{{ post_type }}">
   {{ content }}
+
+  {% if tags %}
+		<div class="tags py-2 mt-12">
+			{% for tag in tags %}
+				<a class="mr-2" href="{{tag.link}}">{{tag.title}}</a>
+			{% endfor %}
+		</div>
+	{% endif %}
 </div>

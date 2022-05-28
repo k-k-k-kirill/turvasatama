@@ -24,10 +24,10 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Pixels\TurvaSatama\Services\Contracts\ServiceInterface;
 
 // Repositories.
-use Pixels\TurvaSatama\Repositories\Examples as ExampleRepository;
+use Pixels\TurvaSatama\Repositories\Post as PostRepository;
 
 // Services.
-use Pixels\TurvaSatama\Services\Examples as ExampleService;
+use Pixels\TurvaSatama\Services\Post as PostService;
 
 /**
  * App class
@@ -133,12 +133,12 @@ final class App
 	private function create_services()
 	{
 		// Repositories.
-		$example_repository = new ExampleRepository();
+		$posts_repository = new PostRepository();
 
 		// Services.
-		$example_service = new ExampleService($example_repository);
+		$post_service = new PostService($posts_repository);
 
-		static::$container->set('examples', $example_service);
+		static::$container->set('post', $post_service);
 	}
 
 	/**

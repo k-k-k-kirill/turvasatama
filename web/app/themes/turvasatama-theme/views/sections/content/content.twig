@@ -1,19 +1,59 @@
 {% extends '@sections/section/section.twig' %}
 
 {% block section_content %}
-  <div class="section-content__wrap">
-		{% include ['@components/content/content.twig']
-			with {
-				content: section.content,
-			}
-		%}
+  <div class="section-content__wrap mb-12">
+		<div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+			<div class="pt-20 hidden lg:block">
+				{% if additional_images %}
+					{% for item in additional_images %}
+						<div class="mb-4">
+							{% set image_object = TimberImage(item.image.id) %}
+							{{responsive_image(image_object.id, 'thumbnail-mini', 'thumbnail-mini', image_object.alt)}}
+						</div>
+					{% endfor %}
+				{% endif %}
+			</div>
 
-		{% if section.paged and section.pagination %}
-			{% include ['@components/pagination/pagination.twig']
+			{% include ['@components/content/content.twig']
 				with {
-					pagination: section.pagination,
+					content: section.content,
 				}
 			%}
+		</div>
+
+		{% if author %}
+			<div class="flex justify-center mt-12">
+				<div class="author-badge grid grid-cols-3 gap-4">
+						{% if author.photo %}
+							<div class="author-badge__image flex justify-end">
+								{% set image_object = TimberImage(author.photo) %}
+								<img src="{{image_object.src('thumbnail')}}" alt="{{image_object.alt('thumbnail')}}" />
+							</div>
+							<div class="col-span-2">
+								<h5 class="mb-2 author-badge__name">{{author.name}}</h5>
+
+								{% if author.description %}
+									<p class="author-badge__description mb-2">{{author.description}}</p>
+								{% endif %}
+
+								{% if author.url %}
+									<a class="author-badge__link" href="{{author.url}}">{{__('Read more', 'turvasatama-theme')}}</a>
+								{% endif %}
+							</div>
+						{% endif %}
+				</div>
+			</div>
+		{% endif %}
+
+		{% if related_posts %}
+			<section class="mt-12">
+				<h2 class="mb-8">{{__('Other posts', 'turvasatama-theme')}}</h2>
+				<div class="grid md:grid-cols-2 lg:grid-cols-10 gap-3">
+					{% for related_post in related_posts %}
+						{% include '@components/teaser/teaser-post/teaser-post.twig' with { post: TimberPost(related_post), classes: 'lg:col-span-4' } %}
+					{% endfor %}
+				</div>
+			</section>
 		{% endif %}
   </div>
 {% endblock %}

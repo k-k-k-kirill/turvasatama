@@ -20,7 +20,9 @@ $controller->set_templates( array( 'author/author.twig', 'index/index.twig' ) );
 
 if ( isset( $wp_query->query_vars['author'] ) ) {
 	$author = new TimberUser( $wp_query->query_vars['author'] );
+	$specialistInfo = get_field('specialist_info', "user_$author->ID");
 	$controller->add_context( 'author', $author );
+	$controller->add_context('author_info', $specialistInfo);
 	$controller->add_context( 'title', 'Author Archives: ' . $author->name() );
 }
 

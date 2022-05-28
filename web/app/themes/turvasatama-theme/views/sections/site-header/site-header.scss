@@ -39,6 +39,50 @@
       display: flex;
     }
   }
+
+  &--dark {
+    background-color: $color-red;
+
+    .nav-desktop__link--toggle {
+      color: white;
+
+      svg {
+        fill: white;
+      }
+    }
+
+    .nav-desktop__link {
+      color: white;
+    }
+
+    .nav-mobile__toggle__icon--open {
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    .nav-mobile__toggle__icon--close {
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    .site-header__cta {
+      a {
+        color: white;
+        border-color: white;
+
+        &:hover {
+          background-color: transparent;
+          opacity: 0.7;
+        }
+      }
+    }
+  }
 }
 
 /************************************ SITE HEADER ENDS ************************************/

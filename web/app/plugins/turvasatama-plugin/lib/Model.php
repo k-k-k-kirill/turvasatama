@@ -65,9 +65,6 @@ class Model
 		// Taxonomies. (Load first to allow easier use in post type permalinks).
 		$this->add_taxonomy('example_taxonomy', new Model\Taxonomies\ExampleTaxonomy());
 
-		// Custom post types.
-		$this->add_post_type('example', new Model\PostTypes\Example());
-
 		// Fields.
 		$this->meta_example = new Model\Meta\Fields\Example();
 

@@ -11,6 +11,8 @@ $color-gray:       #f5f5f5;
 $dark-blue:        #01052e;
 $color-navy:       #b1dcec;
 $pale-gray:        #868997;
+$separator:        #d8d7d3;
+$color-light-red:  #fb5656;
 
 /* #################################### */
 
@@ -21,6 +23,7 @@ $font-heading:        "Inter", Helvetica, Arial, sans-serif;
 // Media breakpoints
 $media-md: 768px;
 $media-lg: 1024px;
+$media-xl: 1280px;
 
 // Typography breakpoints
 // NOTE: These are crucial for fluid-type mixin.
@@ -45,7 +48,7 @@ $h1-font-weight-mobile:        500;
 $h2-font-size-mobile:          34px;
 $h2-line-height-mobile:        1.1;
 $h2-letter-spacing-mobile:     0;
-$h2-font-weight-mobile:        500;
+$h2-font-weight-mobile:        400;
 
 // H3 styles mobile
 $h3-font-size-mobile:          24px;
@@ -92,10 +95,10 @@ $h1-letter-spacing-tablet:     0;
 $h1-font-weight-tablet:        500;
 
 // H2 styles tablet
-$h2-font-size-tablet:          34px;
+$h2-font-size-tablet:          52px;
 $h2-line-height-tablet:        1.1;
 $h2-letter-spacing-tablet:     0;
-$h2-font-weight-tablet:        500;
+$h2-font-weight-tablet:        400;
 
 // H3 styles tablet
 $h3-font-size-tablet:          36px;
@@ -136,10 +139,10 @@ $h1-letter-spacing:     0;
 $h1-font-weight:        500;
 
 // H2 styles desktop
-$h2-font-size:          34px;
+$h2-font-size:          52px;
 $h2-line-height:        1.1;
 $h2-letter-spacing:     0;
-$h2-font-weight:        500;
+$h2-font-weight:        400;
 
 // H3 styles desktop
 $h3-font-size:          36px;
@@ -168,7 +171,7 @@ $h6-font-weight:        600;
 /* #################################### */
 
 // Lead text
-$lead-font-size:        17.6px;
+$lead-font-size:        18px;
 $lead-line-height:      1.5;
 $lead-letter-spacing:   0;
 $lead-font-weight:      normal;
