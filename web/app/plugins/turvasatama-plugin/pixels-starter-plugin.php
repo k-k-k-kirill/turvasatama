@@ -28,6 +28,7 @@ use Pixels\TurvaSatama\Repositories\Post as PostRepository;
 
 // Services.
 use Pixels\TurvaSatama\Services\Post as PostService;
+use Pixels\TurvaSatama\Services\Archive as ArchiveService;
 
 /**
  * App class
@@ -137,8 +138,10 @@ final class App
 
 		// Services.
 		$post_service = new PostService($posts_repository);
+		$archive_service = new ArchiveService();
 
 		static::$container->set('post', $post_service);
+		static::$container->set('archive', $archive_service);
 	}
 
 	/**

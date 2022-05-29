@@ -60,12 +60,15 @@ class Post implements ServiceInterface
 	{
 		$tags = $this->posts_repository->getTags($postId);
 		$tagIds = [];
+		$relatedPosts = [];
 
-		foreach ($tags as $tag) {
-			$tagIds[] = $tag->term_id;
+		if (!empty($tags)) {
+			foreach ($tags as $tag) {
+				$tagIds[] = $tag->term_id;
+			}
+	
+			$relatedPosts = $this->posts_repository->getRelatedByTags($tagIds, $postId);
 		}
-
-		$relatedPosts = $this->posts_repository->getRelatedByTags($tagIds, $postId);
 
 		return $relatedPosts;
 	}

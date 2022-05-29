@@ -11,7 +11,8 @@
   <nav class="pagination" aria-label="{{ pagination_title }}">
     <ul class="pagination__list {{ classes }}">
       {% if pagination.prev %}
-        <li class="pagination__list__item {{ pagination.prev.link|length ?: 'disabled' }}">
+        <li class="pagination__list__prev mr-1 {{ pagination.prev.link|length ?: 'disabled' }}">
+          {% include 'assets/images/chevron_left.svg' %}
           <a class="pagination__list__item__link" href="{{ pagination.prev.link }}" {{ pagination.prev.link|length ?: 'tabindex="-1"' }}>
 						{{ _x('Previous', 'Pagination previous link', 'turvasatama-theme') }}
 					</a>
@@ -33,10 +34,11 @@
       {% endfor %}
 
       {% if pagination.next %}
-        <li class="pagination__list__item {{ pagination.next.link|length ?: 'disabled' }}">
+        <li class="pagination__list__next ml-1 {{ pagination.next.link|length ?: 'disabled' }}">
           <a class="pagination__list__item__link" href="{{ pagination.next.link }}" {{ pagination.next.link|length ?: 'tabindex="-1"' }}>
 						{{ _x('Next', 'Pagination next link',  'turvasatama-theme') }}
 					</a>
+          {% include 'assets/images/chevron_right.svg' %}
         </li>
       {% endif %}
     </ul>
