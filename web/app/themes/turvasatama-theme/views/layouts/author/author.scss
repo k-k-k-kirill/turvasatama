@@ -115,4 +115,54 @@
       }
     }
   }
+
+  &__consultations {
+    h3 {
+      font-weight: 400;
+    }
+
+    details {
+      border-bottom: 1px solid $separator;
+
+      .author__consultations__icon--closed {
+        display: none;
+      }
+
+      .author__consultations__icon--open {
+        display: block;
+      }
+
+      &[open] {
+        border-bottom: none;
+
+        .author__consultations__icon--closed {
+          display: block;
+        }
+
+        .author__consultations__icon--open {
+          display: none;
+        }
+      }
+
+      summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style: none;
+
+        span {
+          font-size: 32px;
+          line-height: 1;
+        }
+
+        &::-webkit-details-marker {
+          display: none;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
 }

@@ -11,6 +11,11 @@
 global $wp_query;
 
 use Pixels\Theme\Controllers\ArchiveController;
+use Pixels\TurvaSatama\App;
+
+// Services
+$postService = App::$container->get('post');
+$archiveService = App::$container->get('archive');
 
 // Set up Controller instance.
 $controller = new ArchiveController();
@@ -24,6 +29,19 @@ if ( isset( $wp_query->query_vars['author'] ) ) {
 	$controller->add_context( 'author', $author );
 	$controller->add_context('author_info', $specialistInfo);
 	$controller->add_context( 'title', 'Author Archives: ' . $author->name() );
+
+	$authorPosts = $postService->getPostsForAuthor($author->ID);
+
+	if ($authorPosts && !empty($authorPosts)) {
+		$controller->add_context('posts', $authorPosts);
+	}
+
+	$archiveUrl = $archiveService->getUrl();
+	if ($archiveUrl) {
+		$controller->add_context('archive_url', $archiveUrl);
+	}
+
+	$controller->add_context('dark', true);
 }
 
 // Render the twig.

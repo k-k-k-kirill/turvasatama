@@ -91,4 +91,10 @@ class Post implements ServiceInterface
 
 		return $relatedPosts;
 	}
+
+	public function getPostsForAuthor(int $authorId)
+	{
+		$authorPosts = $this->posts_repository->getForAuthor($authorId);
+		return $authorPosts;
+	}
 }

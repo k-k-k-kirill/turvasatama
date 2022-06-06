@@ -1,0 +1,39 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-8 md:mb-12 feed">
+    <h2 class="mb-4">{{__('What to read', 'turvasatama-theme')}}</h2>
+    <div class="feed__separator mb-12"></div>
+
+    <div class="feed__posts grid lg:grid-cols-2 gap-12">
+      {% for item in posts %}
+
+        {% if loop.index == 1 or loop.index == 2 %}
+          {% if loop.index == 2 %}
+            {% set classes = 'feed__post--second mb-4 lg:mb-0' %}
+          {% else %}
+            {% set classes = 'mb-4 lg:mb-12' %}
+          {% endif %}
+
+          <div class="feed__post {{classes}}">
+            {% include '@components/teaser/teaser-post/teaser-post.twig' with { post: TimberPost(item) } %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="grid lg:grid-cols-3">
+      {% for item in posts %}
+        {% if loop.index == 3 %}
+          <div class="feed__post lg:col-start-2 lg:mt-12">
+            {% include '@components/teaser/teaser-post/teaser-post.twig' with { post: TimberPost(item) } %}
+
+            {% if archive_url %}
+              <a href="{{archive_url}}" class="btn btn--outline mt-10">{{__('All posts', 'turvasatama-theme')}}</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

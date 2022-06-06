@@ -15,6 +15,16 @@ button {
     color: white;
   }
 
+  &--outline {
+    color: $color-body;
+    border-color: $color-body;
+
+    &:hover {
+      background-color: $color-body;
+      color: white;
+    }
+  }
+
   // &:focus {
 
   // }

@@ -76,6 +76,45 @@
       </div>
     </section>
   {% endif %}
-  
-  
+
+  {% if posts %}
+    {% include '@sections/feed/feed.twig' with { posts: posts } %}
+  {% endif %}
+
+  {% if author_info.consultations %}
+    <section class="container mb-12">
+      <h2 class="mb-4">{{__('Prices', 'turvasatama-theme')}}</h2>
+
+      {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+
+      <div class="grid md:grid-cols-3 author__consultations">
+        {% for consultation in author_info.consultations %}
+          <div class="md:col-start-2 md:col-span-2">
+              <details class="py-4">
+                <summary>
+                  <h3 class="">{{consultation.title}}</h3>
+                  <span class="author__consultations__icon author__consultations__icon--open">+</span>
+                  <span class="author__consultations__icon author__consultations__icon--closed">-</span>
+                </summary>
+                <div>
+                  <p class="my-4">{{consultation.description}}</p>
+
+                  {% if consultation.prices %}
+                    {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+
+                    {% for pricing in consultation.prices %}
+                      <div class="grid grid-cols-4 mb-4">
+                        <div>{{pricing.title}}</div>
+                        <div>{{pricing.price}}</div>
+                      </div>
+                      {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </details>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
 {% endblock %}

@@ -85,4 +85,15 @@ class Post
 
 		return get_posts($args);
 	}
+
+	public function getForAuthor($authorId)
+	{
+		$args = [
+			'order' => 'DESC',
+			'author' => $authorId,
+			'posts_per_page' => 3
+		];
+
+		return get_posts($args);
+	}
 }
