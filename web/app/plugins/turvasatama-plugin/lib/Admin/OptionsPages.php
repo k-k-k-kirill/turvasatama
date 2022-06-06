@@ -9,6 +9,8 @@
 namespace Pixels\TurvaSatama\Admin;
 
 use Pixels\TurvaSatama\Admin\OptionsPages\Header;
+use Pixels\TurvaSatama\Admin\OptionsPages\Author;
+use Pixels\TurvaSatama\Admin\OptionsPages\LayoutsSettings;
 
 /**
  * Instantiates individual options pages
@@ -19,9 +21,23 @@ class OptionsPages
 	/**
 	 * Options page.
 	 *
+	 * @var LayoutsSettings
+	 */
+	private $layoutsSettings;
+
+	/**
+	 * Options page.
+	 *
 	 * @var Header
 	 */
 	private $header;
+
+	/**
+	 * Options page.
+	 *
+	 * @var Author
+	 */
+	private $author;
 
 	/**
 	 * Options page.
@@ -51,5 +67,7 @@ class OptionsPages
 		// Load options pages.
 		$this->header = new OptionsPages\Header();
 		$this->companyInfo = new OptionsPages\CompanyInfo();
+		$this->layoutsSettings = new OptionsPages\LayoutsSettings();
+		$this->author = new OptionsPages\Author();
 	}
 }

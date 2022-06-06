@@ -82,39 +82,48 @@
   {% endif %}
 
   {% if author_info.consultations %}
-    <section class="container mb-12">
-      <h2 class="mb-4">{{__('Prices', 'turvasatama-theme')}}</h2>
+      {% embed "@components/offset-content/offset-content.twig" with { classes: 'author__consultations' } %}
+        {% block title %}
+          {{__('Prices', 'turvasatama-theme')}}
+        {% endblock %}
 
-      {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+        {% block content %}
+          {% for consultation in author_info.consultations %}
+                <details class="py-4">
+                  <summary>
+                    <h3 class="">{{consultation.title}}</h3>
+                    <span class="author__consultations__icon author__consultations__icon--open">+</span>
+                    <span class="author__consultations__icon author__consultations__icon--closed">-</span>
+                  </summary>
+                  <div>
+                    <p class="my-4">{{consultation.description}}</p>
 
-      <div class="grid md:grid-cols-3 author__consultations">
-        {% for consultation in author_info.consultations %}
-          <div class="md:col-start-2 md:col-span-2">
-              <details class="py-4">
-                <summary>
-                  <h3 class="">{{consultation.title}}</h3>
-                  <span class="author__consultations__icon author__consultations__icon--open">+</span>
-                  <span class="author__consultations__icon author__consultations__icon--closed">-</span>
-                </summary>
-                <div>
-                  <p class="my-4">{{consultation.description}}</p>
-
-                  {% if consultation.prices %}
-                    {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
-
-                    {% for pricing in consultation.prices %}
-                      <div class="grid grid-cols-4 mb-4">
-                        <div>{{pricing.title}}</div>
-                        <div>{{pricing.price}}</div>
-                      </div>
+                    {% if consultation.prices %}
                       {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
-                    {% endfor %}
-                  {% endif %}
-                </div>
-              </details>
-          </div>
-        {% endfor %}
-      </div>
-    </section>
+
+                      {% for pricing in consultation.prices %}
+                        <div class="grid grid-cols-4 mb-4">
+                          <div>{{pricing.title}}</div>
+                          <div>{{pricing.price}}</div>
+                        </div>
+
+                        {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                </details>
+          {% endfor %}
+        {% endblock %}
+      {% endembed %}
+  {% endif %}
+
+  {% if single_author_fields.contact_form %}
+      {% embed "@components/offset-content/offset-content.twig" %}
+        {% block title %}{{__('Contact us', 'turvasatama-theme')}}{% endblock %}
+
+        {% block content %}
+          {% include "@components/contact-form/contact-form.twig" with { id: single_author_fields.contact_form.ID, classes: 'mt-6' } %}
+        {% endblock %}
+      {% endembed %}
   {% endif %}
 {% endblock %}

@@ -1,0 +1,39 @@
+.contact-form {
+  .wpcf7-form-control-wrap {
+    display: block;
+    width: 100%;
+    max-width: 593px !important;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba($color-body, 0.2);
+    margin-bottom: 60px;
+
+    &::placeholder {
+      color: $color-body;
+    }
+  }
+
+  textarea {
+    display: block;
+    background-color: transparent;
+    border-bottom: 1px solid rgba($color-body, 0.2);
+    height: 170px;
+    width: 100%;
+    margin-bottom: 60px;
+
+    &::placeholder {
+      color: $color-body;
+    }
+  }
+
+  input[type="submit"] {
+    @extend .btn;
+    @extend .btn--outline;
+  }
+}

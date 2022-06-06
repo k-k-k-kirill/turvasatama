@@ -13,11 +13,13 @@ button {
   &:hover {
     background-color: $color-body;
     color: white;
+    cursor: pointer;
   }
 
   &--outline {
     color: $color-body;
     border-color: $color-body;
+    background-color: transparent;
 
     &:hover {
       background-color: $color-body;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class for Header Options Page.
+ * Class for Author Options Page.
  *
  * @package TurvaSatama.
  */
@@ -9,9 +9,9 @@
 namespace Pixels\TurvaSatama\Admin\OptionsPages;
 
 /**
- * Register options page for Header
+ * Register options page for Author
  */
-class Header
+class Author
 {
 
 	/**
@@ -21,8 +21,8 @@ class Header
 	{
 		acf_add_options_sub_page(
 			array(
-				'page_title'  => 'Header Settings',
-				'menu_title'  => 'Header Settings',
+				'page_title'  => 'Single Author',
+				'menu_title'  => 'Single Author',
 				'parent_slug' => 'acf-options-layouts-settings'
 			)
 		);

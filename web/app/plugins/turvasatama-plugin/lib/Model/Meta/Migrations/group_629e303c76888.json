@@ -1,0 +1,65 @@
+{
+    "key": "group_629e303c76888",
+    "title": "Single Author",
+    "fields": [
+        {
+            "key": "field_629e30994878c",
+            "label": "Single author fields",
+            "name": "single_author_fields",
+            "type": "group",
+            "instructions": "Fields for single author template",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_629e30b14878d",
+                    "label": "Contact form",
+                    "name": "contact_form",
+                    "type": "post_object",
+                    "instructions": "Contact form to be displayed in single author template",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "wpcf7_contact_form"
+                    ],
+                    "taxonomy": "",
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "return_format": "object",
+                    "translations": "sync",
+                    "ui": 1
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "acf-options-single-author"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1654534348
+}

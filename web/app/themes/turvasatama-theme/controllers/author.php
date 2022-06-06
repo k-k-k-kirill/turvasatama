@@ -42,6 +42,11 @@ if ( isset( $wp_query->query_vars['author'] ) ) {
 	}
 
 	$controller->add_context('dark', true);
+
+	$singleAuthorFields = get_field('single_author_fields', 'option');
+	if ($singleAuthorFields) {
+		$controller->add_context('single_author_fields', $singleAuthorFields);
+	}
 }
 
 // Render the twig.
