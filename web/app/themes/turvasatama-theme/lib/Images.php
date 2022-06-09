@@ -34,7 +34,8 @@ class Images {
 		'featured'				 => array( 795, 400, true, true ),
 		'thumbnail'				 => array( 490, 340, true, true ),
 		'thumbnail-mini'	 => array( 290, 224, true, true ),
-		'specialist'			 => array( 375, 375, true, true )
+		'specialist'			 => array( 375, 375, true, true ),
+		'medium'					 => array( 795, 500, true, true )
 	);
 
 	/**
