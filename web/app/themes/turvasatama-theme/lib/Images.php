@@ -33,7 +33,8 @@ class Images {
 		'portrait'				 => array( 365, 520, true, true ),
 		'featured'				 => array( 795, 400, true, true ),
 		'thumbnail'				 => array( 490, 340, true, true ),
-		'thumbnail-mini'	 => array( 290, 224, true, true )
+		'thumbnail-mini'	 => array( 290, 224, true, true ),
+		'specialist'			 => array( 375, 375, true, true )
 	);
 
 	/**

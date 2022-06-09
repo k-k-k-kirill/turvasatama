@@ -1,0 +1,10 @@
+.section-cta-minimal {
+  background-color: $color-red;
+
+  &__title {
+    font-size: 60px;
+    color: white;
+    font-weight: 400;
+    max-width: 80%;
+  }
+}

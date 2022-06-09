@@ -25,10 +25,12 @@ use Pixels\TurvaSatama\Services\Contracts\ServiceInterface;
 
 // Repositories.
 use Pixels\TurvaSatama\Repositories\Post as PostRepository;
+use Pixels\TurvaSatama\Repositories\User as UserRepository;
 
 // Services.
 use Pixels\TurvaSatama\Services\Post as PostService;
 use Pixels\TurvaSatama\Services\Archive as ArchiveService;
+use Pixels\TurvaSatama\Services\User as UserService;
 
 /**
  * App class
@@ -135,13 +137,16 @@ final class App
 	{
 		// Repositories.
 		$posts_repository = new PostRepository();
+		$user_repository = new UserRepository();
 
 		// Services.
 		$post_service = new PostService($posts_repository);
 		$archive_service = new ArchiveService();
+		$user_service = new UserService($user_repository);
 
 		static::$container->set('post', $post_service);
 		static::$container->set('archive', $archive_service);
+		static::$container->set('user', $user_service);
 	}
 
 	/**

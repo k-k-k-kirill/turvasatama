@@ -1,0 +1,16 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_classes %}
+  section-thirty-seventy
+{% endblock %}
+
+{% block section_content %}
+  <div class="container grid md:grid-cols-3 mb-12">
+    <div class="flex flex-col section-thirty-seventy__left justify-center items-start">
+      {% block left_content %}{% endblock %}
+    </div>
+    <div class="col-span-2 col-start-2">
+      {% block right_content %}{% endblock %}
+    </div>
+  </div>
+{% endblock %}
