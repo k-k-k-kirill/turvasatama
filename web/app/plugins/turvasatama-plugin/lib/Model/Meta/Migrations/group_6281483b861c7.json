@@ -346,6 +346,29 @@
                     ]
                 }
             ]
+        },
+        {
+            "key": "field_62a242f3ed593",
+            "label": "Services",
+            "name": "services",
+            "type": "post_object",
+            "instructions": "Services that this specialist provides",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "service"
+            ],
+            "taxonomy": "",
+            "allow_null": 0,
+            "multiple": 1,
+            "return_format": "id",
+            "translations": "sync",
+            "ui": 1
         }
     ],
     "location": [
@@ -368,5 +391,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1653847216
+    "modified": 1654801355
 }

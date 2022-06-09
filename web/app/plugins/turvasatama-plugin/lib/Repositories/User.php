@@ -36,4 +36,22 @@ class User
       'role__in'     => array('author'),
     ));
   }
+
+	public function getAuthorsByService($serviceId)
+	{
+		$filteredAuthors = [];
+		$authors = $this->getAllAuthors();
+
+		if (!empty($authors) && $authors) {
+			foreach ($authors as $author) {
+				$services = get_field('services', "user_$author->ID");
+
+				if ($services && in_array($serviceId, $services)) {
+					$filteredAuthors[] = $author;
+				}
+			}
+		}
+
+		return $filteredAuthors;
+	}
 }

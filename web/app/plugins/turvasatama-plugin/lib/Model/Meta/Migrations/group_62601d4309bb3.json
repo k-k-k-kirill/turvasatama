@@ -367,6 +367,190 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_62a23bebbad39": {
+                    "key": "layout_62a23bebbad39",
+                    "name": "cta-minimal",
+                    "label": "CTA minimal",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a23c0fbad3a",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a23c1abad3b",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "Section link text and url",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "translations": "sync"
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_62a23dcf09090": {
+                    "key": "layout_62a23dcf09090",
+                    "name": "specialists",
+                    "label": "Specialists",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a2451e043a4",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a23dd409091",
+                            "label": "Note",
+                            "name": "",
+                            "type": "message",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "This section will automatically display all specialists which provide the service (if used on service template) or all specialists if used elsewhere.",
+                            "new_lines": "wpautop",
+                            "esc_html": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
+                },
+                "layout_62a24ab3e62dc": {
+                    "key": "layout_62a24ab3e62dc",
+                    "name": "cases",
+                    "label": "Cases",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a24ab9e62dd",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a24ac1e62de",
+                            "label": "Cases",
+                            "name": "cases",
+                            "type": "repeater",
+                            "instructions": "Cases to be displayed in section slider",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "collapsed": "",
+                            "min": 0,
+                            "max": 0,
+                            "layout": "block",
+                            "button_label": "Add case",
+                            "sub_fields": [
+                                {
+                                    "key": "field_62a24adee62df",
+                                    "label": "Title",
+                                    "name": "title",
+                                    "type": "text",
+                                    "instructions": "Case title",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "maxlength": "",
+                                    "translations": "translate"
+                                },
+                                {
+                                    "key": "field_62a24ae4e62e0",
+                                    "label": "Content",
+                                    "name": "content",
+                                    "type": "wysiwyg",
+                                    "instructions": "Case content",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "tabs": "text",
+                                    "media_upload": 1,
+                                    "translations": "translate",
+                                    "toolbar": "full",
+                                    "delay": 0
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "button_label": "Add Section",
@@ -399,5 +583,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1654798012
+    "modified": 1654803204
 }
