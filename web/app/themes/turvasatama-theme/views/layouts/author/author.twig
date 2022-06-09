@@ -29,19 +29,13 @@
     </div>
   </section>
 
-  {% if author_info.skills %}
-    <section class="container mb-12">
-      <h2 class="author__skills__title pb-10">{{__('Consultation topics', 'turvasatama-theme')}}</h2>
+  {% if author_info.skills %}    
+    {% set section_object = {
+      title: __('Consultation topics', 'turvasatama-theme'),
+      items: author_info.skills
+    } %}
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
-        {% for skill in author_info.skills %}
-          <div class="mb-10 author__skills__item">
-            <div class="author__skills__item__circle mb-4"></div>
-            <h5>{{skill.title}}</h5>
-          </div>
-        {% endfor %}
-      </div>
-    </section>
+    {% include "@sections/bullet-points/bullet-points.twig" with { section: section_object } %}
   {% endif %}
 
   {% if author_info.about %}

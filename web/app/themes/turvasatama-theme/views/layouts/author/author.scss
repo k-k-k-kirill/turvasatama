@@ -46,25 +46,6 @@
     background-color: $separator;
   }
 
-  &__skills {
-    &__title {
-      font-weight: 400;
-      border-bottom: 1px solid $separator;
-    }
-
-    &__item {
-      &__circle {
-        content: "";
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: $color-light-red;
-      }
-
-      @extend .h5;
-    }
-  }
-
   &__about {
     border-top: 1px solid $separator;
   }

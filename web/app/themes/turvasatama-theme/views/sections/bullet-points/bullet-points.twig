@@ -1,0 +1,31 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_classes %}
+  container
+  section-bullet-points
+{% endblock %}
+
+{% block section_content %}
+  {% if section.title %}
+    <h2 class="section-bullet-points__title pb-10">{{section.title}}</h2>
+  {% endif %}
+
+  {% include "@components/separator/separator.twig" %}
+
+  {% if section.items %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
+      {% for item in section.items %}
+        <div class="mb-10 section-bullet-points__item">
+          <div class="section-bullet-points__item__circle mb-4"></div>
+          {% if item.title %}
+            <h5 class="mb-2">{{item.title}}</h5>
+          {% endif %}
+          
+          {% if item.description %}
+            <p>{{item.description}}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}
