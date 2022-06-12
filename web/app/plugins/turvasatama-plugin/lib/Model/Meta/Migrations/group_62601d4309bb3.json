@@ -551,6 +551,97 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_62a6041694b86": {
+                    "key": "layout_62a6041694b86",
+                    "name": "faq",
+                    "label": "FAQ",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a6051a251cb",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a6041a94b87",
+                            "label": "Items",
+                            "name": "items",
+                            "type": "repeater",
+                            "instructions": "FAQ items for this section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "collapsed": "",
+                            "min": 0,
+                            "max": 0,
+                            "layout": "block",
+                            "button_label": "Add item",
+                            "sub_fields": [
+                                {
+                                    "key": "field_62a6042994b88",
+                                    "label": "Question",
+                                    "name": "question",
+                                    "type": "text",
+                                    "instructions": "FAQ item question",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "maxlength": "",
+                                    "translations": "translate"
+                                },
+                                {
+                                    "key": "field_62a6043c94b89",
+                                    "label": "Answer",
+                                    "name": "answer",
+                                    "type": "textarea",
+                                    "instructions": "FAQ item answer",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": "",
+                                    "maxlength": "",
+                                    "rows": "",
+                                    "new_lines": "",
+                                    "translations": "translate"
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "button_label": "Add Section",
@@ -583,5 +674,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1654803204
+    "modified": 1655047459
 }
