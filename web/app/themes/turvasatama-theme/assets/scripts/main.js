@@ -1,5 +1,6 @@
 // Common
 import { makeEmbedsResponsive } from "./common/video-embeds";
+import Splide from '@splidejs/splide';
 
 // Imports.
 import $ from "jquery"; // eslint-disable-line
@@ -67,11 +68,40 @@ const pixelsThemeApp = (function main() {
 		}
 	}
 
+	const initCasesSlider = () => {
+		const element = document.querySelector('.js-cases-slider');
+		const isMobile = document.documentElement.clientWidth < 768;
+
+		if (isMobile) {
+			const mobileArrowsContainer = document.querySelector('.js-mobile-cases-arrows');
+
+			mobileArrowsContainer.append(...document.querySelector('.js-arrows-desktop').childNodes);
+		}
+
+		new Splide(element, {
+			type   : 'loop',
+			perPage: 2,
+			perMove: 1,
+			gap: 30,
+			pagination: false,
+			arrows: true,
+			autoplay: true,
+			fixedWidth: 780,
+			breakpoints: {
+				768: {
+					perPage: 1,
+					fixedWidth: null,
+				}
+			}
+		}).mount();
+	}
+
 	// Page load actions.
 	const init = () => {
 		handleResponsiveVideos();
 		handleMobileNavToggleClick();
 		handleDropdownToggleClick();
+		initCasesSlider();
 	};
 
 	// Scroll actions.

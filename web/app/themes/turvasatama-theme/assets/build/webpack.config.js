@@ -77,7 +77,7 @@ module.exports = (env, argv) => ({
 					{
 						loader: "css-loader",
 						options: {
-							url: true,
+							url: false,
 						},
 					},
 					{

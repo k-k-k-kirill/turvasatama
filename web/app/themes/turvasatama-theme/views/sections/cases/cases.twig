@@ -1,0 +1,42 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="mb-8 md:mb-12 py-8">
+    {% if section.cases %}
+      <div class="js-cases-slider splide container">
+        <div class="section-cases__header mb-8">
+          {% if section.title %}
+            <h2 class="section-cases__title">{{section.title}}</h2>
+          {% endif %}
+
+          <div class="js-arrows-desktop splide__arrows">
+            <button class="splide__arrow mr-2 splide__arrow--prev">
+              {% include "assets/images/arrow_right.svg" %}
+            </button>
+            <button class="splide__arrow splide__arrow--next">
+              {% include "assets/images/arrow_right.svg" %}
+            </button>
+          </div>
+        </div>
+
+        <div class="splide__slider br-container-margin">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for case in section.cases %}
+                <li class="splide__slide section-cases__case p-6">
+                  <h5 class="mb-4">{{case.title}}</h5>
+
+                  {% if case.content %}
+                    <div>{{case.content}}</div>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+
+        <div class="js-mobile-cases-arrows section-cases__arrows mt-5"></div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
