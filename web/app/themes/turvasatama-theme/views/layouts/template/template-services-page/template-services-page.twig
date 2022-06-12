@@ -1,0 +1,44 @@
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+  <section class="container grid md:grid-cols-3 my-12">
+    <div class="md:col-span-2 md:col-start-2">
+      <h1>{{post.title}}</h1>
+    </div>
+  </section>
+
+  <section class="container">
+    {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+
+    {% if services_page_fields.subtitle %}
+      <h2 class="mb-6">{{services_page_fields.subtitle}}</h2>
+    {% endif %}
+    
+
+    {% if post.content %}
+      <div class="grid lg:grid-cols-3 mb-12">
+        <div class="lg:col-span-2 lg:col-start-2">{{post.content}}</div>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="container">
+    {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+
+    {% if services_page_fields.services_list_title %}
+      <h2 class="mb-12">{{services_page_fields.services_list_title}}</h2>
+    {% endif %}
+
+    {% if services %}
+      {% for service in services %}
+        {% include "@components/teaser/teaser-service/teaser-service.twig" with { service: TimberPost(service) } %}
+      {% endfor %}
+    {% endif %}
+
+    {% include "@components/separator/separator.twig" with { classes: 'my-12' } %}
+  </section>
+
+	{% for section in sections %}
+    {% include '@sections/' ~ section.acf_fc_layout ~ '/' ~ section.acf_fc_layout ~ '.twig' ignore missing %}
+  {% endfor %}
+{% endblock %}

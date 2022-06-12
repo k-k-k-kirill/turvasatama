@@ -27,7 +27,7 @@ class Post implements ServiceInterface
 {
 
 	/**
-	 * Examples Repository.
+	 * Posts Repository.
 	 *
 	 * @param PostRepository
 	 */

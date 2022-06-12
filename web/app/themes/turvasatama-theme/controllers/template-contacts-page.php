@@ -16,9 +16,9 @@ $controller = new PostController();
 $controller->set_templates( 'template/template-contacts-page/template-contacts-page.twig' );
 
 // Get fields.
-$specialistsPageFields = get_field('contacts_page_fields', get_the_id());
-if ($specialistsPageFields) {
-  $controller->add_context('contacts_page_fields', $specialistsPageFields);
+$contactsPageFields = get_field('contacts_page_fields', get_the_id());
+if ($contactsPageFields) {
+  $controller->add_context('contacts_page_fields', $contactsPageFields);
 }
 
 // Render the twig.

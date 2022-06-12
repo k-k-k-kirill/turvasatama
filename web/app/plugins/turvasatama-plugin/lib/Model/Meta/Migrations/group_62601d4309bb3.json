@@ -807,6 +807,13 @@
                 "operator": "==",
                 "value": "service"
             }
+        ],
+        [
+            {
+                "param": "post_template",
+                "operator": "==",
+                "value": "controllers\/template-services-page.php"
+            }
         ]
     ],
     "menu_order": 0,
@@ -818,5 +825,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1655050314
+    "modified": 1655064911
 }
