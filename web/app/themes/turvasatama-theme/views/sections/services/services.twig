@@ -1,0 +1,55 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-8 md:mb-12">
+    {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+
+    <div class="grid md:grid-cols-2 mb-6">
+      {% if section.title %}
+        <div>
+          <h2 class="mb-4">{{section.title}}</h2>
+        </div>
+      {% endif %}
+      
+      {% if section.content or section.link %}
+        <div>
+          <div>{{section.content}}</div>
+
+          {% if section.link %}
+            <a href="{{section.link.url}}" target="{{section.link.target}}" class="btn btn--outline mt-4">{{section.link.title}}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-2">
+      {% for service in section.services %}
+        {% set service_object = TimberPost(service) %}
+        <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
+          <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
+
+          {% include "assets/images/arrow_right.svg" %}
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="splide js-services-slider container">
+      <div class="splide__slider">
+        <div class="splide__track">
+          <ul class="splide__list">
+            {% for service in section.services %}
+              {% set service_object = TimberPost(service) %}
+              <li class="splide__slide">
+                <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
+                  <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
+
+                  {% include "assets/images/arrow_right.svg" %}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

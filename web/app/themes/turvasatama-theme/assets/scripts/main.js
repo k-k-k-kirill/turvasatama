@@ -72,28 +72,47 @@ const pixelsThemeApp = (function main() {
 		const element = document.querySelector('.js-cases-slider');
 		const isMobile = document.documentElement.clientWidth < 768;
 
-		if (isMobile) {
-			const mobileArrowsContainer = document.querySelector('.js-mobile-cases-arrows');
-
-			mobileArrowsContainer.append(...document.querySelector('.js-arrows-desktop').childNodes);
-		}
-
-		new Splide(element, {
-			type   : 'loop',
-			perPage: 2,
-			perMove: 1,
-			gap: 30,
-			pagination: false,
-			arrows: true,
-			autoplay: true,
-			fixedWidth: 780,
-			breakpoints: {
-				768: {
-					perPage: 1,
-					fixedWidth: null,
-				}
+		if (element) {
+			if (isMobile) {
+				const mobileArrowsContainer = document.querySelector('.js-mobile-cases-arrows');
+	
+				mobileArrowsContainer.append(...document.querySelector('.js-arrows-desktop').childNodes);
 			}
-		}).mount();
+	
+			new Splide(element, {
+				type   : 'loop',
+				perPage: 2,
+				perMove: 1,
+				gap: 30,
+				pagination: false,
+				arrows: true,
+				autoplay: true,
+				fixedWidth: 780,
+				breakpoints: {
+					768: {
+						perPage: 1,
+						fixedWidth: null,
+					}
+				}
+			}).mount();
+		}
+	}
+
+	const initServicesSlider = () => {
+		const element = document.querySelector('.js-services-slider');
+
+		if (element) {
+			new Splide('.js-services-slider', {
+				type   : 'loop',
+				perPage: 2,
+				perMove: 1,
+				gap: 30,
+				pagination: false,
+				arrows: false,
+				autoplay: true,
+				fixedWidth: 289
+			}).mount();
+		}
 	}
 
 	// Page load actions.
@@ -102,6 +121,7 @@ const pixelsThemeApp = (function main() {
 		handleMobileNavToggleClick();
 		handleDropdownToggleClick();
 		initCasesSlider();
+		initServicesSlider();
 	};
 
 	// Scroll actions.

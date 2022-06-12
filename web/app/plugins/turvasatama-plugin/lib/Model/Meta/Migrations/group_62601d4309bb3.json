@@ -786,6 +786,95 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_62a64ad2165da": {
+                    "key": "layout_62a64ad2165da",
+                    "name": "services",
+                    "label": "Services",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a64ad8165db",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a64ae7165dc",
+                            "label": "Content",
+                            "name": "content",
+                            "type": "wysiwyg",
+                            "instructions": "Section text content",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "text",
+                            "media_upload": 1,
+                            "translations": "translate",
+                            "toolbar": "full",
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_62a64afb165dd",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "translations": "sync"
+                        },
+                        {
+                            "key": "field_62a64b0c165df",
+                            "label": "Services",
+                            "name": "services",
+                            "type": "post_object",
+                            "instructions": "Services to be displayed in this section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": [
+                                "service"
+                            ],
+                            "taxonomy": "",
+                            "allow_null": 0,
+                            "multiple": 1,
+                            "return_format": "object",
+                            "translations": "sync",
+                            "ui": 1
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "button_label": "Add Section",
@@ -825,5 +914,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1655064911
+    "modified": 1655065645
 }

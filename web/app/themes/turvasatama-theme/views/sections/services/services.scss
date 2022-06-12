@@ -1,0 +1,44 @@
+.section-services {
+  &__service {
+    border: solid 1px $separator;
+    height: 270px;
+    transition: all 0.15s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    svg {
+      align-self: flex-end;
+      transform: rotate(-45deg);
+      transition: all 0.15s ease-in-out;
+
+      path {
+        stroke: none;
+        fill: $color-red;
+      }
+    }
+
+    &:hover {
+      background-color: $color-red;
+
+      h5 {
+        color: white;
+      }
+
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    &__title {
+      color: $color-body;
+      transition: all 0.15s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
