@@ -1,0 +1,138 @@
+{
+    "key": "group_62a617a95f176",
+    "title": "Contacts page fields",
+    "fields": [
+        {
+            "key": "field_62a617b6c49ac",
+            "label": "Contacts page fields",
+            "name": "contacts_page_fields",
+            "type": "group",
+            "instructions": "Contacts page template fields",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_62a617d1c49ad",
+                    "label": "Contact form",
+                    "name": "contact_form",
+                    "type": "group",
+                    "instructions": "Contact form section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a6184ac49ae",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Contact form section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a61853c49af",
+                            "label": "Text",
+                            "name": "text",
+                            "type": "textarea",
+                            "instructions": "Text to be displayed on the left side of the section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": "",
+                            "rows": "",
+                            "new_lines": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a6186ac49b0",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "Text and URL of contact form section link",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "translations": "sync"
+                        },
+                        {
+                            "key": "field_62a61d1e277bf",
+                            "label": "Form",
+                            "name": "form",
+                            "type": "post_object",
+                            "instructions": "Contact form of the section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": [
+                                "wpcf7_contact_form"
+                            ],
+                            "taxonomy": "",
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "return_format": "object",
+                            "translations": "sync",
+                            "ui": 1
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_template",
+                "operator": "==",
+                "value": "controllers\/template-contacts-page.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1655053624
+}
