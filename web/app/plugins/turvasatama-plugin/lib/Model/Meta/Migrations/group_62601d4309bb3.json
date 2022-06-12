@@ -642,6 +642,61 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_62a608280c489": {
+                    "key": "layout_62a608280c489",
+                    "name": "feed",
+                    "label": "Feed",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a608340c48a",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "This section will display latest posts.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a6085f0c48b",
+                            "label": "Post count",
+                            "name": "post_count",
+                            "type": "radio",
+                            "instructions": "Select amount of posts to be displayed",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "choices": {
+                                "3": "3",
+                                "5": "5"
+                            },
+                            "allow_null": 0,
+                            "other_choice": 0,
+                            "default_value": 3,
+                            "layout": "vertical",
+                            "return_format": "value",
+                            "translations": "sync",
+                            "save_other_choice": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "button_label": "Add Section",
@@ -674,5 +729,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1655047459
+    "modified": 1655048326
 }

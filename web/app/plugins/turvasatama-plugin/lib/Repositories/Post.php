@@ -44,6 +44,20 @@ class Post
 		return $posts;
 	}
 
+	public function get_latest($postsPerPage = 3)
+	{
+		$args = [
+			'post_type' => self::POST_TYPE,
+			'post_status' => 'publish',
+			'posts_per_page' => $postsPerPage,
+			'orderby' => 'DESC'
+		];
+
+		$posts = get_posts($args);
+
+		return $posts;
+	}
+
 	/**
 	 * Get Post by id.
 	 */

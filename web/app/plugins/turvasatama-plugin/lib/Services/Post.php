@@ -97,4 +97,18 @@ class Post implements ServiceInterface
 		$authorPosts = $this->posts_repository->getForAuthor($authorId);
 		return $authorPosts;
 	}
+
+	public function injectFeedData($sections)
+	{
+		if (!empty($sections)) {
+			foreach ($sections as $key => $section) {
+				if ($section['acf_fc_layout'] === 'feed') {
+					$section['posts'] = $this->posts_repository->get_latest(intval($section['post_count']));
+					$section['archive_url'] = get_permalink(get_option('page_for_posts'));
+					$sections[$key] = $section;
+				}
+			}
+		}
+		return $sections;
+	}
 }

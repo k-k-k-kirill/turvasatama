@@ -72,7 +72,13 @@
   {% endif %}
 
   {% if posts %}
-    {% include '@sections/feed/feed.twig' with { posts: posts } %}
+    {% set section_object = {
+      posts: posts,
+      title: __('What to read', 'turvasatama-theme'),
+      archive_url: archive_url
+    } %}
+
+    {% include '@sections/feed/feed.twig' with { section: section_object } %}
   {% endif %}
 
   {% if author_info.consultations %}
