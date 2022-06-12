@@ -1,0 +1,27 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  {% if section.title %}
+    <div class="container">
+      <h2 class="mb-4">{{section.title}}</h2>
+
+      {% include "@components/separator/separator.twig" with { classes: 'mb-6' } %}
+    </div>
+  {% endif %}
+
+  {% embed "@sections/thirty-seventy/thirty-seventy.twig" %}
+      {% block left_content %}
+        {% if section.left_content %}
+          <div class="mb-3 section-contact-form__text">{{section.left_content}}</div>
+        {% endif %}
+
+        {% if section.link %}
+          {% set link_object = section.link %}
+          <a href="{{link_object.url}}" target="{{link_object.target}}" class="btn btn--weird mt-4 block">{{link_object.title}}</a>
+        {% endif %}
+      {% endblock %}
+      {% block right_content %}
+        {% include "@components/contact-form/contact-form.twig" with { id: section.contact_form.ID} %}
+      {% endblock %}
+    {% endembed %}
+{% endblock %}

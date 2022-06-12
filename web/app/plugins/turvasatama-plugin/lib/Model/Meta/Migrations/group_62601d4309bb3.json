@@ -697,6 +697,95 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_62a60ea8240a8": {
+                    "key": "layout_62a60ea8240a8",
+                    "name": "contact-form",
+                    "label": "Contact form",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a60eb2240a9",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a60ebc240aa",
+                            "label": "Left content",
+                            "name": "left_content",
+                            "type": "textarea",
+                            "instructions": "Content to be displayed on the left side from the form.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": "",
+                            "rows": "",
+                            "new_lines": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a60ed8240ab",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "Section link",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "translations": "sync"
+                        },
+                        {
+                            "key": "field_62a60eea240ac",
+                            "label": "Contact form",
+                            "name": "contact_form",
+                            "type": "post_object",
+                            "instructions": "Select contact form to be displayed in this section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": [
+                                "wpcf7_contact_form"
+                            ],
+                            "taxonomy": "",
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "return_format": "object",
+                            "translations": "sync",
+                            "ui": 1
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "button_label": "Add Section",
@@ -729,5 +818,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1655048326
+    "modified": 1655050314
 }
