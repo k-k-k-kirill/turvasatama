@@ -875,6 +875,133 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_62a76520bed75": {
+                    "key": "layout_62a76520bed75",
+                    "name": "bubbles",
+                    "label": "Bubbles",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_62a76529bed76",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Section title",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a76531bed77",
+                            "label": "Content",
+                            "name": "content",
+                            "type": "wysiwyg",
+                            "instructions": "Section text content",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0,
+                            "translations": "translate"
+                        },
+                        {
+                            "key": "field_62a7653bbed78",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "Section link text and URL",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "translations": "sync"
+                        },
+                        {
+                            "key": "field_62a76557bed79",
+                            "label": "Bubbles",
+                            "name": "bubbles",
+                            "type": "repeater",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "collapsed": "",
+                            "min": 0,
+                            "max": 0,
+                            "layout": "block",
+                            "button_label": "Add bubble",
+                            "sub_fields": [
+                                {
+                                    "key": "field_62a76560bed7a",
+                                    "label": "Title",
+                                    "name": "title",
+                                    "type": "text",
+                                    "instructions": "Bubble title",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "maxlength": "",
+                                    "translations": "translate"
+                                },
+                                {
+                                    "key": "field_62a7656abed7b",
+                                    "label": "Content",
+                                    "name": "content",
+                                    "type": "wysiwyg",
+                                    "instructions": "Bubble content",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "tabs": "all",
+                                    "toolbar": "full",
+                                    "media_upload": 1,
+                                    "delay": 0,
+                                    "translations": "translate"
+                                }
+                            ]
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "button_label": "Add Section",
@@ -914,5 +1041,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1655065645
+    "modified": 1655138341
 }

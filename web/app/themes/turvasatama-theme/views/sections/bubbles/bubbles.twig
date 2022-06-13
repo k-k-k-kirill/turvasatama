@@ -1,0 +1,72 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-8 md:mb-12">
+    {% if section.title %}
+      <h2>{{section.title}}</h2>
+    {% endif %}
+    
+    {% include "@components/separator/separator.twig" with { classes: 'my-5' } %}
+
+    {% if section.content %}
+      <div class="grid grid-cols-3 mb-12">
+        <div class="col-start-2">
+          <div>
+            {{section.content}}
+          </div>
+
+          {% if section.link %}
+            <a href="{{section.link.url}}" target="{{section.link.target}}" class="btn btn--outline mt-5">{{section.link.title}}</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if section.bubbles %}
+      <div class="xl:grid hidden grid-cols-3 gap-5">
+        <div class="flex flex-col justify-center">
+          <div>
+              <h5 class="js-bubble-title"></h5>
+
+              {% include "@components/separator/separator.twig" with { classes: 'my-2' } %}
+
+              <div class="js-bubble-content"></div>
+          </div>
+        </div>
+        <div class="col-span-2 section-bubbles__wrapper">
+          {% for bubble in section.bubbles %}
+            <div id="bubble-{{loop.index}}" class="section-bubbles__bubble section-bubbles__bubble--desktop js-bubble {{loop.first ? 'active' : ''}} section-bubbles__bubble--{{loop.index == 1 or loop.index == 2 or loop.index == 5 ? 'red' : 'black'}}">
+              <h5 id="bubble-{{loop.index}}-title">{{bubble.title}}</h5>
+              <div id="bubble-{{loop.index}}-content" class="hidden">{{bubble.content}}</div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+
+      <div class="splide js-bubbles-slider xl:hidden">
+        <div class="splide__slider">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for bubble in section.bubbles %}
+                <li class="splide__slide">
+                  <div id="bubble-{{loop.index}}-slider" class="section-bubbles__bubble js-slider-bubble {{loop.index == 1 ? 'active' : ''}} section-bubbles__bubble--{{loop.index == 1 or loop.index == 2 or loop.index == 5 ? 'red' : 'black'}}">
+                    <h5>{{bubble.title}}</h5>
+                  </div>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="xl:hidden mt-6">
+        <h5 class="js-slider-bubble-title"></h5>
+
+        {% include "@components/separator/separator.twig" with { classes: 'my-2' } %}
+
+        <div class="js-slider-bubble-content"></div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
