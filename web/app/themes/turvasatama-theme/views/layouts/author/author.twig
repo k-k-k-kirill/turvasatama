@@ -31,7 +31,7 @@
 
   {% if author_info.skills %}    
     {% set section_object = {
-      title: __('Consultation topics', 'turvasatama-theme'),
+      title: single_author_fields.services_section_title,
       items: author_info.skills
     } %}
 
@@ -42,7 +42,7 @@
     <section class="mb-12">
       <div class="container grid grid-cols-1 lg:grid-cols-3 pt-6 author__about">
         <div>
-          <h2 class="mb-4 lg:mb-0">{{__('About','turvasatama-theme')}}</h2>
+          <h2 class="mb-4 lg:mb-0">{{single_author_fields.about_section_title}}</h2>
         </div>
 
         <div class="lg:col-span-2 lead">{{author_info.about}}</div>
@@ -53,7 +53,7 @@
   {% if author_info.education %}
     <section class="py-12 author__education mb-12">
       <div class="container">
-        <h2 class="mb-8">{{__('Qualification', 'turvasatama-theme')}}</h2>
+        <h2 class="mb-8">{{single_author_fields.qualification_section_title}}</h2>
 
         <div>
           {% for education in author_info.education %}
@@ -74,7 +74,7 @@
   {% if posts %}
     {% set section_object = {
       posts: posts,
-      title: __('What to read', 'turvasatama-theme'),
+      title: single_author_fields.feed_section_title,
       archive_url: archive_url
     } %}
 
@@ -84,7 +84,7 @@
   {% if author_info.consultations %}
       {% embed "@components/offset-content/offset-content.twig" with { classes: 'author__consultations' } %}
         {% block title %}
-          {{__('Prices', 'turvasatama-theme')}}
+          {{single_author_fields.pricing_section_title}}
         {% endblock %}
 
         {% block content %}
@@ -119,7 +119,7 @@
 
   {% if single_author_fields.contact_form %}
       {% embed "@components/offset-content/offset-content.twig" %}
-        {% block title %}{{__('Contact us', 'turvasatama-theme')}}{% endblock %}
+        {% block title %}{{single_author_fields.contact_form_title}}{% endblock %}
 
         {% block content %}
           {% include "@components/contact-form/contact-form.twig" with { id: single_author_fields.contact_form.ID, classes: 'mt-6' } %}

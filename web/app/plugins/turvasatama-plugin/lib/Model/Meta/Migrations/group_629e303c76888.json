@@ -18,6 +18,126 @@
             "layout": "block",
             "sub_fields": [
                 {
+                    "key": "field_62a78c2a6911c",
+                    "label": "Services section title",
+                    "name": "services_section_title",
+                    "type": "text",
+                    "instructions": "Title of \"Services\" section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "translations": "translate"
+                },
+                {
+                    "key": "field_62a78b89005af",
+                    "label": "About section title",
+                    "name": "about_section_title",
+                    "type": "text",
+                    "instructions": "Title of \"About\" section title",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "translations": "translate"
+                },
+                {
+                    "key": "field_62a78c9d3fed8",
+                    "label": "Qualification section title",
+                    "name": "qualification_section_title",
+                    "type": "text",
+                    "instructions": "Title of \"Qualification\" section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "translations": "translate"
+                },
+                {
+                    "key": "field_62a78d5cb26fe",
+                    "label": "Feed section title",
+                    "name": "feed_section_title",
+                    "type": "text",
+                    "instructions": "\"Feed\" section title",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "translations": "translate"
+                },
+                {
+                    "key": "field_62a78aebb2846",
+                    "label": "Contact form title",
+                    "name": "contact_form_title",
+                    "type": "text",
+                    "instructions": "Title fo contact form section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "translations": "translate"
+                },
+                {
+                    "key": "field_62a78da46fd8a",
+                    "label": "Pricing section title",
+                    "name": "pricing_section_title",
+                    "type": "text",
+                    "instructions": "Title of \"Pricing\" section",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": "",
+                    "translations": "translate"
+                },
+                {
                     "key": "field_629e30b14878d",
                     "label": "Contact form",
                     "name": "contact_form",
@@ -61,5 +181,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1654534348
+    "modified": 1655148105
 }

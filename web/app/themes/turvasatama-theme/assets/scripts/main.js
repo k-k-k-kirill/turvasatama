@@ -203,6 +203,7 @@ const pixelsThemeApp = (function main() {
 		initServicesSlider();
 		initBubbles();
 		initBubblesSlider();
+		initFooterCursor();
 	};
 
 	// Scroll actions.
