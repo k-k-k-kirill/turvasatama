@@ -2,6 +2,12 @@
   &__title {
     display: flex;
 
+    @media (max-width: $media-md) {
+      svg {
+        transform: translateY(3px);
+      }
+    }
+
     a {
       color: $color-body;
 

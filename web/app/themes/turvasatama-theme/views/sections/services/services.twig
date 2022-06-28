@@ -26,9 +26,11 @@
       {% for service in section.services %}
         {% set service_object = TimberPost(service) %}
         <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
-          <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
+          <div class="section-services__service__content">
+            <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
 
-          {% include "assets/images/arrow_right.svg" %}
+            {% include "assets/images/arrow_right.svg" %}
+          </div>
         </a>
       {% endfor %}
     </div>
@@ -41,9 +43,11 @@
               {% set service_object = TimberPost(service) %}
               <li class="splide__slide">
                 <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
-                  <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
+                    <div class="section-services__service__content">
+                      <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
 
-                  {% include "assets/images/arrow_right.svg" %}
+                      {% include "assets/images/arrow_right.svg" %}
+                    </div>
                 </a>
               </li>
             {% endfor %}

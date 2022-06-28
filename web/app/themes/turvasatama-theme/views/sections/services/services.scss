@@ -1,11 +1,30 @@
 .section-services {
   &__service {
     border: solid 1px $separator;
-    height: 270px;
+    width: 100%;
     transition: all 0.15s ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+
+    &__content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+    }
+
+    &::before {
+      padding-bottom: 100%;
+      content: "";
+      display: block;
+    }
 
     svg {
       align-self: flex-end;

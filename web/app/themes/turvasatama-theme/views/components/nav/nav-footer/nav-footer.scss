@@ -1,4 +1,9 @@
 .nav-footer {
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
   &__link {
     color: $color-gray;
   }

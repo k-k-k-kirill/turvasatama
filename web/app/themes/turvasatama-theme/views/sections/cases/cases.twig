@@ -1,25 +1,28 @@
 {% extends '@sections/section/section.twig' %}
 
 {% block section_content %}
+  {% set isEnoughCasesForSlider = section.cases|length > 1 %}
   <div class="mb-8 md:mb-12 py-8">
     {% if section.cases %}
-      <div class="js-cases-slider splide container">
+      <div class="{{isEnoughCasesForSlider ? 'js-cases-slider splide' : ''}}  container">
         <div class="section-cases__header mb-8">
           {% if section.title %}
             <h2 class="section-cases__title">{{section.title}}</h2>
           {% endif %}
 
-          <div class="js-arrows-desktop splide__arrows">
-            <button class="splide__arrow mr-2 splide__arrow--prev">
-              {% include "assets/images/arrow_right.svg" %}
-            </button>
-            <button class="splide__arrow splide__arrow--next">
-              {% include "assets/images/arrow_right.svg" %}
-            </button>
-          </div>
+          {% if isEnoughCasesForSlider %}
+            <div class="js-arrows-desktop splide__arrows">
+              <button class="splide__arrow mr-2 splide__arrow--prev">
+                {% include "assets/images/arrow_right.svg" %}
+              </button>
+              <button class="splide__arrow splide__arrow--next">
+                {% include "assets/images/arrow_right.svg" %}
+              </button>
+            </div>
+          {% endif %}
         </div>
 
-        <div class="splide__slider br-container-margin">
+        <div class="splide__slider {{ isEnoughCasesForSlider ? 'br-container-margin' : ''}}">
           <div class="splide__track">
             <ul class="splide__list">
               {% for case in section.cases %}
@@ -35,7 +38,9 @@
           </div>
         </div>
 
-        <div class="js-mobile-cases-arrows section-cases__arrows mt-5"></div>
+        {% if isEnoughCasesForSlider %}
+          <div class="js-mobile-cases-arrows section-cases__arrows mt-5"></div>
+        {% endif %}
       </div>
     {% endif %}
   </div>

@@ -81,6 +81,7 @@
   &.active {
     color: white;
     background-color: $color-red;
+    z-index: 100;
   }
 }
 
@@ -98,5 +99,6 @@
   &.active {
     color: white;
     background-color: $color-body;
+    z-index: 100;
   }
 }

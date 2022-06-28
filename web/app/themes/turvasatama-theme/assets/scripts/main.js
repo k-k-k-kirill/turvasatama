@@ -4,6 +4,7 @@ import Splide from '@splidejs/splide';
 
 // Imports.
 import $ from "jquery"; // eslint-disable-line
+import MagneticButton from "./MagneticButton";
 
 const pixelsThemeApp = (function main() {
 	const handleResponsiveVideos = () => {
@@ -165,6 +166,16 @@ const pixelsThemeApp = (function main() {
 		}
 	}
 
+	const initMagneticBubbles = () => {
+		const magneticBubbles = document.querySelectorAll('.js-bubble');
+
+		if (magneticBubbles) {
+			magneticBubbles.forEach(bubble => {
+				new MagneticButton(bubble);
+			})
+		}
+	}
+
 	const initBubblesSlider = () => {
 		const element = document.querySelector('.js-bubbles-slider');
 
@@ -202,8 +213,8 @@ const pixelsThemeApp = (function main() {
 		initCasesSlider();
 		initServicesSlider();
 		initBubbles();
+		initMagneticBubbles();
 		initBubblesSlider();
-		initFooterCursor();
 	};
 
 	// Scroll actions.

@@ -5,7 +5,7 @@
     <div class="lg:col-start-2 lg:col-span-2">
       {% include "@components/separator/separator.twig" with { classes: 'mb-2' } %}
 
-      <div class="grid grid-cols-3 gap-2">
+      <div class="grid md:grid-cols-3 gap-2">
         <div class="teaser-service__title">
           <div class="teaser-service__title__icon">
             {% include "assets/images/arrow_right_thin.svg" %}
@@ -15,7 +15,7 @@
           </a>
         </div>
 
-          <div class="col-span-2 col-start-2">
+          <div class="md:col-span-2 md:col-start-2">
             <div>
               {{service.content}}
             </div>
