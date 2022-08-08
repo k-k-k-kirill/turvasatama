@@ -5,7 +5,7 @@
     <h1 class="specialists__title my-12">{{post.title}}</h1>
 
     {% if specialists %}
-      <div class="grid md:grid-cols-2 lg:grid-cols-3">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {% for specialist in specialists %}
           {% include "@components/teaser/teaser-specialist/teaser-specialist.twig" with { specialist: specialist, classes: 'mb-12' } %}
         {% endfor %}

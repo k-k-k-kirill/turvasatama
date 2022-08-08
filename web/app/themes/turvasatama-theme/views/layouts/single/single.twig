@@ -6,7 +6,7 @@
 
 {% block site_content %}
   <article class="single single-{{ post.type }}">
-    {% include ['@sections/header/header-' ~ post.type ~ '.twig', '@sections/header/header.twig']
+    {% include ['@sections/header/header-post.twig', '@sections/header/header.twig']
 			with {
 				section: {
 					acf_fc_layout: 'header',
@@ -16,7 +16,7 @@
 			}
 		%}
 
-    {% include ['@sections/content/content-' ~ post.type ~ '.twig', '@sections/content/content.twig']
+    {% include ['@sections/content/content-post.twig', '@sections/content/content.twig']
 			with {
 				section: {
 					acf_fc_layout: 'content',

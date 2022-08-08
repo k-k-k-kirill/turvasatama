@@ -78,7 +78,7 @@ class Context
 		$context['site']->city							  = get_field('city', 'option');
 		$context['site']->email							  = get_field('email', 'option');
 		$context['site']->facebook						= get_field('facebook', 'option');
-		$context['site']->linkedin						= get_field('linkedin', 'option');
+		$context['site']->instagram						= get_field('instagram', 'option');
 		$context['site']->youtube							= get_field('youtube', 'option');
 
 
