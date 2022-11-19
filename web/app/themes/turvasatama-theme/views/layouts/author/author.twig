@@ -1,129 +1,131 @@
 {% extends 'base/base.twig' %}
 
 {% block site_content %}
-  <section class="author__header mb-12">
-    <div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8">
-      {% if author_info.photo %}
-        <div class="author__photo">
-            {% set image_object = TimberImage(author_info.photo.id) %}
-            {{responsive_image(image_object.id, 'portrait', 'portrait', image_object.alt)}}
-        </div>
-      {% endif %}
+	<section class="author__header mb-12">
+		<div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8">
+			{% if author_info.photo %}
+				<div class="author__photo">
+					{% set image_object = TimberImage(author_info.photo.id) %}
+					{{responsive_image(image_object.id, 'portrait', 'portrait', image_object.alt)}}
+				</div>
+			{% endif %}
 
-      <div class="lg:col-span-2 flex flex-col justify-center">
-        <h1 class="author__name mb-4">{{author.name}}</h1>
-        <div class="author__separator mb-4"></div>
+			<div class="lg:col-span-2 flex flex-col justify-center">
+				<h1 class="author__name mb-4">{{author.name}}</h1>
+				<div class="author__separator mb-4"></div>
 
-        {% if author_info.description %}
-          <p class="author__description mb-6">{{author_info.description}}</p>
-        {% endif %}
+				{% if author_info.description %}
+					<p class="author__description mb-6">{{author_info.description}}</p>
+				{% endif %}
 
-        {% if author_info.phone %}
-          <a href="tel:{{author_info.phone}}" class="author__header__link">{{author_info.phone}}</a>
-        {% endif %}
+				{% if author_info.phone %}
+					<a href="tel:{{author_info.phone}}" class="author__header__link">{{author_info.phone}}</a>
+				{% endif %}
 
-        {% if author_info.email %}
-          <a href="mailto:{{author_info.email}}" class="author__header__link">{{author_info.email}}</a>
-        {% endif %}
-      </div>
-    </div>
-  </section>
+				{% if author_info.email %}
+					<a href="mailto:{{author_info.email}}" class="author__header__link">{{author_info.email}}</a>
+				{% endif %}
+			</div>
+		</div>
+	</section>
 
-  {% if author_info.skills %}    
-    {% set section_object = {
+	{% if author_info.skills %}
+		{% set section_object = {
       title: single_author_fields.services_section_title,
       items: author_info.skills
     } %}
 
-    {% include "@sections/bullet-points/bullet-points.twig" with { section: section_object } %}
-  {% endif %}
+		{% include "@sections/bullet-points/bullet-points.twig" with { section: section_object } %}
+	{% endif %}
 
-  {% if author_info.about %}
-    <section class="mb-12">
-      <div class="container grid grid-cols-1 lg:grid-cols-3 pt-6 author__about">
-        <div>
-          <h2 class="mb-4 lg:mb-0">{{single_author_fields.about_section_title}}</h2>
-        </div>
+	{% if author_info.about %}
+		<section class="mb-12">
+			<div class="container grid grid-cols-1 lg:grid-cols-3 pt-6 author__about">
+				<div>
+					<h2 class="mb-4 lg:mb-0">{{single_author_fields.about_section_title}}</h2>
+				</div>
 
-        <div class="lg:col-span-2 lead">{{author_info.about}}</div>
-      </div>
-    </section>
-  {% endif %}
-  
-  {% if author_info.education %}
-    <section class="py-12 author__education mb-12">
-      <div class="container">
-        <h2 class="mb-8">{{single_author_fields.qualification_section_title}}</h2>
+				<div class="lg:col-span-2 lead">{{author_info.about}}</div>
+			</div>
+		</section>
+	{% endif %}
 
-        <div>
-          {% for education in author_info.education %}
-            <details class="py-4">
-              <summary>
-                <h5>{{education.title}}</h5>
-                <span class="author__summary__icon author__summary__icon--open">+</span>
-                <span class="author__summary__icon author__summary__icon--closed">-</span>
-              </summary>
-              <p class="pt-4 lead">{{education.description}}</p>
-            </details>
-          {% endfor %}
-        </div>
-      </div>
-    </section>
-  {% endif %}
+	{% if author_info.education %}
+		<section class="py-12 author__education mb-12">
+			<div class="container">
+				<h2 class="mb-8">{{single_author_fields.qualification_section_title}}</h2>
 
-  {% if posts %}
-    {% set section_object = {
+				<div>
+					{% for education in author_info.education %}
+						<details class="py-4">
+							<summary>
+								<h5>{{education.title}}</h5>
+								<span class="author__summary__icon author__summary__icon--open">+</span>
+								<span class="author__summary__icon author__summary__icon--closed">-</span>
+							</summary>
+							<p class="pt-4 lead">{{education.description}}</p>
+						</details>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	{% endif %}
+
+	{% if posts %}
+		{% set section_object = {
       posts: posts,
       title: single_author_fields.feed_section_title,
       archive_url: archive_url
     } %}
 
-    {% include '@sections/feed/feed.twig' with { section: section_object } %}
-  {% endif %}
+		{% include '@sections/feed/feed.twig' with { section: section_object } %}
+	{% endif %}
 
-  {% if author_info.consultations %}
-      {% embed "@components/offset-content/offset-content.twig" with { classes: 'author__consultations' } %}
-        {% block title %}
-          {{single_author_fields.pricing_section_title}}
-        {% endblock %}
+	{% if author_info.consultations %}
+		{% embed "@components/offset-content/offset-content.twig" with { classes: 'author__consultations' } %}
+			{% block title %}
+				{{single_author_fields.pricing_section_title}}
+			{% endblock %}
 
-        {% block content %}
-          {% for consultation in author_info.consultations %}
-                <details class="py-4">
-                  <summary>
-                    <h3 class="">{{consultation.title}}</h3>
-                    <span class="author__consultations__icon author__consultations__icon--open">+</span>
-                    <span class="author__consultations__icon author__consultations__icon--closed">-</span>
-                  </summary>
-                  <div>
-                    <p class="my-4">{{consultation.description}}</p>
+			{% block content %}
+				{% for consultation in author_info.consultations %}
+					<details class="py-4">
+						<summary>
+							<h3 class="">{{consultation.title}}</h3>
+							<span class="author__consultations__icon author__consultations__icon--open">+</span>
+							<span class="author__consultations__icon author__consultations__icon--closed">-</span>
+						</summary>
+						<div>
+							<p class="my-4">{{consultation.description}}</p>
 
-                    {% if consultation.prices %}
-                      {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+							{% if consultation.prices %}
+								{% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
 
-                      {% for pricing in consultation.prices %}
-                        <div class="grid grid-cols-4 mb-4">
-                          <div>{{pricing.title}}</div>
-                          <div>{{pricing.price}}</div>
-                        </div>
+								{% for pricing in consultation.prices %}
+									<div class="grid grid-cols-2 md:grid-cols-3 mb-4">
+										<div>{{pricing.title}}</div>
+										<div>{{pricing.price}}</div>
+									</div>
 
-                        {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
-                      {% endfor %}
-                    {% endif %}
-                  </div>
-                </details>
-          {% endfor %}
-        {% endblock %}
-      {% endembed %}
-  {% endif %}
+									{% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+								{% endfor %}
+							{% endif %}
+						</div>
+					</details>
+				{% endfor %}
+			{% endblock %}
+		{% endembed %}
+	{% endif %}
 
-  {% if single_author_fields.contact_form %}
-      {% embed "@components/offset-content/offset-content.twig" %}
-        {% block title %}{{single_author_fields.contact_form_title}}{% endblock %}
+	{% if single_author_fields.contact_form %}
+		{% embed "@components/offset-content/offset-content.twig" %}
+			{% block title %}
+				{{single_author_fields.contact_form_title}}
+			{% endblock %}
 
-        {% block content %}
-          {% include "@components/contact-form/contact-form.twig" with { id: single_author_fields.contact_form.ID, classes: 'mt-6' } %}
-        {% endblock %}
-      {% endembed %}
-  {% endif %}
+			{% block content %}
+				{% include "@components/contact-form/contact-form.twig" with { id: single_author_fields.contact_form.ID, classes: 'mt-6' } %}
+			{% endblock %}
+		{% endembed %}
+	{% endif %}
 {% endblock %}

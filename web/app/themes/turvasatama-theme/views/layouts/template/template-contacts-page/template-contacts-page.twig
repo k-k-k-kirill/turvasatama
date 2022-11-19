@@ -1,59 +1,60 @@
 {% extends 'base/base.twig' %}
 
 {% block site_content %}
-  <section class="container grid lg:grid-cols-3">
-    <div class="lg:col-start-2">
-      <h1 class="my-12">{{post.title}}</h1>
+	<section class="container grid lg:grid-cols-3">
+		<div class="lg:col-start-2">
+			<h1 class="my-12">{{post.title}}</h1>
 
-      {% if post.content %}
-        <div class="mb-8">{{post.content}}</div>
-      {% endif %}
+			{% if post.content %}
+				<div class="mb-8">{{post.content}}</div>
+			{% endif %}
 
-      <h5 class="mb-2">{{__('Address', 'turvasatama-theme')}}</h5>
+			<h5 class="mb-2">{{__('Address', 'turvasatama-theme')}}</h5>
 
-      <div class="template-contacts-page__address">
-        {% if site.street_address %}
-          <p>{{site.street_address}}</p>
-        {% endif %}
+			<div class="template-contacts-page__address">
+				{% if site.street_address %}
+					<p>{{site.street_address}}</p>
+				{% endif %}
 
-        <p class="mb-5">
-          {{site.city}}, {{site.postal_code}}
-        </p>
+				<p class="mb-5">
+					{{site.city}},
+					{{site.postal_code}}
+				</p>
 
-        {% if site.street_address %}
-          <a href="https://maps.google.com/?q={{site.street_address}}" class="btn btn--outline mb-12">{{__('Show on map', 'turvasatama-theme')}}</a>
-        {% endif %}
-      </div>
-    </div>
-  </section>
+				{% if site.street_address %}
+					<a href="https://maps.google.com/?q={{site.street_address}}" class="btn btn--outline mb-12">{{__('Show on map', 'turvasatama-theme')}}</a>
+				{% endif %}
+			</div>
+		</div>
+	</section>
 
-  {% if contacts_page_fields.contact_form %}
-    <section class="container">
-      {% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+	{% if contacts_page_fields.contact_form %}
+		<section class="container">
+			{% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
 
-      {% if contacts_page_fields.contact_form.title %}
-        <h2 class="mb-4">{{contacts_page_fields.contact_form.title}}</h2>
-      {% endif %}
+			{% if contacts_page_fields.contact_form.title %}
+				<h2 class="mb-4">{{contacts_page_fields.contact_form.title}}</h2>
+			{% endif %}
 
-      {% embed "@sections/thirty-seventy/thirty-seventy.twig" %}
-        {% block left_content %}
-          {% if site.email %}
-            <a class="template-contacts-page__email" href="mailto:{{site.email}}">{{site.email}}</a>
-          {% endif %}
-          
-          {% if contacts_page_fields.contact_form.text %}
-            <p class="mt-4">{{contacts_page_fields.contact_form.text}}</p>
-          {% endif %}
+			{% embed "@sections/thirty-seventy/thirty-seventy.twig" %}
+				{% block left_content %}
+					{% if site.email %}
+						<a class="template-contacts-page__email" href="mailto:{{site.email}}">{{site.email}}</a>
+					{% endif %}
 
-          {% if contacts_page_fields.contact_form.link %}
-            <a class="mt-4 btn btn--weird">{{contacts_page_fields.contact_form.link.title}}</a>
-          {% endif %}
-        {% endblock %}
+					{% if contacts_page_fields.contact_form.text %}
+						<p class="mt-4">{{contacts_page_fields.contact_form.text}}</p>
+					{% endif %}
 
-        {% block right_content %}
-          {% include "@components/contact-form/contact-form.twig" with { id: contacts_page_fields.contact_form.form.ID } %}
-        {% endblock %}
-      {% endembed %}
-    </section>
-  {% endif %}
+					{% if contacts_page_fields.contact_form.link %}
+						<a href="{{contacts_page_fields.contact_form.link.url}}" target="{{contacts_page_fields.contact_form.link.target}}" class="mt-4 btn btn--weird">{{contacts_page_fields.contact_form.link.title}}</a>
+					{% endif %}
+				{% endblock %}
+
+				{% block right_content %}
+					{% include "@components/contact-form/contact-form.twig" with { id: contacts_page_fields.contact_form.form.ID } %}
+				{% endblock %}
+			{% endembed %}
+		</section>
+	{% endif %}
 {% endblock %}
