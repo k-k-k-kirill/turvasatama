@@ -14,7 +14,7 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * Each file is referenced with a key composed of its source and target languages
 	 *
-	 * @var array Associative array of PLL_Export_File_Interface
+	 * @var array Associative array of PLL_Export_File
 	 */
 	private $export_files = array();
 
@@ -28,7 +28,7 @@ class PLL_Export_Multi_Files implements Iterator {
 	private $export_filenames;
 
 	/**
-	 * Index of the PLL_Export_File_Interface instance being currently processed. This instanc is stored in {@see PLL_Export_Multi_Files::$export_files}.
+	 * Index of the PLL_Export_File instance being currently processed. This instanc is stored in {@see PLL_Export_Multi_Files::$export_files}.
 	 *
 	 * @var int
 	 */
@@ -37,7 +37,7 @@ class PLL_Export_Multi_Files implements Iterator {
 	/**
 	 * The export file currently in use to add translations into.
 	 *
-	 * @var PLL_Export_File_Interface
+	 * @var PLL_Export_File
 	 */
 	private $current_file;
 
@@ -53,7 +53,7 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * FIXME: At this point, only the class matters, as a new instance will be generated for each new target language, {@see PLL_Export_Multi_Files::set_target_language()}.
 	 *
-	 * @var PLL_Export_File_Interface
+	 * @var PLL_Export_File
 	 */
 	private $base_instance;
 
@@ -62,7 +62,7 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * @since 2.7
 	 *
-	 * @param PLL_Export_File_Interface $base_instance An instance of the class that defines an individual export file.
+	 * @param PLL_Export_File $base_instance An instance of the class that defines an individual export file.
 	 */
 	public function __construct( $base_instance ) {
 		$this->base_instance = $base_instance;
@@ -150,9 +150,8 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * @since 2.7
 	 *
-	 * @return PLL_Export_File_Interface
+	 * @return PLL_Export_File
 	 */
-	#[\ReturnTypeWillChange]
 	public function current() {
 		return $this->export_files[ $this->export_filenames[ $this->current_index ] ];
 	}
@@ -165,7 +164,6 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * @return void
 	 */
-	#[\ReturnTypeWillChange]
 	public function next() {
 		$this->current_index++;
 	}
@@ -178,7 +176,6 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * @return string
 	 */
-	#[\ReturnTypeWillChange]
 	public function key() {
 		return $this->export_filenames[ $this->current_index ];
 	}
@@ -190,7 +187,6 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * @return bool
 	 */
-	#[\ReturnTypeWillChange]
 	public function valid() {
 		return $this->current_index >= 0 && $this->current_index < count( $this->export_files );
 	}
@@ -202,7 +198,6 @@ class PLL_Export_Multi_Files implements Iterator {
 	 *
 	 * @return void
 	 */
-	#[\ReturnTypeWillChange]
 	public function rewind() {
 		$this->current_index = 0;
 		$this->current_file = $this->export_files[ $this->export_filenames[0] ];

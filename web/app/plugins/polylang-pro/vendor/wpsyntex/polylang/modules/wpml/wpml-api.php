@@ -224,21 +224,15 @@ class PLL_WPML_API {
 	 */
 	public function wpml_element_language_code( $language_code, $args ) {
 		$type = $args['element_type'];
-		$id   = $args['element_id'];
-
-		if ( 'post' === $type || pll_is_translated_post_type( $type ) ) {
-			return pll_get_post_language( $id );
-		}
-
-		if ( 'term' === $type || pll_is_translated_taxonomy( $type ) ) {
+		$id = $args['element_id'];
+		$pll_type = ( 'post' == $type || pll_is_translated_post_type( $type ) ) ? 'post' : ( 'term' == $type || pll_is_translated_taxonomy( $type ) ? 'term' : false );
+		if ( 'term' === $pll_type ) {
 			$term = get_term_by( 'term_taxonomy_id', $id );
 			if ( $term instanceof WP_Term ) {
 				$id = $term->term_id;
 			}
-			return pll_get_term_language( $id );
 		}
-
-		return $language_code;
+		return $pll_type ? call_user_func( "pll_get_{$pll_type}_language", $id ) : $language_code;
 	}
 
 	/**
@@ -308,12 +302,7 @@ class PLL_WPML_API {
 	 * @return bool
 	 */
 	public function wpml_element_has_translations( $null, $id, $type ) {
-		if ( 'post' === $type || pll_is_translated_post_type( $type ) ) {
-			return count( pll_get_post_translations( $id ) ) > 1;
-		} elseif ( 'term' === $type || pll_is_translated_taxonomy( $type ) ) {
-			return count( pll_get_term_translations( $id ) ) > 1;
-		}
-
-		return false;
+		$pll_type = ( 'post' == $type || pll_is_translated_post_type( $type ) ) ? 'post' : ( 'term' == $type || pll_is_translated_taxonomy( $type ) ? 'term' : false );
+		return ( $pll_type && $translations = call_user_func( "pll_get_{$pll_type}_translations", $id ) ) ? count( $translations ) > 1 : false;
 	}
 }

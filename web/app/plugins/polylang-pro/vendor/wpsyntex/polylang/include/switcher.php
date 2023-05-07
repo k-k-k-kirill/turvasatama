@@ -212,7 +212,6 @@ class PLL_Switcher {
 	 * @return string|array either the html markup of the switcher or the raw elements to build a custom language switcher
 	 */
 	public function the_languages( $links, $args = array() ) {
-
 		$this->links = $links;
 		$args = wp_parse_args( $args, self::DEFAULTS );
 
@@ -243,10 +242,8 @@ class PLL_Switcher {
 
 		if ( $args['dropdown'] ) {
 			$args['name'] = 'lang_choice_' . $args['dropdown'];
-			$args['class'] = 'pll-switcher-select';
-			$args['value'] = 'url';
-			$args['selected'] = $this->get_link( $this->links->model->get_language( $this->get_current_language( $args ) ), $args );
 			$walker = new PLL_Walker_Dropdown();
+			$args['selected'] = $this->get_current_language( $args );
 		} else {
 			$walker = new PLL_Walker_List();
 		}
@@ -267,9 +264,14 @@ class PLL_Switcher {
 			$out .= sprintf(
 				'<script type="text/javascript">
 					//<![CDATA[
-					document.getElementById( "%1$s" ).addEventListener( "change", function ( event ) { location.href = event.currentTarget.value; } )
+					var %1$s = %2$s;
+					document.getElementById( "%3$s" ).onchange = function() {
+						location.href = %1$s[this.value];
+					}
 					//]]>
 				</script>',
+				'urls_' . preg_replace( '#[^a-zA-Z0-9]#', '', $args['dropdown'] ),
+				wp_json_encode( wp_list_pluck( $elements, 'url' ) ),
 				esc_js( $args['name'] )
 			);
 		}

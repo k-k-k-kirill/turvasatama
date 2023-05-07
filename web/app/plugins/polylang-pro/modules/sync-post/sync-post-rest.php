@@ -92,7 +92,8 @@ class PLL_Sync_Post_REST {
 
 				foreach ( $languages as $k => $lang ) {
 					if ( $this->sync_model->current_user_can_synchronize( $post_id, $lang ) ) {
-						$this->sync_model->copy_post( $post_id, $lang, false ); // Don't save the group inside the loop.
+						$tr_id = $this->sync_model->copy_post( $post_id, $lang, false ); // Don't save the group inside the loop.
+						is_sticky( $post_id ) ? stick_post( $tr_id ) : unstick_post( $tr_id ); // copy_post() doesn't handle sticky posts.
 					} else {
 						unset( $languages[ $k ] );
 					}
@@ -119,7 +120,8 @@ class PLL_Sync_Post_REST {
 			$synchronized_posts = array_diff( $this->sync_model->get( $post->ID ), array( $post->ID ) );
 			foreach ( array_keys( $synchronized_posts ) as $lang ) {
 				if ( $this->sync_model->current_user_can_synchronize( $post->ID, $lang ) ) {
-					$this->sync_model->copy_post( $post->ID, $lang, false );
+					$tr_id = $this->sync_model->copy_post( $post->ID, $lang, false );
+					is_sticky( $post->ID ) ? stick_post( $tr_id ) : unstick_post( $tr_id ); // copy_post() doesn't handle sticky posts.
 				}
 			}
 		}
@@ -137,12 +139,7 @@ class PLL_Sync_Post_REST {
 	 * @return array
 	 */
 	public function translations_table( $datas, $post_id, $language ) {
-		if ( PLL_FSE_Tools::is_template_post_type( get_post_type( $post_id ) ) ) {
-			$datas[ $language->slug ]['can_synchronize'] = false;
-		} else {
-			$datas[ $language->slug ]['can_synchronize'] = $this->sync_model->current_user_can_synchronize( $post_id, $language->slug );
-		}
-
+		$datas[ $language->slug ]['can_synchronize'] = $this->sync_model->current_user_can_synchronize( $post_id, $language->slug );
 		return $datas;
 	}
 }

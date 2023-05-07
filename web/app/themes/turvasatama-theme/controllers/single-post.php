@@ -1,4 +1,5 @@
 <?php
+
 use Pixels\Theme\Controllers\PostController;
 use Pixels\TurvaSatama\App;
 
@@ -9,24 +10,28 @@ $postService = App::$container->get('post');
 $controller = new PostController();
 
 // Set templates.
-$controller->set_templates( 'single/single-post/single-post.twig' );
+$controller->set_templates('single/single-post/single-post.twig');
 $postId = $controller->get_id();
 
 // Get fields.
-$additionalImages = get_field( 'additional_images', $postId );
-$controller->add_context( 'additional_images', $additionalImages );
+$additionalImages = get_field('additional_images', $postId);
+$controller->add_context('additional_images', $additionalImages);
 $postAuthorId = get_the_author_meta('ID');
 
-if($postAuthorId) {
-  $authorInfo = get_field('specialist_info', "user_$postAuthorId");
+if ($postAuthorId) {
+  $specialist_profile = get_field("specialist_profile", "user_$postAuthorId");
+
+  if ($specialist_profile) {
+    $authorInfo = get_field('specialist_info', $specialist_profile->ID);
+  }
 
   $postAuthorName = get_the_author();
-  if($postAuthorName) {
+  if ($postAuthorName) {
     $authorInfo['name'] = $postAuthorName;
   }
 
   $postAuthorPostsUrl = get_author_posts_url($postAuthorId);
-  if($postAuthorPostsUrl) {
+  if ($postAuthorPostsUrl) {
     $authorInfo['url'] = $postAuthorPostsUrl;
   }
 

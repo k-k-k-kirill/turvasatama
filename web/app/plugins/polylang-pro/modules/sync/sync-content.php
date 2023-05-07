@@ -48,13 +48,6 @@ class PLL_Sync_Content {
 	public $language;
 
 	/**
-	 * Language of the source post.
-	 *
-	 * @var PLL_Language
-	 */
-	public $from_language;
-
-	/**
 	 * Constructor
 	 *
 	 * @since 1.9
@@ -160,7 +153,8 @@ class PLL_Sync_Content {
 	 * @return WP_Post|void
 	 */
 	public function copy_content( $from_post, $post, $language ) {
-		$this->from_language = $this->model->post->get_language( $from_post->ID );
+		global $shortcode_tags;
+
 		$this->post_id  = $post->ID;
 		$this->language = $this->model->get_language( $language );
 
@@ -168,10 +162,25 @@ class PLL_Sync_Content {
 			return;
 		}
 
+		// Hack shortcodes
+		$backup = $shortcode_tags;
+		$shortcode_tags = array();
+
+		// Add our own shorcode actions
+		if ( $this->options['media_support'] ) {
+			add_shortcode( 'gallery', array( $this, 'ids_list_shortcode' ) );
+			add_shortcode( 'playlist', array( $this, 'ids_list_shortcode' ) );
+			add_shortcode( 'caption', array( $this, 'caption_shortcode' ) );
+			add_shortcode( 'wp_caption', array( $this, 'caption_shortcode' ) );
+		}
+
 		$post->post_title   = $from_post->post_title;
 		$post->post_name    = wp_unique_post_slug( $from_post->post_name, $post->ID, $post->post_status, $post->post_type, $post->post_parent );
 		$post->post_excerpt = $this->translate_content( $from_post->post_excerpt );
 		$post->post_content = $this->translate_content( $from_post->post_content );
+
+		// Get the shorcodes back
+		$shortcode_tags = $backup;
 
 		return $post;
 	}
@@ -322,31 +331,14 @@ class PLL_Sync_Content {
 	 * @return string Translated text
 	 */
 	public function translate_content( $content ) {
-		global $shortcode_tags;
-
-		// Hack shortcodes.
-		$backup = $shortcode_tags;
-		$shortcode_tags = array();
-
-		// Add our own shorcode actions.
-		if ( $this->options['media_support'] ) {
-			add_shortcode( 'gallery', array( $this, 'ids_list_shortcode' ) );
-			add_shortcode( 'playlist', array( $this, 'ids_list_shortcode' ) );
-			add_shortcode( 'caption', array( $this, 'caption_shortcode' ) );
-			add_shortcode( 'wp_caption', array( $this, 'caption_shortcode' ) );
-		}
-
 		if ( has_blocks( $content ) ) {
 			$blocks  = parse_blocks( $content );
 			$blocks  = $this->translate_blocks( $blocks );
 			$content = serialize_blocks( $blocks );
 		} else {
-			$content = do_shortcode( $content ); // Translate shortcodes.
+			$content = do_shortcode( $content ); // Translate shortcodes
 			$content = $this->translate_html( $content );
 		}
-
-		// Get the shorcodes back.
-		$shortcode_tags = $backup;
 
 		return $content;
 	}
@@ -417,41 +409,8 @@ class PLL_Sync_Content {
 					break;
 
 				case 'core/latest-posts':
-					if ( isset( $block['attrs']['categories'] ) ) {
-						$tr_ids = array();
-						foreach ( $block['attrs']['categories'] as $term ) {
-							$tr_ids[] = $this->model->term->get( $term['id'], $this->language );
-						}
-
-						// Let's remove unfound translation results.
-						$tr_ids = array_filter( $tr_ids );
-
-						// If there is no translation, then the category is unset.
-						if ( empty( $tr_ids ) ) {
-							unset( $blocks[ $k ]['attrs']['categories'] );
-							break;
-						}
-
-						// Query all the translated terms outside the loop to avoid multiple SQL queries with get_term() call.
-						$terms = get_terms( array( 'include' => $tr_ids, 'hide_empty' => false, 'fields' => 'id=>name' ) );
-
-						if ( ! is_array( $terms ) ) {
-							unset( $blocks[ $k ]['attrs']['categories'] );
-							break;
-						}
-
-						$tr_data = array();
-						foreach ( $terms as $id => $term_name ) {
-							$tr_data[] = array(
-								'id'    => $id,
-								'value' => $term_name,
-							);
-						}
-						if ( $tr_data ) {
-							$blocks[ $k ]['attrs']['categories'] = $tr_data;
-						} else {
-							unset( $blocks[ $k ]['attrs']['categories'] );
-						}
+					if ( isset( $block['attrs']['categories'] ) && $tr_id = $this->model->term->get( $block['attrs']['categories'], $this->language ) ) {
+						$blocks[ $k ]['attrs']['categories'] = $tr_id;
 					} else {
 						unset( $blocks[ $k ]['attrs']['categories'] );
 					}
@@ -530,11 +489,10 @@ class PLL_Sync_Content {
 		 *
 		 * @since 2.5.3
 		 *
-		 * @param array  $blocks    List of blocks
-		 * @param string $lang      Language of target
-		 * @param string $from_lang Language of the source
+		 * @param array  $blocks List of blocks
+		 * @param string $lang   Language of target
 		 */
-		return apply_filters( 'pll_translate_blocks', $blocks, $this->language->slug, $this->from_language->slug );
+		return apply_filters( 'pll_translate_blocks', $blocks, $this->language->slug );
 	}
 
 	/**

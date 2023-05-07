@@ -74,7 +74,7 @@ class PLL_OLT_Manager {
 	 *
 	 * @since 1.7
 	 *
-	 * @return PLL_OLT_Manager
+	 * @return object
 	 */
 	public static function instance() {
 		if ( empty( self::$instance ) ) {

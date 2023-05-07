@@ -364,8 +364,7 @@ class PLL_Settings extends PLL_Admin_Base {
 	 * @return void
 	 */
 	public static function redirect( $args = array() ) {
-		$errors = get_settings_errors();
-		if ( ! empty( $errors ) ) {
+		if ( $errors = get_settings_errors() ) {
 			set_transient( 'settings_errors', $errors, 30 );
 			$args['settings-updated'] = 1;
 		}

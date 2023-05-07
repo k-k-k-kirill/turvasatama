@@ -211,12 +211,12 @@ class PLL_Table_String extends WP_List_Table {
 	}
 
 	/**
-	 * Sorts registered string items.
+	 * Sort items
 	 *
 	 * @since 0.6
 	 *
-	 * @param array $a The first item to compare.
-	 * @param array $b The second item to compare.
+	 * @param object $a The first object to compare
+	 * @param object $b The second object to compare
 	 * @return int -1 or 1 if $a is considered to be respectively less than or greater than $b.
 	 */
 	protected function usort_reorder( $a, $b ) {
@@ -232,7 +232,7 @@ class PLL_Table_String extends WP_List_Table {
 	}
 
 	/**
-	 * Prepares the list of registered strings for display.
+	 * Prepares the list of items for displaying
 	 *
 	 * @since 0.6
 	 *

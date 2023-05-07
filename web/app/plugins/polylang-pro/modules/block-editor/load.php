@@ -20,8 +20,7 @@ add_action(
 			}
 
 			$polylang->widget_editor = new PLL_Widget_Editor_Language_Attribute();
-			$polylang->switcher_block = ( new PLL_Language_Switcher_Block( $polylang ) )->init();
-			$polylang->navigation_block = ( new PLL_Navigation_Language_Switcher_Block( $polylang ) )->init();
+			$polylang->switcher_block = new PLL_Block_Editor_Switcher_Block( $polylang );
 		}
 	}
 );

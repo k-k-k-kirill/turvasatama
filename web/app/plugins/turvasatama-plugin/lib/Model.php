@@ -10,6 +10,7 @@ namespace Pixels\TurvaSatama;
 
 // Post types
 use Pixels\TurvaSatama\Model\PostTypes\Service;
+use Pixels\TurvaSatama\Model\PostTypes\UserProfile;
 
 // Contracts.
 use Pixels\TurvaSatama\Model\PostTypes\Contracts\PostTypeInterface;
@@ -65,7 +66,8 @@ class Model
 	public function __construct()
 	{
 		// Custom post types.
-		$this->add_post_type( 'service', new Service() );
+		$this->add_post_type('service', new Service());
+		$this->add_post_type('user_profile', new UserProfile());
 
 		// Taxonomies. (Load first to allow easier use in post type permalinks).
 		$this->add_taxonomy('example_taxonomy', new Model\Taxonomies\ExampleTaxonomy());

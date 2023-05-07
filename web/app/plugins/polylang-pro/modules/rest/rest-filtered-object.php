@@ -30,11 +30,11 @@ abstract class PLL_REST_Filtered_Object {
 	protected $content_types;
 
 	/**
-	 * REST request stored for internal usage.
+	 * REST request parameters stored for internal usage.
 	 *
-	 * @var WP_REST_Request
+	 * @var array
 	 */
-	protected $request;
+	protected $params;
 
 	/**
 	 * Constructor
@@ -51,7 +51,8 @@ abstract class PLL_REST_Filtered_Object {
 
 		$this->content_types = $content_types;
 
-		add_filter( 'rest_dispatch_request', array( $this, 'save_request' ), 10, 4 );
+		add_filter( 'rest_dispatch_request', array( $this, 'get_params' ), 10, 2 );
+		add_filter( 'rest_request_after_callbacks', array( $this, 'reset_params' ) );
 
 		foreach ( $content_types as $type => $args ) {
 			$args = wp_parse_args( $args, array_fill_keys( array( 'filters' ), true ) );
@@ -75,17 +76,30 @@ abstract class PLL_REST_Filtered_Object {
 	}
 
 	/**
-	 * Stores the request to use, for example, parameters when filtering queries.
+	 * Stores the request parameters to use, for example when filtering queries.
 	 *
-	 * @since 3.2
+	 * @since 2.6.9
 	 *
 	 * @param mixed           $null    Not used, generally null.
 	 * @param WP_REST_Request $request Request used to generate the response.
 	 * @return mixed
 	 */
-	public function save_request( $null, $request ) {
-		$this->request = $request;
+	public function get_params( $null, $request ) {
+		$this->params = $request->get_params();
 		return $null;
+	}
+
+	/**
+	 * Reset the params
+	 *
+	 * @since 2.6.9
+	 *
+	 * @param object $response Result to send to the client. Usually a WP_REST_Response or WP_Error.
+	 * @return object
+	 */
+	public function reset_params( $response ) {
+		unset( $this->params );
+		return $response;
 	}
 
 	/**
@@ -100,7 +114,7 @@ abstract class PLL_REST_Filtered_Object {
 		$query_params['lang'] = array(
 			'description' => __( 'Limit results to a specific language.', 'polylang-pro' ),
 			'type'        => 'string',
-			'enum'        => array_merge( array( '' ), $this->model->get_languages_list( array( 'fields' => 'slug' ) ) ),
+			'enum'        => $this->model->get_languages_list( array( 'fields' => 'slug' ) ),
 		);
 		return $query_params;
 	}

@@ -15,7 +15,7 @@
  * @link https://www.php.net/manual/en/book.dom.php
  * @uses libxml
  */
-class PLL_Xliff_Import implements PLL_Import_File_Interface {
+class PLL_Xliff_Import extends PLL_Import_File {
 	/**
 	 * The Xpath object.
 	 *

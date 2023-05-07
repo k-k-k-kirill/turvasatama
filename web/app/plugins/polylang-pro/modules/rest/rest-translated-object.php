@@ -16,24 +16,11 @@ abstract class PLL_REST_Translated_Object extends PLL_REST_Filtered_Object {
 
 	/**
 	 * How is named the object id, typically 'ID' for posts and 'term_id' for terms.
-	 * Mainly used in the object to save it in the database.
 	 * Must be defined by the child class.
 	 *
-	 * @since 3.2 Property renamed from id.
-	 *
 	 * @var string
 	 */
-	protected $setter_id_name;
-
-	/**
-	 * How is named the object id in the returned array from the REST API, typically 'id' for posts and terms and 'wp_id' for template and template parts.
-	 * Must be defined by the child class if different of the default 'id' value.
-	 *
-	 * @since 3.2
-	 *
-	 * @var string
-	 */
-	protected $getter_id_name = 'id';
+	protected $id;
 
 	/**
 	 * Constructor
@@ -90,15 +77,15 @@ abstract class PLL_REST_Translated_Object extends PLL_REST_Filtered_Object {
 	}
 
 	/**
-	 * Returns the object language.
+	 * Returns the object language
 	 *
 	 * @since 2.2
 	 *
-	 * @param array<mixed> $object Post or Term array.
-	 * @return string|false        Language slug. False if no language is assigned to the object.
+	 * @param array $object Post or Term array
+	 * @return string
 	 */
 	public function get_language( $object ) {
-		$language = $this->model->{$this->type}->get_language( $object[ $this->getter_id_name ] );
+		$language = $this->model->{$this->type}->get_language( $object['id'] );
 		return empty( $language ) ? false : $language->slug;
 	}
 
@@ -112,8 +99,8 @@ abstract class PLL_REST_Translated_Object extends PLL_REST_Filtered_Object {
 	 * @return bool
 	 */
 	public function set_language( $lang, $object ) {
-		if ( isset( $object->{$this->setter_id_name} ) ) { // Test to avoid a warning with WooCommerce
-			$this->model->{$this->type}->set_language( $object->{$this->setter_id_name}, $lang );
+		if ( isset( $object->{$this->id} ) ) { // Test to avoid a warning with WooCommerce
+			$this->model->{$this->type}->set_language( $object->{$this->id}, $lang );
 		}
 		return true;
 	}
@@ -127,7 +114,7 @@ abstract class PLL_REST_Translated_Object extends PLL_REST_Filtered_Object {
 	 * @return array
 	 */
 	public function get_translations( $object ) {
-		return $this->model->{$this->type}->get_translations( $object[ $this->getter_id_name ] );
+		return $this->model->{$this->type}->get_translations( $object['id'] );
 	}
 
 	/**
@@ -140,8 +127,8 @@ abstract class PLL_REST_Translated_Object extends PLL_REST_Filtered_Object {
 	 * @return bool
 	 */
 	public function save_translations( $translations, $object ) {
-		if ( isset( $object->{$this->setter_id_name} ) ) { // Test to avoid a warning with WooCommerce
-			$this->model->{$this->type}->save_translations( $object->{$this->setter_id_name}, $translations );
+		if ( isset( $object->{$this->id} ) ) { // Test to avoid a warning with WooCommerce
+			$this->model->{$this->type}->save_translations( $object->{$this->id}, $translations );
 		}
 		return true;
 	}

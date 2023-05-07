@@ -229,12 +229,12 @@ class PLL_Table_Languages extends WP_List_Table {
 	}
 
 	/**
-	 * Sorts language items.
+	 * Sort items
 	 *
 	 * @since 0.1
 	 *
-	 * @param PLL_Language $a The first language to compare.
-	 * @param PLL_Language $b The second language to compare.
+	 * @param object $a The first object to compare
+	 * @param object $b The second object to compare
 	 * @return int -1 or 1 if $a is considered to be respectively less than or greater than $b.
 	 */
 	protected function usort_reorder( $a, $b ) {
@@ -245,16 +245,16 @@ class PLL_Table_Languages extends WP_List_Table {
 		} else {
 			$result = strcmp( $a->$orderby, $b->$orderby );
 		}
-		// Send final sort direction to usort.
+		// Send final sort direction to usort
 		return ( empty( $_GET['order'] ) || 'asc' === $_GET['order'] ) ? $result : -$result; // phpcs:ignore WordPress.Security.NonceVerification
 	}
 
 	/**
-	 * Prepares the list of languages for display.
+	 * Prepares the list of items for displaying
 	 *
 	 * @since 0.1
 	 *
-	 * @param PLL_Language[] $data The list of languages.
+	 * @param array $data
 	 * @return void
 	 */
 	public function prepare_items( $data = array() ) {

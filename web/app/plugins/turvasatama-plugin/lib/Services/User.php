@@ -41,18 +41,18 @@ class User implements ServiceInterface
 		$this->user_repository = $posts;
 	}
 
-  public function getAuthors()
-  {
-    $authors = $this->user_repository->getAllAuthors();
+	public function getAuthors()
+	{
+		$authors = $this->user_repository->getAllAuthors();
 
-    return $this->injectAuthorsInfo($authors);
-  }
+		return $this->injectAuthorsInfo($authors);
+	}
 
 	public function getAuthorsByService($serviceId)
 	{
 		$authors = $this->user_repository->getAuthorsByService($serviceId);
 
-		if(empty($authors) || !$authors) {
+		if (empty($authors) || !$authors) {
 			$authors = $this->user_repository->getAllAuthors();
 		}
 
@@ -61,12 +61,17 @@ class User implements ServiceInterface
 
 	public function injectAuthorsInfo($authors)
 	{
-		if(!empty($authors) && $authors) {
-      foreach ($authors as $author) {
-        $author->info = get_field('specialist_info', "user_$author->ID");
-        $author->link = get_author_posts_url($author->ID);
-      }
-    }
+		if (!empty($authors) && $authors) {
+			foreach ($authors as $author) {
+				$specialist_profile = get_field('specialist_profile',  "user_$author->ID");
+
+				if ($specialist_profile) {
+					$author->info = get_field('specialist_info', $specialist_profile->ID);
+				}
+
+				$author->link = get_author_posts_url($author->ID);
+			}
+		}
 
 		return $authors;
 	}

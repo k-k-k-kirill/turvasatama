@@ -8,9 +8,10 @@
  *
  * Each class implementing this interface shall be the representation of a single file to be imported
  *
- * @since 3.2
+ * @since 2.7
+ * @since 3.1 Renamed from PLL_Import_File_Interface
  */
-interface PLL_Import_File_Interface {
+abstract class PLL_Import_File {
 	/**
 	 * Import the translations from a file.
 	 *
@@ -19,17 +20,18 @@ interface PLL_Import_File_Interface {
 	 * @param string $filepath The path on the filesystem where the import file is located.
 	 * @return WP_Error|true
 	 */
-	public function import_from_file( $filepath );
+	abstract public function import_from_file( $filepath );
 
 	/**
 	 *
 	 * Get the language of the source
 	 *
 	 * @since 2.7
+	 * @since 3.1 Renamed from PLL_Import_File_Interface::get_source_lang()
 	 *
 	 * @return string|false
 	 */
-	public function get_source_language();
+	abstract public function get_source_language();
 
 	/**
 	 * Get the target language
@@ -38,7 +40,7 @@ interface PLL_Import_File_Interface {
 	 *
 	 * @return string|false
 	 */
-	public function get_target_language();
+	abstract public function get_target_language();
 
 	/**
 	 * Get the next content to import.
@@ -47,7 +49,7 @@ interface PLL_Import_File_Interface {
 	 *
 	 * @return array
 	 */
-	public function get_next_entry();
+	abstract public function get_next_entry();
 
 	/**
 	 * Get the site reference
@@ -56,5 +58,5 @@ interface PLL_Import_File_Interface {
 	 *
 	 * @return string|false
 	 */
-	public function get_site_reference();
+	abstract public function get_site_reference();
 }

@@ -31,11 +31,11 @@ class User
 	 * Get all users with status 'author'.
 	 */
 	public function getAllAuthors()
-  {
-    return get_users( array(
-      'role__in'     => array('author'),
-    ));
-  }
+	{
+		return get_users(array(
+			'role__in'     => array('author'),
+		));
+	}
 
 	public function getAuthorsByService($serviceId)
 	{
@@ -44,7 +44,11 @@ class User
 
 		if (!empty($authors) && $authors) {
 			foreach ($authors as $author) {
-				$services = get_field('services', "user_$author->ID");
+				$specialist_profile = get_field('specialist_profile', "user_$author->ID");
+
+				if ($specialist_profile) {
+					$services = get_field('services', $specialist_profile->ID);
+				}
 
 				if ($services && in_array($serviceId, $services)) {
 					$filteredAuthors[] = $author;
