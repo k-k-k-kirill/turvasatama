@@ -27,7 +27,7 @@ if ($postAuthorId) {
 
   $postAuthorName = get_the_author();
   if ($postAuthorName) {
-    $authorInfo['name'] = $postAuthorName;
+    $authorInfo['name'] = $specialist_profile->post_title;
   }
 
   $postAuthorPostsUrl = get_author_posts_url($postAuthorId);

@@ -33,7 +33,7 @@ class User
 	public function getAllAuthors()
 	{
 		return get_users(array(
-			'role__in'     => array('author'),
+			'role__in'     => array('author', 'editor'),
 		));
 	}
 

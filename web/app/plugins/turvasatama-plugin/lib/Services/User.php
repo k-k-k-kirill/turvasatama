@@ -66,7 +66,9 @@ class User implements ServiceInterface
 				$specialist_profile = get_field('specialist_profile',  "user_$author->ID");
 
 				if ($specialist_profile) {
-					$author->info = get_field('specialist_info', $specialist_profile->ID);
+					$authorInfo = get_field('specialist_info', $specialist_profile->ID);
+					$authorInfo['name'] = $specialist_profile->post_title;
+					$author->info = $authorInfo;
 				}
 
 				$author->link = get_author_posts_url($author->ID);

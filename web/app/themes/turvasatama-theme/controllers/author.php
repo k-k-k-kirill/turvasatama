@@ -33,6 +33,7 @@ if (isset($wp_query->query_vars['author'])) {
 	// Check if the user_profile exists
 	if ($specialist_profile) {
 		$author_info = get_field('specialist_info', $specialist_profile->ID);
+		$author_info['name'] = $specialist_profile->post_title;
 		$controller->add_context('author_info', $author_info);
 	}
 
