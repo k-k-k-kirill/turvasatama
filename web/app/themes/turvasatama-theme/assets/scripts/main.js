@@ -1,6 +1,6 @@
 // Common
 import { makeEmbedsResponsive } from "./common/video-embeds";
-import Splide from '@splidejs/splide';
+import Splide from "@splidejs/splide";
 
 // Imports.
 import $ from "jquery"; // eslint-disable-line
@@ -15,73 +15,96 @@ const pixelsThemeApp = (function main() {
 	};
 
 	const handleDropdownToggleClick = () => {
-		const desktopDropdownToggles = document.querySelectorAll('.js-desktop-dropdown-toggle');
-		const mobileDropdownToggles = document.querySelectorAll('.js-mobile-dropdown-toggle');
+		const desktopDropdownToggles = document.querySelectorAll(
+			".js-desktop-dropdown-toggle"
+		);
+		const mobileDropdownToggles = document.querySelectorAll(
+			".js-mobile-dropdown-toggle"
+		);
 		const allToggles = [...desktopDropdownToggles, ...mobileDropdownToggles];
 
 		if (allToggles.length > 0) {
 			allToggles.forEach((toggle) => {
-				toggle.addEventListener('click', (e) => {
+				toggle.addEventListener("click", (e) => {
 					const dropdownMenuId = toggle.dataset.toggle;
 					const dropdownMenu = document.getElementById(dropdownMenuId);
 
 					if (dropdownMenu) {
 						hideAllDropdowns(dropdownMenuId);
-						dropdownMenu.classList.toggle('show');
+						dropdownMenu.classList.toggle("show");
 					}
-				})
-			})
+				});
+			});
 		}
-	}
+	};
 
 	const hideAllDropdowns = (currentDropdownId = null) => {
-		const dropdowns = document.querySelectorAll('.js-dropdown-menu');
+		const dropdowns = document.querySelectorAll(".js-dropdown-menu");
 
-		if(dropdowns.length > 0) {
-			dropdowns.forEach(dropdown => {
+		if (dropdowns.length > 0) {
+			dropdowns.forEach((dropdown) => {
 				if (currentDropdownId !== dropdown.id) {
-					dropdown.classList.remove('show');
+					dropdown.classList.remove("show");
 				}
-			})
+			});
 		}
-	}
+	};
+
+	const lockScroll = () => {
+		document.body.classList.add("scroll-lock");
+		document.documentElement.classList.add("scroll-lock");
+	};
+
+	const unlockScroll = () => {
+		document.body.classList.remove("scroll-lock");
+		document.documentElement.classList.remove("scroll-lock");
+	};
 
 	const handleMobileNavToggleClick = () => {
-		const mobileNavToggle = document.querySelector('.js-mobile-nav-toggle');
-
+		const mobileNavToggle = document.querySelector(".js-mobile-nav-toggle");
 
 		if (mobileNavToggle) {
-			mobileNavToggle.addEventListener('click', (e) => {
-				mobileNavToggle.classList.toggle('open');
-				const mobileNav = document.querySelector('.js-mobile-nav');
-				mobileNav.classList.toggle('show');
-			})
+			mobileNavToggle.addEventListener("click", (e) => {
+				mobileNavToggle.classList.toggle("open");
+				const mobileNav = document.querySelector(".js-mobile-nav");
+				mobileNav.classList.toggle("show");
+
+				if (mobileNavToggle.classList.contains("open")) {
+					lockScroll();
+				} else {
+					unlockScroll();
+				}
+			});
 		}
-	}
+	};
 
 	const handleMobileNavClosingOnResize = () => {
-		const mobileNav = document.querySelector('.js-mobile-nav');
+		const mobileNav = document.querySelector(".js-mobile-nav");
 
 		if (mobileNav) {
 			if (window.innerWidth > 768) {
-				mobileNav.classList.remove('show');
+				mobileNav.classList.remove("show");
 			}
 		}
-	}
+	};
 
 	const initCasesSlider = () => {
-		const element = document.querySelector('.js-cases-slider');
+		const element = document.querySelector(".js-cases-slider");
 		const isMobile = document.documentElement.clientWidth < 768;
 
 		if (element) {
 			if (isMobile) {
-				const mobileArrowsContainer = document.querySelector('.js-mobile-cases-arrows');
-	
-				mobileArrowsContainer.append(...document.querySelector('.js-arrows-desktop').childNodes);
+				const mobileArrowsContainer = document.querySelector(
+					".js-mobile-cases-arrows"
+				);
+
+				mobileArrowsContainer.append(
+					...document.querySelector(".js-arrows-desktop").childNodes
+				);
 			}
-	
+
 			new Splide(element, {
-				type   : 'loop',
+				type: "loop",
 				perPage: 2,
 				perMove: 1,
 				gap: 30,
@@ -93,95 +116,109 @@ const pixelsThemeApp = (function main() {
 					768: {
 						perPage: 1,
 						fixedWidth: null,
-					}
-				}
+					},
+				},
 			}).mount();
 		}
-	}
+	};
 
 	const initServicesSlider = () => {
-		const element = document.querySelector('.js-services-slider');
+		const element = document.querySelector(".js-services-slider");
 
 		if (element) {
-			new Splide('.js-services-slider', {
-				type   : 'loop',
+			new Splide(".js-services-slider", {
+				type: "loop",
 				perPage: 2,
 				perMove: 1,
 				gap: 30,
 				pagination: false,
 				arrows: false,
 				autoplay: true,
-				fixedWidth: 289
+				fixedWidth: 289,
 			}).mount();
 		}
-	}
+	};
 
 	const displayActiveBubbleContent = () => {
-		const activeBubble = document.querySelector('.js-bubble.active');
+		const activeBubble = document.querySelector(".js-bubble.active");
 
 		if (activeBubble) {
-			const bubbleDisplayTitle = document.querySelector('.js-bubble-title');
-			const bubbleDisplayContent = document.querySelector('.js-bubble-content');
+			const bubbleDisplayTitle = document.querySelector(".js-bubble-title");
+			const bubbleDisplayContent = document.querySelector(".js-bubble-content");
 
 			const activeBubbleId = activeBubble.id;
-			const activeBubbleTitle = document.getElementById(`${activeBubbleId}-title`);
-			const activeBubbleContent = document.getElementById(`${activeBubbleId}-content`);
+			const activeBubbleTitle = document.getElementById(
+				`${activeBubbleId}-title`
+			);
+			const activeBubbleContent = document.getElementById(
+				`${activeBubbleId}-content`
+			);
 
 			bubbleDisplayTitle.innerHTML = activeBubbleTitle.innerHTML;
 			bubbleDisplayContent.innerHTML = activeBubbleContent.innerHTML;
 		}
-	}
+	};
 
 	const displayActiveSliderBubbleContent = () => {
-		const activeBubble = document.querySelector('.js-slider-bubble.active');
+		const activeBubble = document.querySelector(".js-slider-bubble.active");
 
 		if (activeBubble) {
-			const bubbleDisplayTitle = document.querySelector('.js-slider-bubble-title');
-			const bubbleDisplayContent = document.querySelector('.js-slider-bubble-content');
+			const bubbleDisplayTitle = document.querySelector(
+				".js-slider-bubble-title"
+			);
+			const bubbleDisplayContent = document.querySelector(
+				".js-slider-bubble-content"
+			);
 
-			const activeBubbleId = activeBubble.id.replace('-slider', '');
-			const activeBubbleTitle = document.getElementById(`${activeBubbleId}-title`);
-			const activeBubbleContent = document.getElementById(`${activeBubbleId}-content`);
+			const activeBubbleId = activeBubble.id.replace("-slider", "");
+			const activeBubbleTitle = document.getElementById(
+				`${activeBubbleId}-title`
+			);
+			const activeBubbleContent = document.getElementById(
+				`${activeBubbleId}-content`
+			);
 
 			bubbleDisplayTitle.innerHTML = activeBubbleTitle.innerHTML;
 			bubbleDisplayContent.innerHTML = activeBubbleContent.innerHTML;
 		}
-	}
+	};
 
 	const initBubbles = () => {
 		displayActiveBubbleContent();
 
-		const bubbles = document.querySelectorAll('.js-bubble');
+		const bubbles = document.querySelectorAll(".js-bubble");
 
 		if (bubbles) {
 			bubbles.forEach((bubble) => {
-				bubble.addEventListener('click', (e) => {
-					const activeBubbles = document.querySelectorAll('.js-bubble.active');
-					activeBubbles.forEach(activeBubble => activeBubble.classList.remove('active'));
+				bubble.addEventListener("click", (e) => {
+					const activeBubbles = document.querySelectorAll(".js-bubble.active");
+					activeBubbles.forEach((activeBubble) =>
+						activeBubble.classList.remove("active")
+					);
 
-					e.target.classList.add('active');
+					e.target.classList.add("active");
 					displayActiveBubbleContent();
-				})
-			})
+				});
+			});
 		}
-	}
+	};
 
 	const initMagneticBubbles = () => {
-		const magneticBubbles = document.querySelectorAll('.js-bubble');
+		const magneticBubbles = document.querySelectorAll(".js-bubble");
 
 		if (magneticBubbles) {
-			magneticBubbles.forEach(bubble => {
+			magneticBubbles.forEach((bubble) => {
 				new MagneticButton(bubble);
-			})
+			});
 		}
-	}
+	};
 
 	const initBubblesSlider = () => {
-		const element = document.querySelector('.js-bubbles-slider');
+		const element = document.querySelector(".js-bubbles-slider");
 
 		if (element) {
-			const bubblesSlider = new Splide('.js-bubbles-slider', {
-				type   : 'loop',
+			const bubblesSlider = new Splide(".js-bubbles-slider", {
+				type: "loop",
 				perPage: 1,
 				perMove: 1,
 				gap: 30,
@@ -189,21 +226,23 @@ const pixelsThemeApp = (function main() {
 				arrows: false,
 				autoplay: true,
 				fixedWidth: 240,
-				fixedHeight: 240
+				fixedHeight: 240,
 			}).mount();
 
 			displayActiveSliderBubbleContent();
 
-			bubblesSlider.on('active', (slide) => {
-				slide.slide.querySelector('.js-slider-bubble').classList.add('active');
+			bubblesSlider.on("active", (slide) => {
+				slide.slide.querySelector(".js-slider-bubble").classList.add("active");
 				displayActiveSliderBubbleContent();
-			})
+			});
 
-			bubblesSlider.on('inactive', (slide) => {
-				slide.slide.querySelector('.js-slider-bubble').classList.remove('active');
-			})
+			bubblesSlider.on("inactive", (slide) => {
+				slide.slide
+					.querySelector(".js-slider-bubble")
+					.classList.remove("active");
+			});
 		}
-	}
+	};
 
 	// Page load actions.
 	const init = () => {
