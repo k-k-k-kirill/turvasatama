@@ -29,7 +29,7 @@ class PLL_Translation_Term_Metas extends PLL_Translation_Metas {
 	 *
 	 * @return string The context.
 	 */
-	protected function get_context(): string {
+	protected function context(): string {
 		return PLL_Import_Export::TERM_META;
 	}
 }

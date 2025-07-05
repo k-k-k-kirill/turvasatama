@@ -27,10 +27,11 @@ class ArchiveController extends Controller {
 		parent::__construct();
 
 		// Add post from default query to context.
-		$this->set_posts( Timber::get_posts() );
+		$posts = Timber::get_posts();
+		$this->set_posts( $posts );
 
 		// Add pagination.
-		$this->set_pagination( Timber::get_pagination() );
+		$this->set_pagination( $posts->pagination() );
 
 	}
 

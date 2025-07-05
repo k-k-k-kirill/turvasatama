@@ -36,7 +36,7 @@ class Archive implements ServiceInterface
    */
   public function getUrl()
   {
-    return get_post_type_archive_link( 'post' );
+    return get_permalink( get_option( 'page_for_posts' ) );
   }
 
   /**
@@ -49,7 +49,7 @@ class Archive implements ServiceInterface
     ]);
 
     foreach ($tags as $key => $tag) {
-      $tags[$key] = new \Timber\Term($tag->term_id);
+        $tags[$key] = \Timber\Timber::get_term($tag->term_id);
     }
 
     return $tags;

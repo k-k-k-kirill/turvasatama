@@ -9,7 +9,7 @@
 
   {% if post.thumbnail %}
     <a class="teaser-post__image__link" href="{{post.link}}">
-      <img class="teaser-post__image" src="{{TimberImage(post.thumbnail).src('thumbnail')}}" alt="{{TimberImage(post.thumbnail).alt('thumbnail')}}" /> 
+      <img class="teaser-post__image" src="{{get_image(post.thumbnail).src('thumbnail')}}" alt="{{get_image(post.thumbnail).alt('thumbnail')}}" />
     </a>
   {% endif %}
 {% endblock %}

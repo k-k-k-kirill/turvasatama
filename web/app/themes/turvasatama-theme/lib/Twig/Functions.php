@@ -31,8 +31,8 @@ class Functions {
 	public function __construct() {
 
 		// Actions.
-		add_filter( 'get_twig', array( $this, 'add_extensions' ) );
-		add_filter( 'get_twig', array( $this, 'add_functions' ) );
+		add_filter( 'timber/twig', array( $this, 'add_extensions' ) );
+		add_filter( 'timber/twig', array( $this, 'add_functions' ) );
 	}
 
 	/**

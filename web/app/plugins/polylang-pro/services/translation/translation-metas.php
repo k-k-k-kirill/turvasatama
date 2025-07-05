@@ -72,7 +72,7 @@ abstract class PLL_Translation_Metas {
 	 *
 	 * @return string The context.
 	 */
-	abstract protected function get_context(): string;
+	abstract protected function context(): string;
 
 	/**
 	 * Translates the metas from a given object, whether it's a copy or a real translation.
@@ -251,7 +251,7 @@ abstract class PLL_Translation_Metas {
 		$metas = array();
 
 		foreach ( $this->translations->entries as $entry ) {
-			if ( Context::get_field( $entry ) !== $this->get_context() ) {
+			if ( Context::get_field( $entry ) !== $this->context() ) {
 				continue;
 			}
 
@@ -373,7 +373,7 @@ abstract class PLL_Translation_Metas {
 			(string) $meta_value,
 			Context::to_string(
 				array(
-					Context::FIELD    => $this->get_context(),
+					Context::FIELD    => $this->context(),
 					Context::ID       => $meta['context_id'],
 					Context::ENCODING => $meta['encoding'],
 				)
@@ -412,7 +412,7 @@ abstract class PLL_Translation_Metas {
 	 */
 	private function sanitize_translations( Translations $translations ): Translations {
 		foreach ( $translations->entries as $key => $entry ) {
-			if ( Context::get_field( $entry ) !== $this->get_context() ) {
+			if ( Context::get_field( $entry ) !== $this->context() ) {
 				continue;
 			}
 

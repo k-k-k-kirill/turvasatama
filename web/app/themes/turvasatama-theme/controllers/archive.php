@@ -11,6 +11,7 @@ use Pixels\TurvaSatama\App;
 
 // Services
 $archiveService = App::$container->get('archive');
+var_dump($archiveService);
 
 global $post;
 
@@ -31,7 +32,7 @@ if ( is_home() || is_tag() ) {
 	$templates = $controller->get_templates();
 	array_unshift( $templates, 'home/home.twig' );
 	$controller->set_templates( $templates );
-	
+
 	$archiveTitle = $archiveService->getTitle();
 	if ($archiveTitle) {
 		$controller->add_context('title', $archiveTitle);

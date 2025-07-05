@@ -27,7 +27,7 @@ class PostController extends Controller {
 		parent::__construct();
 
 		// Set up default post.
-		$this->set_post( Timber::query_post() );
+		$this->set_post( Timber::get_post() );
 
 	}
 
@@ -46,6 +46,6 @@ class PostController extends Controller {
 	 * @return int $id of post.
 	 */
 	public function get_id() {
-		return $this->get_context( 'post' )->id;
+		return $this->context( 'post' )->id;
 	}
 }

@@ -28,7 +28,7 @@ interface ControllerInterface {
 	 * @param string $key of context.
 	 * @return mixed $value of context.
 	 */
-	public function get_context( $key );
+	public function context( $key );
 
 	/**
 	 * Set templates of controller

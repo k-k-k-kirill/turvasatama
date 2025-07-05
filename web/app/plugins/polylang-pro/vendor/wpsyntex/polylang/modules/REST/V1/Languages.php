@@ -81,7 +81,7 @@ class Languages extends Abstract_Controller {
 			'callback'            => array( $this, 'get_item' ),
 			'permission_callback' => array( $this, 'get_item_permissions_check' ),
 			'args'                => array(
-				'context' => $this->get_context_param( array( 'default' => 'view' ) ),
+				'context' => $this->context_param( array( 'default' => 'view' ) ),
 			),
 		);
 

@@ -10,7 +10,7 @@
           <h2 class="mb-4">{{section.title}}</h2>
         </div>
       {% endif %}
-      
+
       {% if section.content or section.link %}
         <div>
           <div>{{section.content}}</div>
@@ -24,7 +24,7 @@
 
     <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-2">
       {% for service in section.services %}
-        {% set service_object = TimberPost(service) %}
+        {% set service_object = get_post(service) %}
         <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
           <div class="section-services__service__content">
             <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
@@ -40,7 +40,7 @@
         <div class="splide__track">
           <ul class="splide__list">
             {% for service in section.services %}
-              {% set service_object = TimberPost(service) %}
+              {% set service_object = get_post(service) %}
               <li class="splide__slide">
                 <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
                     <div class="section-services__service__content">

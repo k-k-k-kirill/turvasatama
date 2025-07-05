@@ -3,7 +3,7 @@
 {% block content %}
 	{% if specialist.info.photo %}
 		<a class="teaser-specialist__image__link mb-2" href="{{specialist.link}}">
-			<img class="teaser-specialist__image" src="{{TimberImage(specialist.info.photo).src('specialist')}}" alt="{{TimberImage(specialist.info.photo).alt('specialist')}}"/>
+			<img class="teaser-specialist__image" src="{{get_image(specialist.info.photo).src('specialist')}}" alt="{{get_image(specialist.info.photo).alt('specialist')}}"/>
 		</a>
 	{% endif %}
 

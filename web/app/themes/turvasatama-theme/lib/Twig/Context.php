@@ -23,13 +23,96 @@ use Timber\Menu as TimberMenu;
  */
 class Context
 {
-
 	/**
 	 * Navigations instance of theme.
 	 *
-	 * @var Navigations.
+	 * @var Navigations
 	 */
 	public $navigations;
+
+	/**
+	 * Site URL.
+	 *
+	 * @var string
+	 */
+	public $site_url;
+
+	/**
+	 * Language attributes.
+	 *
+	 * @var string
+	 */
+	public $language_attributes;
+
+	/**
+	 * Header CTA.
+	 *
+	 * @var mixed
+	 */
+	public $header_cta;
+
+	/**
+	 * Street address.
+	 *
+	 * @var string
+	 */
+	public $street_address;
+
+	/**
+	 * Postal code.
+	 *
+	 * @var string
+	 */
+	public $postal_code;
+
+	/**
+	 * City.
+	 *
+	 * @var string
+	 */
+	public $city;
+
+	/**
+	 * Email address.
+	 *
+	 * @var string
+	 */
+	public $email;
+
+	/**
+	 * Facebook URL.
+	 *
+	 * @var string
+	 */
+	public $facebook;
+
+	/**
+	 * Instagram URL.
+	 *
+	 * @var string
+	 */
+	public $instagram;
+
+	/**
+	 * YouTube URL.
+	 *
+	 * @var string
+	 */
+	public $youtube;
+
+	/**
+	 * Site languages.
+	 *
+	 * @var array
+	 */
+	public $multilingual;
+
+	/**
+	 * List of key pages.
+	 *
+	 * @var array
+	 */
+	public $key_pages;
 
 	/**
 	 * Class constructor
@@ -42,17 +125,17 @@ class Context
 		$this->navigations = $navigations;
 
 		// Actions.
-		add_filter('timber_context', array($this, 'add_general_context'));
-		add_filter('timber_context', array($this, 'add_menus_context'));
+		add_filter('timber/context', array($this, 'add_general_context'));
+		add_filter('timber/context', array($this, 'add_menus_context'));
 
 		// Uncomment to automatically add all archive links to context.
-		// add_filter( 'timber_context', array( $this, 'add_archive_links_context' ) );.
+		// add_filter( 'timber/context', array( $this, 'add_archive_links_context' ) );.
 
 		// Language actions.
-		add_filter('timber_context', array($this, 'add_site_languages_context'));
+		add_filter('timber/context', array($this, 'add_site_languages_context'));
 
 		// Key Pages
-		add_filter('timber_context', array($this, 'add_key_pages_context'));
+		add_filter('timber/context', array($this, 'add_key_pages_context'));
 	}
 
 	/**

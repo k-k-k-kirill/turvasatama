@@ -38,7 +38,7 @@ class Controller implements ControllerInterface {
 	public function __construct() {
 
 		// Set up global context - now use the imported class
-		$this->context = Timber::get_context();
+		$this->context = Timber::context();
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Controller implements ControllerInterface {
 	 * @param string $key of context.
 	 * @return mixed $value of context.
 	 */
-	public function get_context( $key ) {
+	public function context( $key ) {
 		return $this->context[ $key ];
 	}
 

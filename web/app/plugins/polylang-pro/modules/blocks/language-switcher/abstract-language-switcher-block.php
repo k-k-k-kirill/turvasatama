@@ -93,7 +93,7 @@ abstract class PLL_Abstract_Language_Switcher_Block {
 	 *
 	 * @return array An array with context subject, default to empty.
 	 */
-	protected function get_context() {
+	protected function context() {
 		return array();
 	}
 
@@ -152,7 +152,7 @@ abstract class PLL_Abstract_Language_Switcher_Block {
 				'editor_script'   => $script_handle,
 				'attributes'      => $attributes,
 				'render_callback' => array( $this, 'render' ),
-				'uses_context'    => $this->get_context(),
+				'uses_context'    => $this->context(),
 			)
 		);
 

@@ -53,7 +53,7 @@ class PLL_Navigation_Language_Switcher_Block extends PLL_Abstract_Language_Switc
 	 *
 	 * @return string[]
 	 */
-	protected function get_context() {
+	protected function context() {
 		return array(
 			'textColor',
 			'customTextColor',

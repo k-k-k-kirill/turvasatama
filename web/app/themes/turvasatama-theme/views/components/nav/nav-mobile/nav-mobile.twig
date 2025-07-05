@@ -10,8 +10,8 @@
 	<div class="nav-mobile js-mobile-nav {{ classes }}">
 		<ul class="container">
 			{% for item in nav_items %}
-				<li class="nav-mobile__item {{loop.last ? '' : 'mb-2'}} {{ item.get_children ? 'nav-mobile__item--dropdown' }} {{ item.classes|join(' ') }} lg:ml-4">
-					{% if not item.get_children %}
+				<li class="nav-mobile__item {{loop.last ? '' : 'mb-2'}} {{ item.children ? 'nav-mobile__item--dropdown' }} {{ item.classes|join(' ') }} lg:ml-4">
+					{% if not item.children %}
 						<a class="nav-mobile__link" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
 					{% else %}
 						<div data-toggle="{{item.slug}}-mobile-dropdown" class="nav-mobile__dropdown-toggle js-mobile-dropdown-toggle">
@@ -19,7 +19,7 @@
 							{% include 'assets/images/chevron-down.svg' %}
 						</div>
 						<div class="nav-mobile__dropdown-menu js-dropdown-menu" aria-labelledby="{{ item.slug }}-mobile-dropdown" id="{{item.slug}}-mobile-dropdown">
-							{% for sub_item in item.get_children %}
+							{% for sub_item in item.children %}
 								<a class="nav-mobile__dropdown-item {{ sub_item.classes|join(' ') }} {{loop.last == false ? 'mb-2' : ''}}" target="{{ sub_item.target }}" href="{{ sub_item.link }}">{{ sub_item.title }}</a>
 							{% endfor %}
 						</div>

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Pixels Starter Theme\n"
 "POT-Creation-Date: 2025-07-05 01:43+0300\n"
-"PO-Revision-Date: 2025-07-05 01:43+0300\n"
+"PO-Revision-Date: 2025-07-05 16:23+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: ru_RU\n"
@@ -191,7 +191,7 @@ msgstr ""
 
 #: views/layouts/home/home.twig:10
 msgid "All"
-msgstr ""
+msgstr "Все записи"
 
 #: views/layouts/single/single-password.twig:9
 msgctxt "Label for password field in password protected content item"
