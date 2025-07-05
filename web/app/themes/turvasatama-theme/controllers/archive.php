@@ -11,7 +11,6 @@ use Pixels\TurvaSatama\App;
 
 // Services
 $archiveService = App::$container->get('archive');
-var_dump($archiveService);
 
 global $post;
 
