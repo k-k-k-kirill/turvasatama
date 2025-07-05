@@ -70,10 +70,10 @@ class Model
 		$this->add_post_type('user_profile', new UserProfile());
 
 		// Taxonomies. (Load first to allow easier use in post type permalinks).
-		$this->add_taxonomy('example_taxonomy', new Model\Taxonomies\ExampleTaxonomy());
+		// $this->add_taxonomy('example_taxonomy', new Model\Taxonomies\ExampleTaxonomy());
 
 		// Fields.
-		$this->meta_example = new Model\Meta\Fields\Example();
+		// $this->meta_example = new Model\Meta\Fields\Example();
 
 		// Misc.
 		$this->acf = new ACFSetup();

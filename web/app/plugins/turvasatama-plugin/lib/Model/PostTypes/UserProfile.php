@@ -35,15 +35,25 @@ class UserProfile extends AbstractPostType implements PostTypeInterface
     // Set up post type slug.
     $this->set_name('user_profile');
 
-    // Set labels.
-    $this->prepare_labels();
-
-    // Define args.
-    $this->set_args($this->define_args());
-
     // Hook up User Profile cpt.
-    add_action('init', array($this, 'create'));
+    add_action('init', array($this, 'register_post_type'), 0);
   }
+
+    /**
+     * A separate function to delay CPT registration.
+     * @NOTE we need this to fix the notice with translations from 6.7.
+     */
+    public function register_post_type()
+    {
+        // Set labels.
+        $this->prepare_labels();
+
+        // Define args.
+        $this->set_args($this->define_args());
+
+        // Register the post type
+        add_action('init', array($this, 'create'));
+    }
 
   /**
    * Prepare base labels to props.
