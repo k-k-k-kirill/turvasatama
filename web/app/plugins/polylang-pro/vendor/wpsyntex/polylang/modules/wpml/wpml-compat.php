@@ -14,7 +14,7 @@ class PLL_WPML_Compat {
 	/**
 	 * Singleton instance
 	 *
-	 * @var PLL_WPML_Compat
+	 * @var PLL_WPML_Compat|null
 	 */
 	protected static $instance;
 
@@ -23,7 +23,7 @@ class PLL_WPML_Compat {
 	 *
 	 * @var array
 	 */
-	protected static $strings;
+	protected static $strings = array();
 
 	/**
 	 * @var PLL_WPML_API
@@ -31,20 +31,24 @@ class PLL_WPML_Compat {
 	public $api;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.2
 	 */
 	protected function __construct() {
-		// Load the WPML API
+		// Load the WPML API.
 		require_once __DIR__ . '/wpml-legacy-api.php';
 		$this->api = new PLL_WPML_API();
 
-		self::$strings = get_option( 'polylang_wpml_strings', array() );
+		$strings = get_option( 'polylang_wpml_strings' );
+
+		if ( is_array( $strings ) ) {
+			self::$strings = $strings;
+			add_filter( 'pll_get_strings', array( $this, 'get_strings' ) );
+		}
 
 		add_action( 'pll_language_defined', array( $this, 'define_constants' ) );
 		add_action( 'pll_no_language_defined', array( $this, 'define_constants' ) );
-		add_filter( 'pll_get_strings', array( $this, 'get_strings' ) );
 	}
 
 	/**
@@ -64,7 +68,7 @@ class PLL_WPML_Compat {
 	/**
 	 * Defines two WPML constants once the language has been defined
 	 * The compatibility with WPML is not perfect on admin side as the constants are defined
-	 * in 'setup_theme' by Polylang ( based on user info ) and 'plugins_loaded' by WPML ( based on cookie )
+	 * in 'setup_theme' by Polylang (based on user info) and 'plugins_loaded' by WPML (based on cookie).
 	 *
 	 * @since 0.9.5
 	 *
@@ -92,19 +96,29 @@ class PLL_WPML_Compat {
 
 	/**
 	 * Unlike pll_register_string, icl_register_string stores the string in database
-	 * so we need to do the same as some plugins or themes may expect this
-	 * we use a serialized option to do this
+	 * so we need to do the same as some plugins or themes may expect this.
+	 * We use a serialized option to store these strings.
 	 *
 	 * @since 1.0.2
 	 *
-	 * @param string $context The group in which the string is registered.
-	 * @param string $name    A unique name for the string.
-	 * @param string $string  The string to register.
+	 * @param string|string[] $context The group in which the string is registered.
+	 * @param string          $name    A unique name for the string.
+	 * @param string          $string  The string to register.
 	 * @return void
 	 */
 	public function register_string( $context, $name, $string ) {
 		if ( ! $string || ! is_scalar( $string ) ) {
 			return;
+		}
+
+		/*
+		 * WPML accepts arrays as context and internally converts them to strings.
+		 * See WPML_Register_String_Filter::truncate_name_and_context().
+		 * This possibility is used by Types.
+		 */
+		if ( is_array( $context ) ) {
+			$name    = isset( $context['context'] ) ? $name . $context['context'] : $name;
+			$context = $context['domain'] ?? '';
 		}
 
 		// If a string has already been registered with the same name and context, let's replace it.
@@ -114,12 +128,13 @@ class PLL_WPML_Compat {
 
 			// Assign translations of the old string to the new string, except for the default language.
 			foreach ( $languages as $language ) {
-				if ( pll_default_language() !== $language->slug ) {
-					$mo = new PLL_MO();
-					$mo->import_from_db( $language );
-					$mo->add_entry( $mo->make_entry( $string, $mo->translate( $exist_string ) ) );
-					$mo->export_to_db( $language );
+				if ( $language->is_default ) {
+					continue;
 				}
+				$mo = new PLL_MO();
+				$mo->import_from_db( $language );
+				$mo->add_entry( $mo->make_entry( $string, $mo->translate( $exist_string ) ) );
+				$mo->export_to_db( $language );
 			}
 			$this->unregister_string( $context, $name );
 		}
@@ -169,10 +184,10 @@ class PLL_WPML_Compat {
 	 *
 	 * @param string $context The group in which the string is registered.
 	 * @param string $name    A unique name for the string.
-	 * @return bool|string The registered string, false if none was found.
+	 * @return string The registered string, empty if none was found.
 	 */
 	public function get_string_by_context_and_name( $context, $name ) {
 		$key = md5( "$context | $name" );
-		return isset( self::$strings[ $key ] ) ? self::$strings[ $key ]['string'] : false;
+		return isset( self::$strings[ $key ] ) ? self::$strings[ $key ]['string'] : '';
 	}
 }

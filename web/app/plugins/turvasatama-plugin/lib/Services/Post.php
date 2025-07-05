@@ -66,7 +66,7 @@ class Post implements ServiceInterface
 			foreach ($tags as $tag) {
 				$tagIds[] = $tag->term_id;
 			}
-	
+
 			$relatedPosts = $this->posts_repository->getRelatedByTags($tagIds, $postId);
 		}
 
@@ -100,15 +100,28 @@ class Post implements ServiceInterface
 
 	public function injectFeedData($sections)
 	{
-		if (!empty($sections)) {
-			foreach ($sections as $key => $section) {
-				if ($section['acf_fc_layout'] === 'feed') {
-					$section['posts'] = $this->posts_repository->get_latest(intval($section['post_count']));
-					$section['archive_url'] = get_permalink(get_option('page_for_posts'));
-					$sections[$key] = $section;
-				}
+		// Check if sections is actually an array
+		if (!is_array($sections) || empty($sections)) {
+			return $sections;
+		}
+
+		foreach ($sections as $key => $section) {
+			// Ensure $section is an array before accessing its elements
+			if (!is_array($section)) {
+				continue;
+			}
+
+			// Check if the required key exists before accessing it
+			if (isset($section['acf_fc_layout']) && $section['acf_fc_layout'] === 'feed') {
+				// Ensure post_count exists and is valid
+				$post_count = isset($section['post_count']) ? intval($section['post_count']) : 10;
+
+				$section['posts'] = $this->posts_repository->get_latest($post_count);
+				$section['archive_url'] = get_permalink(get_option('page_for_posts'));
+				$sections[$key] = $section;
 			}
 		}
+
 		return $sections;
 	}
 }

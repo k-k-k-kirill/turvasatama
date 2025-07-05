@@ -4,7 +4,7 @@
  */
 
 /**
- * Setup the REST API endpoints and filters
+ * Setup the REST API endpoints and filters.
  *
  * @since 2.2
  */
@@ -18,6 +18,11 @@ class PLL_REST_API {
 	 * @var PLL_REST_Term
 	 */
 	public $term;
+
+	/**
+	 * @var PLL_FSE_REST_Template|null
+	 */
+	public $template;
 
 	/**
 	 * @var PLL_REST_Comment
@@ -42,11 +47,11 @@ class PLL_REST_API {
 	protected $post_types;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 2.2
 	 *
-	 * @param object $polylang Instance of PLL_REST_Request
+	 * @param object $polylang Instance of `PLL_REST_Request`.
 	 */
 	public function __construct( &$polylang ) {
 		$this->links = &$polylang->links;
@@ -55,48 +60,50 @@ class PLL_REST_API {
 	}
 
 	/**
-	 * Init filters and new endpoints
+	 * Inits filters and new endpoints.
 	 *
 	 * @since 2.2
 	 *
 	 * @return void
 	 */
 	public function init() {
-		$this->post_types = array_fill_keys( array_intersect( $this->model->get_translated_post_types(), get_post_types( array( 'show_in_rest' => true ) ) ), array() );
+		$this->post_types = array_fill_keys(
+			array_intersect(
+				$this->model->get_translated_post_types(),
+				get_post_types( array( 'show_in_rest' => true ) )
+			),
+			array()
+		);
 
 		/**
-		 * Filter post types and their options passed to PLL_Rest_Post contructor
+		 * Filters post types and their options passed to PLL_Rest_Post constructor.
 		 *
 		 * @since 2.2.1
 		 *
-		 * @param array $post_types An array of arrays with post types as keys and options as values
+		 * @param array $post_types An array of arrays with post types as keys and options as values.
 		 */
 		$this->post_types = apply_filters( 'pll_rest_api_post_types', $this->post_types );
-		$this->post = new PLL_REST_Post( $this, $this->post_types );
+		$this->post       = new PLL_REST_Post( $this, $this->post_types );
 
-		$taxonomies = array_fill_keys( array_intersect( $this->model->get_translated_taxonomies(), get_taxonomies( array( 'show_in_rest' => true ) ) ), array() );
+		$taxonomies = array_fill_keys(
+			array_intersect(
+				$this->model->get_translated_taxonomies(),
+				get_taxonomies( array( 'show_in_rest' => true ) )
+			),
+			array()
+		);
 
 		/**
-		 * Filter post types and their options passed to PLL_Rest_Term constructor
+		 * Filters taxonomies and their options passed to PLL_Rest_Term constructor.
 		 *
 		 * @since 2.2.1
 		 *
-		 * @param array $taxonomies An array of arrays with taxonomies as keys and options as values
+		 * @param array $taxonomies An array of arrays with taxonomies as keys and options as values.
 		 */
 		$taxonomies = apply_filters( 'pll_rest_api_taxonomies', $taxonomies );
 		$this->term = new PLL_REST_Term( $this, $taxonomies );
 
 		$this->comment = new PLL_REST_Comment( $this );
-
-		register_rest_route(
-			'pll/v1',
-			'/languages',
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this->model, 'get_languages_list' ),
-				'permission_callback' => '__return_true',
-			)
-		);
 
 		register_rest_route(
 			'pll/v1',
@@ -120,80 +127,93 @@ class PLL_REST_API {
 	public function get_untranslated_posts_collection_params() {
 		$language_slugs = $this->model->get_languages_list( array( 'fields' => 'slug' ) );
 		return array(
-			'type' => array(
-				'description'       => __( 'Limit results to items of an object type.', 'polylang-pro' ),
-				'type'              => 'string',
-				'required'          => true,
-				'enum'              => array_keys( $this->post_types ),
+			'type'            => array(
+				'description' => __( 'Limit results to items of an object type.', 'polylang-pro' ),
+				'type'        => 'string',
+				'required'    => true,
+				'enum'        => array_keys( $this->post_types ),
 			),
 			'untranslated_in' => array(
-				'description'       => __( 'Limit results to untranslated items in a language.', 'polylang-pro' ),
-				'type'              => 'string',
-				'required'          => true,
-				'enum'              => $language_slugs,
+				'description' => __( 'Limit results to untranslated items in a language.', 'polylang-pro' ),
+				'type'        => 'string',
+				'required'    => true,
+				'enum'        => $language_slugs,
 			),
-			'lang' => array(
-				'description'       => __( 'Limit results to items in a language.', 'polylang-pro' ),
-				'type'              => 'string',
-				'required'          => true,
-				'enum'              => $language_slugs,
+			'lang'            => array(
+				'description' => __( 'Limit results to items in a language.', 'polylang-pro' ),
+				'type'        => 'string',
+				'required'    => true,
+				'enum'        => $language_slugs,
 			),
-			'search' => array(
-				'description'       => __( 'Limit results to those matching a string.', 'polylang-pro' ),
-				'type'              => 'string',
+			'context'         => array(
+				'description' => __( 'Scope under which the request is made; determines fields present in response.', 'polylang-pro' ),
+				'type'        => 'string',
+				'required'    => true,
+				'enum'        => array( 'edit' ),
 			),
-			'include' => array(
+			'search'          => array(
+				'description' => __( 'Limit results to those matching a string.', 'polylang-pro' ),
+				'type'        => 'string',
+			),
+			'include'         => array(
 				'description'       => __( 'Add this post\'s translation to results.', 'polylang-pro' ),
 				'type'              => 'integer',
 				'sanitize_callback' => 'absint',
-			),
-			'is_block_editor' => array(
-				'description'       => __( 'Are we in a block editor context?', 'polylang-pro' ),
-				'type'              => 'boolean',
-				'default' => false,
 			),
 		);
 	}
 
 	/**
-	 * Returns a list of posts not translated in a language
+	 * Returns a list of posts not translated in a language.
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param WP_REST_Request $request REST API request
+	 * @param WP_REST_Request $request REST API request.
 	 * @return array
 	 */
 	public function get_untranslated_posts( WP_REST_Request $request ) {
 		$return = array();
 
-		$type = $request->get_param( 'type' );
-		$search = $request->get_param( 'search' );
+		$type            = $request->get_param( 'type' );
 		$untranslated_in = $this->model->get_language( $request->get_param( 'untranslated_in' ) );
-		$lang = $this->model->get_language( $request->get_param( 'lang' ) );
+		$lang            = $this->model->get_language( $request->get_param( 'lang' ) );
+		$search          = $request->get_param( 'search' );
+
+		if ( ! is_string( $type ) || empty( $untranslated_in ) || empty( $lang ) ) {
+			return array();
+		}
+
+		if ( ! is_string( $search ) ) {
+			$search = '';
+		}
 
 		$untranslated_posts = $this->model->post->get_untranslated( $type, $untranslated_in, $lang, $search );
 
-		// Add current translation in list
+		// Add current translation in list.
 		if ( $post_id = $this->model->post->get_translation( $request->get_param( 'include' ), $lang ) ) {
 			$post = get_post( $post_id );
-			array_unshift( $untranslated_posts, $post );
+			if ( $post instanceof WP_Post ) {
+				array_unshift( $untranslated_posts, $post );
+			}
 		}
 
-		// Format output
+		// Format output.
 		foreach ( $untranslated_posts as $post ) {
-			if ( $post ) {
-				$values = array(
-					'id'         => $post->ID,
-					'title'      => array(
-						'raw'      => $post->post_title,
-						'rendered' => get_the_title( $post->ID ),
-					),
+			$values = array(
+				'id'    => $post->ID,
+				'title' => array(
+					'raw'      => $post->post_title,
+					'rendered' => get_the_title( $post->ID ),
+				),
+			);
+			if ( pll_is_edit_rest_request( $request ) ) {
+				$values['block_editor']['edit_link'] = get_edit_post_link( $post, 'keep ampersand' );
+				$values['caps'] = array(
+					'edit'   => current_user_can( 'edit_post', $post->ID ),
+					'delete' => current_user_can( 'delete_post', $post->ID ),
 				);
-				if ( $request->get_param( 'is_block_editor' ) ) {
-					$values['edit_link'] = get_edit_post_link( $post, 'keep ampersand' );
-				}
-				$return[] = $values;
 			}
+			$return[] = $values;
 		}
 
 		return $return;

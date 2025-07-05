@@ -14,8 +14,8 @@ use Pixels\Components\Images\Factory;
 // Social sharing functions.
 use Pixels\Components\SocialShare\Share;
 
-// Timber deps.
-use \Timber\Twig_Function;
+// Twig function class - updated for Timber v2
+use Twig\TwigFunction;
 
 /**
  * Functions class
@@ -54,15 +54,15 @@ class Functions {
 	 */
 	public function add_functions( $twig ) {
 
-		// Responsive mage helper functions.
-		$twig->addFunction( new Twig_Function( 'responsive_image', '\\Pixels\\Components\\Images\\Factory::responsive_image' ) );
-		$twig->addFunction( new Twig_Function( 'responsive_background', '\\Pixels\\Components\\Images\\Factory::responsive_background' ) );
+		// Responsive image helper functions.
+		$twig->addFunction( new TwigFunction( 'responsive_image', '\\Pixels\\Components\\Images\\Factory::responsive_image' ) );
+		$twig->addFunction( new TwigFunction( 'responsive_background', '\\Pixels\\Components\\Images\\Factory::responsive_background' ) );
 
 		// Social share functions.
-		$twig->addFunction( new Twig_Function( 'facebook_share', '\\Pixels\\Components\\SocialShare\\Share::facebook' ) );
-		$twig->addFunction( new Twig_Function( 'twitter_share', '\\Pixels\\Components\\SocialShare\\Share::twitter' ) );
-		$twig->addFunction( new Twig_Function( 'linkedin_share', '\\Pixels\\Components\\SocialShare\\Share::linkedin' ) );
-		$twig->addFunction( new Twig_Function( 'whatsapp_share', '\\Pixels\\Components\\SocialShare\\Share::whatsapp' ) );
+		$twig->addFunction( new TwigFunction( 'facebook_share', '\\Pixels\\Components\\SocialShare\\Share::facebook' ) );
+		$twig->addFunction( new TwigFunction( 'twitter_share', '\\Pixels\\Components\\SocialShare\\Share::twitter' ) );
+		$twig->addFunction( new TwigFunction( 'linkedin_share', '\\Pixels\\Components\\SocialShare\\Share::linkedin' ) );
+		$twig->addFunction( new TwigFunction( 'whatsapp_share', '\\Pixels\\Components\\SocialShare\\Share::whatsapp' ) );
 
 		return $twig;
 	}

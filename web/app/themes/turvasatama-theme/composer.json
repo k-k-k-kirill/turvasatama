@@ -20,7 +20,7 @@
   "require": {
     "php": ">=7.3.0",
     "composer/installers": "~1.0",
-    "timber/timber": "^1.18",
+    "timber/timber": "^2.0",
     "pixelshelsinki/images": "1.0.2",
     "pixelshelsinki/social-share": "^1.0"
   },
@@ -66,5 +66,11 @@
     "phpunit": [
       "phpunit --testdox"
     ]
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }

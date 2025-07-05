@@ -10,18 +10,17 @@
  * Plugin Name:       Polylang Pro
  * Plugin URI:        https://polylang.pro
  * Description:       Adds multilingual capability to WordPress
- * Version:           3.1.4
- * Requires at least: 5.4
- * Requires PHP:      5.6
+ * Version:           3.7.3
+ * Requires at least: 6.2
+ * Requires PHP:      7.2
  * Author:            WP SYNTEX
  * Author URI:        https://polylang.pro
  * Text Domain:       polylang-pro
- * Domain Path:       /languages
  * License:           GPL v3 or later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.txt
  *
  * Copyright 2011-2019 Frédéric Demarle
- * Copyright 2019-2022 WP SYNTEX
+ * Copyright 2019-2025 WP SYNTEX
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,9 +36,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+use WP_Syntex\Polylang_Pro\Options\Registry as Options_Registry;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Don't access directly.
-};
+}
 
 define( 'POLYLANG_PRO', true );
 define( 'POLYLANG_PRO_FILE', __FILE__ );
@@ -52,7 +53,15 @@ if ( ! defined( 'POLYLANG_ROOT_FILE' ) ) {
 if ( defined( 'POLYLANG_BASENAME' ) ) {
 	// The user is attempting to activate a second plugin instance, typically Polylang and Polylang Pro.
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	deactivate_plugins( POLYLANG_BASENAME ); // Deactivate the other plugin.
+
+	deactivate_plugins( POLYLANG_BASENAME, false, is_network_admin() ); // Deactivate the other plugin.
+
+	// Add the deactivated plugin to the list of recent activated plugins.
+	if ( ! is_network_admin() ) {
+		update_option( 'recently_activated', array( POLYLANG_BASENAME => time() ) + (array) get_option( 'recently_activated' ) );
+	} else {
+		update_site_option( 'recently_activated', array( POLYLANG_BASENAME => time() ) + (array) get_site_option( 'recently_activated' ) );
+	}
 } else {
 	define( 'POLYLANG_BASENAME', plugin_basename( __FILE__ ) ); // Plugin name as known by WP.
 }
@@ -61,5 +70,6 @@ require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/vendor/wpsyntex/polylang/polylang.php';
 
 if ( empty( $_GET['deactivate-polylang'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+	add_action( 'pll_init_options_for_blog', array( Options_Registry::class, 'register' ), 15 ); // After Polylang.
 	add_action( 'pll_pre_init', array( new PLL_Pro(), 'init' ), 0 );
 }

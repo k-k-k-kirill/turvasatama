@@ -24,14 +24,16 @@ class PLL_Settings_Browser extends PLL_Settings_Module {
 	 * @param object $polylang polylang object
 	 */
 	public function __construct( &$polylang ) {
+		// Needed for `$this->is_available()`, which is used before calling the parent's constructor.
 		$this->options = &$polylang->options;
+
 		parent::__construct(
 			$polylang,
 			array(
 				'module'        => 'browser',
 				'title'         => __( 'Detect browser language', 'polylang' ),
 				'description'   => __( 'When the front page is visited, redirects to itself in the browser preferred language. As this doesn\'t work if it is cached, Polylang will attempt to disable the front page cache for known cache plugins.', 'polylang' ),
-				'active_option' => $this->is_available() ? 'browser' : false,
+				'active_option' => $this->is_available() ? 'browser' : 'none',
 			)
 		);
 
@@ -85,8 +87,7 @@ class PLL_Settings_Browser extends PLL_Settings_Module {
 		$deactivated = sprintf( '<span class="deactivated">%s</span>', $this->action_links['deactivated'] );
 
 		?>
-		<script type='text/javascript'>
-			//<![CDATA[
+		<script>
 			jQuery(
 				function( $ ){
 					$( "input[name='force_lang']" ).on( 'change', function() {
@@ -100,7 +101,6 @@ class PLL_Settings_Browser extends PLL_Settings_Module {
 					} );
 				}
 			);
-			// ]]>
 		</script>
 		<?php
 	}

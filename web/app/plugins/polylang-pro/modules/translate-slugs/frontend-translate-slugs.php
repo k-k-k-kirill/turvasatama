@@ -55,7 +55,7 @@ class PLL_Frontend_Translate_Slugs extends PLL_Translate_Slugs {
 	 *
 	 * @since 1.9
 	 *
-	 * @param string       $url      The archive url in which want to translat a slug.
+	 * @param string       $url      The archive url in which we want to translate a slug.
 	 * @param PLL_Language $language The language.
 	 * @return string Modified url.
 	 */
@@ -122,13 +122,13 @@ class PLL_Frontend_Translate_Slugs extends PLL_Translate_Slugs {
 		}
 
 		elseif ( is_category() || is_tag() || is_tax() ) {
-			/** @var WP_Term */
+			/** @var WP_Term|null */
 			$obj = get_queried_object();
 
 			if ( ! empty( $obj ) ) {
 				if ( $this->model->is_translated_taxonomy( $obj->taxonomy ) ) {
 					$slugs[] = $obj->taxonomy;
-				} elseif ( 'post_format' == $obj->taxonomy ) {
+				} elseif ( 'post_format' === $obj->taxonomy ) {
 					$slugs[] = 'post_format';
 					$slugs[] = $obj->slug;
 				}

@@ -24,7 +24,7 @@ class PLL_Active_Languages {
 	/**
 	 * Current Language.
 	 *
-	 * @var PLL_Language
+	 * @var PLL_Language|null
 	 */
 	public $curlang;
 
@@ -41,7 +41,7 @@ class PLL_Active_Languages {
 		$this->curlang = &$polylang->curlang;
 
 		// Admin.
-		if ( $polylang instanceof PLL_Settings && ( empty( $_GET['page'] ) || 'mlang' == $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( $polylang instanceof PLL_Settings && ( empty( $_GET['page'] ) || 'mlang' === $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			add_filter( 'pll_languages_row_classes', array( $this, 'row_classes' ), 10, 2 );
 			add_filter( 'pll_default_lang_row_action', array( $this, 'remove_default_lang_action' ), 10, 2 );
 			add_filter( 'pll_languages_row_actions', array( $this, 'row_actions' ), 10, 2 );
@@ -63,12 +63,12 @@ class PLL_Active_Languages {
 	 *
 	 * @since 1.9
 	 *
-	 * @param string[]       $classes  CSS classes applied to a row in the languages list table.
-	 * @param PLL_Language[] $language The language.
+	 * @param string[]     $classes  CSS classes applied to a row in the languages list table.
+	 * @param PLL_Language $language The language.
 	 * @return string[] Modified list of classes.
 	 */
 	public function row_classes( $classes, $language ) {
-		return isset( $language->active ) && false === $language->active ? array( 'inactive' ) : array();
+		return empty( $language->active ) ? array( 'inactive' ) : array();
 	}
 
 	/**
@@ -76,12 +76,12 @@ class PLL_Active_Languages {
 	 *
 	 * @since 1.9
 	 *
-	 * @param string         $action   HTML markup of the action to define the default language.
-	 * @param PLL_Language[] $language The Language.
+	 * @param string       $action   HTML markup of the action to define the default language.
+	 * @param PLL_Language $language The Language.
 	 * @return string Modified row action.
 	 */
 	public function remove_default_lang_action( $action, $language ) {
-		if ( isset( $language->active ) && false === $language->active ) {
+		if ( empty( $language->active ) ) {
 			return '';
 		}
 
@@ -98,11 +98,11 @@ class PLL_Active_Languages {
 	 * @return string[] Modified list of row actions.
 	 */
 	public function row_actions( $actions, $language ) {
-		if ( $language->slug == $this->options['default_lang'] ) {
+		if ( $language->is_default ) {
 			return $actions;
 		}
 
-		$active_action = isset( $language->active ) && false === $language->active ?
+		$active_action = empty( $language->active ) ?
 			array(
 				'enable' => sprintf(
 					'<a title="%s" href="%s">%s</a>',
@@ -135,6 +135,11 @@ class PLL_Active_Languages {
 	public function _enable( $lang_id, $enable ) {
 		$lang_id     = (int) $lang_id;
 		$language    = get_term( $lang_id, 'language' );
+
+		if ( ! $language instanceof WP_Term ) {
+			return;
+		}
+
 		$description = maybe_unserialize( $language->description );
 
 		$description['active'] = $enable;
@@ -174,21 +179,24 @@ class PLL_Active_Languages {
 	}
 
 	/**
-	 * Sets error 404 if the requested language is not active
+	 * Sets error 404 if the requested language is not active.
 	 *
 	 * @since 1.9
 	 *
 	 * @return void
 	 */
 	public function maybe_set_404() {
-		if ( isset( $this->curlang, $this->curlang->active ) && false === $this->curlang->active ) {
+		if ( isset( $this->curlang, $this->curlang->active ) && empty( $this->curlang->active ) ) {
 			$GLOBALS['wp_query']->set_404();
 			add_filter( 'wp_sitemaps_enabled', '__return_false' );
 
 			/**
-			 * Fires when a visitor attempts to access to an inactive language
+			 * Fires when a visitor attempts to access to an inactive language.
 			 *
 			 * @since 2.7
+			 *
+			 * @param string       $slug    Requested language code.
+			 * @param PLL_Language $curlang Requested language object.
 			 */
 			do_action( 'pll_inactive_language_requested', $this->curlang->slug, $this->curlang );
 		}
@@ -243,10 +251,10 @@ class PLL_Active_Languages {
 	 */
 	public function remove_inactive_languages( $languages ) {
 		foreach ( $languages as $k => $lang ) {
-			if ( isset( $lang->active ) && false === $lang->active ) {
+			if ( empty( $lang->active ) ) {
 				unset( $languages[ $k ] );
 			}
 		}
-		return $languages;
+		return array_values( $languages );
 	}
 }

@@ -69,17 +69,17 @@ class Context
 		 *
 		 * @var [type]
 		 */
-		$context['site']                      = $this;
-		$context['site']->site_url            = get_site_url(); // Since timber only returns home URL as 'link'.
+		$context['site'] = $this;
+		$context['site']->site_url = get_site_url(); // Since timber only returns home URL as 'link'.
 		$context['site']->language_attributes = get_language_attributes();
-		$context['site']->header_cta 					= get_field('header_cta', 'option');
-		$context['site']->street_address		  = get_field('street_address', 'option');
-		$context['site']->postal_code		 	    = get_field('postal_code', 'option');
-		$context['site']->city							  = get_field('city', 'option');
-		$context['site']->email							  = get_field('email', 'option');
-		$context['site']->facebook						= get_field('facebook', 'option');
-		$context['site']->instagram						= get_field('instagram', 'option');
-		$context['site']->youtube							= get_field('youtube', 'option');
+		$context['site']->header_cta = get_field('header_cta', 'option');
+		$context['site']->street_address = get_field('street_address', 'option');
+		$context['site']->postal_code = get_field('postal_code', 'option');
+		$context['site']->city = get_field('city', 'option');
+		$context['site']->email = get_field('email', 'option');
+		$context['site']->facebook = get_field('facebook', 'option');
+		$context['site']->instagram = get_field('instagram', 'option');
+		$context['site']->youtube = get_field('youtube', 'option');
 
 
 		return $context;
@@ -96,17 +96,28 @@ class Context
 	 */
 	public function add_menus_context($context)
 	{
-
 		// Registered menus from Navigations class.
 		$menus = $this->navigations->get_menus();
+
+		// Get all menu location assignments
+		$locations = get_nav_menu_locations();
 
 		/**
 		 * Loop menus to context.
 		 */
-		foreach ($menus as $menu => $title) :
-
-			// Append items to context array.
-			$context['menu'][$menu] = new TimberMenu($menu);
+		foreach ($menus as $menu => $title):
+			// Check if this menu location has a menu assigned
+			if (isset($locations[$menu]) && $locations[$menu] > 0) {
+				// Get the menu term using the menu ID from the location
+				$menu_term = wp_get_nav_menu_object($locations[$menu]);
+				if ($menu_term) {
+					$context['menu'][$menu] = TimberMenu::build($menu_term);
+				} else {
+					$context['menu'][$menu] = array(); // Empty array if menu term doesn't exist
+				}
+			} else {
+				$context['menu'][$menu] = array(); // Empty array if no menu assigned to location
+			}
 		endforeach;
 
 		return $context;
@@ -124,8 +135,8 @@ class Context
 
 		$types = Common::get_post_types();
 
-		if (!empty($types)) :
-			foreach ($types as $type) :
+		if (!empty($types)):
+			foreach ($types as $type):
 				$context['links'][$type->name] = get_post_type_archive_link($type->name);
 			endforeach;
 
@@ -146,10 +157,10 @@ class Context
 	public function add_site_languages_context($context)
 	{
 
-		if (function_exists('pll_the_languages')) :
+		if (function_exists('pll_the_languages')):
 			$site_languages = array(
-				'home'      => pll_home_url(),
-				'current'   => pll_current_language('slug'),
+				'home' => pll_home_url(),
+				'current' => pll_current_language('slug'),
 				'languages' => pll_the_languages(array('raw' => 1)),
 			);
 

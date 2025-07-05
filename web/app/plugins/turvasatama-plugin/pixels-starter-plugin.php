@@ -84,6 +84,13 @@ final class App
 	 */
 	private $ajax;
 
+    /**
+	 * Config instance
+	 *
+	 * @var Config
+	 */
+	private $config;
+
 	/**
 	 * Cron instance
 	 *
@@ -98,12 +105,12 @@ final class App
 	 */
 	public function __construct()
 	{
-
 		// Class instances.
 		$this->admin = new Admin();
 		$this->model = new Model();
 		$this->rest  = new RestAPI();
 		$this->ajax  = new Ajax();
+        $this->config  = new Config();
 		$this->cron  = new Cron();
 
 		// Service container.

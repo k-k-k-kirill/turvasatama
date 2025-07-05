@@ -20,13 +20,6 @@ use \Timber\Timber as TimberLibrary;
 class Timber {
 
 	/**
-	 * Timber library class instance.
-	 *
-	 * @var TimberLibrary
-	 */
-	private $timber;
-
-	/**
 	 * Context class instance
 	 *
 	 * @var Context
@@ -47,8 +40,7 @@ class Timber {
 	 */
 	public function __construct( $navigations ) {
 
-		// Class instances.
-		$this->timber    = new TimberLibrary();
+		// Class instances - Remove the Timber instantiation
 		$this->context   = new Context( $navigations );
 		$this->functions = new Functions();
 
@@ -72,7 +64,7 @@ class Timber {
 		*
 		* @var array
 		 */
-		\Timber::$dirname = array( 'views/layouts', 'views/components' );
+		TimberLibrary::$dirname = array( 'views/layouts', 'views/components' );
 	}
 
 	/**
