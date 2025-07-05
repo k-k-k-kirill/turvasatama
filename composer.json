@@ -39,7 +39,9 @@
     "roots/bedrock-disallow-indexing": "^2.0",
     "roots/wordpress": "^6.8",
     "roots/wp-config": "1.0.0",
-    "wpackagist-plugin/contact-form-7": "6.1"
+    "wpackagist-plugin/google-site-kit": "^1.156",
+    "wpackagist-plugin/contact-form-7": "^6.1",
+    "wpackagist-plugin/quiz-master-next": "^10.2"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.6.2",
