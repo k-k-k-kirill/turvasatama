@@ -28,7 +28,6 @@ class PostController extends Controller {
 
 		// Set up default post.
 		$this->set_post( Timber::get_post() );
-
 	}
 
 	/**

@@ -11,15 +11,15 @@ namespace Pixels\TurvaSatama\Tests\Fixtures;
 // Contracts.
 use Pixels\TurvaSatama\Services\Contracts\ServiceInterface;
 
-use \WP_Post;
+use WP_Post;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 /**
  * Test service for unit tests.
  */
-class DummyService implements ServiceInterface
-{
+class DummyService implements ServiceInterface {
+
 }

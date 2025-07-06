@@ -15,8 +15,8 @@ use Pixels\TurvaSatama\Admin\OptionsPages;
  *
  * --> Create instances that edit admin views.
  */
-class Admin
-{
+class Admin {
+
 
 	/**
 	 * OptionsPages instance
@@ -28,8 +28,7 @@ class Admin
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		// Hook uo options pages.
 		$this->options_pages = new OptionsPages();

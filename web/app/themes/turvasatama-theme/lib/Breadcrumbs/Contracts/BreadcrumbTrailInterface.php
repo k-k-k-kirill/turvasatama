@@ -27,7 +27,5 @@ interface BreadcrumbTrailInterface {
 	 *
 	 * @return array $breadcrumbs of page.
 	 */
-	public function get_breadcrumbs() : array;
-
-
+	public function get_breadcrumbs(): array;
 }

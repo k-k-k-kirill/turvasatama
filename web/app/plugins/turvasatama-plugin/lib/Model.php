@@ -18,7 +18,7 @@ use Pixels\TurvaSatama\Model\Taxonomies\Contracts\TaxonomyInterface;
 
 use Pixels\TurvaSatama\Model\Meta\ACF as ACFSetup;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
@@ -31,8 +31,8 @@ if (!defined('ABSPATH')) {
  * @since 1.0
  * @author Pixels
  */
-class Model
-{
+class Model {
+
 
 	/**
 	 * Post types.
@@ -63,11 +63,10 @@ class Model
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		// Custom post types.
-		$this->add_post_type('service', new Service());
-		$this->add_post_type('user_profile', new UserProfile());
+		$this->add_post_type( 'service', new Service() );
+		$this->add_post_type( 'user_profile', new UserProfile() );
 
 		// Taxonomies. (Load first to allow easier use in post type permalinks).
 		// $this->add_taxonomy('example_taxonomy', new Model\Taxonomies\ExampleTaxonomy());
@@ -85,9 +84,8 @@ class Model
 	 * @param string $name
 	 * @param PostTypeInterface $post_type
 	 */
-	public function add_post_type(string $name, PostTypeInterface $post_type)
-	{
-		$this->post_types[$name] = $post_type;
+	public function add_post_type( string $name, PostTypeInterface $post_type ) {
+		$this->post_types[ $name ] = $post_type;
 	}
 
 	/**
@@ -96,8 +94,7 @@ class Model
 	 * @param string $name
 	 * @param TaxonomyInterface $taxonomy
 	 */
-	public function add_taxonomy(string $name, TaxonomyInterface $taxonomy)
-	{
-		$this->taxonomies[$name] = $taxonomy;
+	public function add_taxonomy( string $name, TaxonomyInterface $taxonomy ) {
+		$this->taxonomies[ $name ] = $taxonomy;
 	}
 }

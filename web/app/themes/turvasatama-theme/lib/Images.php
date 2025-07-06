@@ -30,12 +30,12 @@ class Images {
 		'page-hero'        => array( 1100, 500, true, true ),
 		'page-hero-mobile' => array( 375, 500, true, true ),
 		'cta'              => array( 640, 245, true, true ),
-		'portrait'				 => array( 365, 520, true, true ),
-		'featured'				 => array( 795, 400, true, true ),
-		'thumbnail'				 => array( 490, 340, true, true ),
-		'thumbnail-mini'	 => array( 290, 224, true, true ),
-		'specialist'			 => array( 375, 375, true, true ),
-		'medium'					 => array( 795, 500, true, true )
+		'portrait'         => array( 365, 520, true, true ),
+		'featured'         => array( 795, 400, true, true ),
+		'thumbnail'        => array( 490, 340, true, true ),
+		'thumbnail-mini'   => array( 290, 224, true, true ),
+		'specialist'       => array( 375, 375, true, true ),
+		'medium'           => array( 795, 500, true, true ),
 	);
 
 	/**

@@ -28,4 +28,3 @@ class TaxonomyController extends ArchiveController {
 		$this->add_context( 'term', new \Timber\Term( $query_obj->term_id ) );
 	}
 }
-

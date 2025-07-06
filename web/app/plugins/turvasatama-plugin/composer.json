@@ -24,7 +24,7 @@
     "phpunit/phpunit": "^9.0.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.1",
     "vimeo/psalm": "^4.3",
-    "wp-coding-standards/wpcs": "^2.3",
+    "wp-coding-standards/wpcs": "dev-develop",
     "giacocorsiglia/wordpress-stubs": "^5.1",
     "squizlabs/php_codesniffer": "^3.5",
     "kimhf/advanced-custom-fields-pro-stubs": "^5.9",

@@ -62,7 +62,6 @@ class Taxonomy extends BreadcrumbsTrail {
 
 			$this->add( $crumb );
 		endif;
-
 	}
 
 	/**
@@ -81,8 +80,5 @@ class Taxonomy extends BreadcrumbsTrail {
 		$crumb->set_url( $url );
 
 		$this->add( $crumb );
-
 	}
-
-
 } // end Taxonomy

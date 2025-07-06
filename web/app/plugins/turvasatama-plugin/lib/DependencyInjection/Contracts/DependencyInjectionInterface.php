@@ -13,9 +13,9 @@ use Pixels\TurvaSatama\Services\Contracts\ServiceInterface;
 /**
  * DI interface
  */
-interface DependencyInjectionInterface
-{
+interface DependencyInjectionInterface {
 
-	public function get(string $key);
-	public function set(string $key, ServiceInterface $service);
+
+	public function get( string $key );
+	public function set( string $key, ServiceInterface $service );
 }

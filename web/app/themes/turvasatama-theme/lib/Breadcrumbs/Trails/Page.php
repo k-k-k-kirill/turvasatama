@@ -61,8 +61,5 @@ class Page extends BreadcrumbsTrail {
 
 			$this->add( $crumb );
 		endif;
-
 	}
-
-
 } // end Page

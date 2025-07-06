@@ -20,14 +20,13 @@ use Pixels\TurvaSatama\Tests\Fixtures\DummyCronController;
 /**
  * Cron class unit tests.
  */
-final class CronTest extends TestCase
-{
+final class CronTest extends TestCase {
+
 
 	/**
 	 * Include doubles for wp functions & constants
 	 */
-	public static function setUpBeforeClass(): void
-	{
+	public static function setUpBeforeClass(): void {
 		require_once __DIR__ . '/TestDoubles/constants.php';
 		require_once __DIR__ . '/TestDoubles/add_filter.php';
 		require_once __DIR__ . '/TestDoubles/add_action.php';
@@ -37,8 +36,7 @@ final class CronTest extends TestCase
 	/**
 	 * Instance can be created.
 	 */
-	public function testCanCreateInstance()
-	{
+	public function testCanCreateInstance() {
 
 		$this->assertInstanceOf(
 			Cron::class,
@@ -49,12 +47,11 @@ final class CronTest extends TestCase
 	/**
 	 * Accepts CronControllerInterfaces.
 	 */
-	public function testAcceptsCronControllerInterfaces()
-	{
+	public function testAcceptsCronControllerInterfaces() {
 		$handler    = new Cron();
 		$controller = new DummyCronController();
 
-		$handler->add_controller('dummy_controller', $controller);
+		$handler->add_controller( 'dummy_controller', $controller );
 
 		$this->assertInstanceOf(
 			CronControllerInterface::class,
@@ -65,17 +62,16 @@ final class CronTest extends TestCase
 	/**
 	 * Clears controllers.
 	 */
-	public function testClearsControllers()
-	{
+	public function testClearsControllers() {
 		$handler    = new Cron();
 		$controller = new DummyCronController();
 
-		$handler->add_controller('dummy_controller', $controller);
+		$handler->add_controller( 'dummy_controller', $controller );
 
-		$this->assertFalse($controller->is_cleared);
+		$this->assertFalse( $controller->is_cleared );
 
 		$handler->clear_cron_schedules();
 
-		$this->assertTrue($controller->is_cleared);
+		$this->assertTrue( $controller->is_cleared );
 	}
 }

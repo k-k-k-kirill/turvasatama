@@ -51,7 +51,6 @@ class Author extends BreadcrumbsTrail {
 			$this->add( $crumb );
 
 		endif;
-
 	}
 
 	/**
@@ -72,8 +71,5 @@ class Author extends BreadcrumbsTrail {
 		$crumb->set_url( $url );
 
 		$this->add( $crumb );
-
 	}
-
-
 } // end Author

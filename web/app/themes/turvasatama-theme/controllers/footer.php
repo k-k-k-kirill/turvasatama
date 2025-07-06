@@ -14,12 +14,12 @@
 $templates = array( 'single/single-page-plugin.twig' );
 
 // Context.
-$timber/context = $GLOBALS['timberContext'];
-if ( ! isset( $timber/context ) ) {
+$timber / context = $GLOBALS['timberContext'];
+if ( ! isset( $timber / context ) ) {
 	throw new \Exception( 'Timber context not set in footer.' );
 }
-$timber/context['content'] = ob_get_contents();
+$timber / context['content'] = ob_get_contents();
 ob_end_clean();
 
 // Render with Timber.
-Timber::render( $templates, $timber/context );
+Timber::render( $templates, $timber / context );

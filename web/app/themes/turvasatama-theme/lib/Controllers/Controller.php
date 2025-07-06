@@ -95,5 +95,4 @@ class Controller implements ControllerInterface {
 	public function render() {
 		Timber::render( $this->templates, $this->context );
 	}
-
 }

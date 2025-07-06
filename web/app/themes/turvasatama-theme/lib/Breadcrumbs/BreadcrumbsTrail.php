@@ -54,7 +54,7 @@ class BreadcrumbsTrail implements BreadcrumbTrailInterface {
 	 *
 	 * @return array $breadcrumbs of page.
 	 */
-	public function get_breadcrumbs() : array {
+	public function get_breadcrumbs(): array {
 		return $this->trail;
 	}
 
@@ -78,6 +78,4 @@ class BreadcrumbsTrail implements BreadcrumbTrailInterface {
 
 		endif;
 	}
-
-
 } // end AbstractBreadcrumbs

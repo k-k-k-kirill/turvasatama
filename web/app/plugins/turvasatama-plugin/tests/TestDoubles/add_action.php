@@ -9,6 +9,5 @@
 /**
  * Test double for add_action
  */
-function add_action($action, $callback)
-{
+function add_action( $action, $callback ) {
 }

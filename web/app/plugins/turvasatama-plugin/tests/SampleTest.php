@@ -11,14 +11,13 @@ use PHPUnit\Framework\TestCase;
 /**
  * Sample class unit tests.
  */
-final class SampleTest extends TestCase
-{
+final class SampleTest extends TestCase {
+
 
 	/**
 	 * Verify tests run.
 	 */
-	public function testCanRunTests()
-	{
+	public function testCanRunTests() {
 
 		$this->assertTrue(
 			true

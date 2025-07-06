@@ -11,8 +11,8 @@ namespace Pixels\TurvaSatama\Model\PostTypes\Contracts;
 /**
  * Requires each post type to have certain methods.
  */
-interface PostTypeInterface
-{
+interface PostTypeInterface {
+
 
 	/**
 	 * Create post type.

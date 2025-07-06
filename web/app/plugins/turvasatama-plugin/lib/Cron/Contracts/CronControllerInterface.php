@@ -11,8 +11,8 @@ namespace Pixels\TurvaSatama\Cron\Contracts;
 /**
  * Cron Controller interface
  */
-interface CronControllerInterface
-{
+interface CronControllerInterface {
+
 
 	public function register_crons();
 

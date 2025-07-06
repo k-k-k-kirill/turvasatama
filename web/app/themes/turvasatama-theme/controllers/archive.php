@@ -10,7 +10,7 @@ use Pixels\Theme\Controllers\ArchiveController;
 use Pixels\TurvaSatama\App;
 
 // Services
-$archiveService = App::$container->get('archive');
+$archiveService = App::$container->get( 'archive' );
 
 global $post;
 
@@ -33,24 +33,24 @@ if ( is_home() || is_tag() ) {
 	$controller->set_templates( $templates );
 
 	$archiveTitle = $archiveService->getTitle();
-	if ($archiveTitle) {
-		$controller->add_context('title', $archiveTitle);
+	if ( $archiveTitle ) {
+		$controller->add_context( 'title', $archiveTitle );
 	}
 
 	$archiveUrl = $archiveService->getUrl();
-	if ($archiveUrl) {
-		$controller->add_context('url', $archiveUrl);
+	if ( $archiveUrl ) {
+		$controller->add_context( 'url', $archiveUrl );
 	}
 
 	$archiveTags = $archiveService->getTags();
-	if ($archiveTags && !empty($archiveTags)) {
-		$controller->add_context('tags', $archiveTags);
+	if ( $archiveTags && ! empty( $archiveTags ) ) {
+		$controller->add_context( 'tags', $archiveTags );
 	}
 
-	if(is_home()) {
-		$controller->add_context('home', is_home());
+	if ( is_home() ) {
+		$controller->add_context( 'home', is_home() );
 	} else {
-		$controller->add_context('current_tag', get_queried_object());
+		$controller->add_context( 'current_tag', get_queried_object() );
 	}
 }
 

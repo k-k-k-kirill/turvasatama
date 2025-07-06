@@ -44,8 +44,5 @@ class Error404 extends BreadcrumbsTrail {
 		$crumb->set_url( $url );
 
 		$this->add( $crumb );
-
 	}
-
-
 } // end Error404

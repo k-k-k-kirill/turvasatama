@@ -15,8 +15,8 @@ namespace Pixels\TurvaSatama;
  * --> Can not be run in production.
  * --> Dump, log to file or console.log.
  */
-class Logger
-{
+class Logger {
+
 
 	/**
 	 * Check if production environment.
@@ -24,11 +24,10 @@ class Logger
 	 *
 	 * @return bool $is_production based on env.
 	 */
-	public static function is_production()
-	{
+	public static function is_production() {
 		$is_production = true;
 
-		if (WP_ENV !== 'production') :
+		if ( WP_ENV !== 'production' ) :
 			$is_production = false;
 		endif;
 
@@ -41,9 +40,8 @@ class Logger
 	 *
 	 * @param mixed $content to be logged.
 	 */
-	public static function log($content)
-	{
-		if (!self::is_production()) :
+	public static function log( $content ) {
+		if ( ! self::is_production() ) :
 			// phpcs:ignore
 			error_log(print_r('PixelsLogger ' . gmdate('Y-m-d H:i:s'), 1));
 			// phpcs:ignore
@@ -57,16 +55,15 @@ class Logger
 	 *
 	 * @param mixed $content to be printed.
 	 */
-	public static function dump($content)
-	{
-		if (!self::is_production()) : ?>
+	public static function dump( $content ) {
+		if ( ! self::is_production() ) : ?>
 			<pre>
 				<?php
 				// phpcs:ignore
 				var_dump($content);
 				?>
 			</pre>
-		<?php
+			<?php
 		endif;
 	}
 
@@ -75,9 +72,8 @@ class Logger
 	 *
 	 * @param mixed $content to be printed.
 	 */
-	public static function die($content)
-	{
-		if (!self::is_production()) :
+	public static function die( $content ) {
+		if ( ! self::is_production() ) :
 			// phpcs:ignore
 			var_dump($content);
 			exit;
@@ -89,14 +85,13 @@ class Logger
 	 *
 	 * @param mixed $content to be printed.
 	 */
-	public static function console($content)
-	{
-		if (!self::is_production()) :
-		?>
+	public static function console( $content ) {
+		if ( ! self::is_production() ) :
+			?>
 			<script>
-				console.log(<?php echo wp_json_encode($content); ?>);
+				console.log(<?php echo wp_json_encode( $content ); ?>);
 			</script>
-<?php
+			<?php
 		endif;
 	}
 }

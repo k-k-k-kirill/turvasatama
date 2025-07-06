@@ -32,7 +32,6 @@ class ArchiveController extends Controller {
 
 		// Add pagination.
 		$this->set_pagination( $posts->pagination() );
-
 	}
 
 	/**

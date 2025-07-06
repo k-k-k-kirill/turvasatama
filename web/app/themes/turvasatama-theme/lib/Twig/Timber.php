@@ -9,7 +9,7 @@
 namespace Pixels\Theme\Twig;
 
 // Main Timber library.
-use \Timber\Timber as TimberLibrary;
+use Timber\Timber as TimberLibrary;
 
 /**
  * Timber class
@@ -49,7 +49,6 @@ class Timber {
 
 		// Register Twig namespaces.
 		add_filter( 'timber/loader/loader', array( $this, 'register_namespaces' ) );
-
 	}
 
 	/**

@@ -45,8 +45,5 @@ class Search extends BreadcrumbsTrail {
 		$crumb->set_url( $url );
 
 		$this->add( $crumb );
-
 	}
-
-
 } // end Search

@@ -96,6 +96,5 @@ class Common {
 		$breadcrumbs = apply_filters( 'pixels_breadcrumbs', $breadcrumbs );
 
 		return $breadcrumbs;
-
 	}
 }

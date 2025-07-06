@@ -25,7 +25,7 @@ interface BreadcrumbInterface {
 	 *
 	 * @return string $label of breadcrumb.
 	 */
-	public function get_label() : string;
+	public function get_label(): string;
 
 	/**
 	 * Set breadcrumb url
@@ -39,7 +39,5 @@ interface BreadcrumbInterface {
 	 *
 	 * @return string $url of breadcrumb.
 	 */
-	public function get_url() : string;
-
-
+	public function get_url(): string;
 }

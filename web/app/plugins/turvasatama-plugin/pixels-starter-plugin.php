@@ -38,8 +38,8 @@ use Pixels\TurvaSatama\Services\Service as ServiceService;
  * App class
  * Bootstraps rest of the plugin
  */
-final class App
-{
+final class App {
+
 
 	/**
 	 * Variable to enable debug mode.
@@ -84,7 +84,7 @@ final class App
 	 */
 	private $ajax;
 
-    /**
+	/**
 	 * Config instance
 	 *
 	 * @var Config
@@ -103,78 +103,73 @@ final class App
 	 *
 	 * @since 1.0
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		// Class instances.
-		$this->admin = new Admin();
-		$this->model = new Model();
-		$this->rest  = new RestAPI();
-		$this->ajax  = new Ajax();
-        $this->config  = new Config();
-		$this->cron  = new Cron();
+		$this->admin  = new Admin();
+		$this->model  = new Model();
+		$this->rest   = new RestAPI();
+		$this->ajax   = new Ajax();
+		$this->config = new Config();
+		$this->cron   = new Cron();
 
 		// Service container.
-		static::$container = new DependencyInjection();
+		self::$container = new DependencyInjection();
 
 		$this->create_services();
 
 		// Load plugin translations.
-		add_action('init', array($this, 'load_plugin_textdomain'), 100);
+		add_action( 'init', array( $this, 'load_plugin_textdomain' ), 100 );
 
 		// Clear crons on deactivate.
-		register_deactivation_hook(__FILE__, array($this->cron, 'clear_cron_schedules'));
+		register_deactivation_hook( __FILE__, array( $this->cron, 'clear_cron_schedules' ) );
 
 		// Debug action, always run on page load.
-		if (self::DEBUG_MODE) :
-			add_action('wp', array($this, 'debug'));
+		if ( self::DEBUG_MODE ) :
+			add_action( 'wp', array( $this, 'debug' ) );
 		endif;
 	}
 
 	/**
 	 * Load translation for the theme.
 	 */
-	public function load_plugin_textdomain()
-	{
-		load_plugin_textdomain('turvasatama-plugin', false, basename(dirname(__FILE__)) . '/languages');
+	public function load_plugin_textdomain() {
+		load_plugin_textdomain( 'turvasatama-plugin', false, basename( __DIR__ ) . '/languages' );
 	}
 
 	/**
 	 * Create all service class instances here.
 	 * Expose them via di container.
 	 */
-	private function create_services()
-	{
+	private function create_services() {
 		// Repositories.
-		$posts_repository = new PostRepository();
-		$user_repository = new UserRepository();
+		$posts_repository   = new PostRepository();
+		$user_repository    = new UserRepository();
 		$service_repository = new ServiceRepository();
 
 		// Services.
-		$post_service = new PostService($posts_repository);
+		$post_service    = new PostService( $posts_repository );
 		$archive_service = new ArchiveService();
-		$user_service = new UserService($user_repository);
-		$service_service = new ServiceService($service_repository);
+		$user_service    = new UserService( $user_repository );
+		$service_service = new ServiceService( $service_repository );
 
-		static::$container->set('post', $post_service);
-		static::$container->set('archive', $archive_service);
-		static::$container->set('user', $user_service);
-		static::$container->set('service', $service_service);
+		self::$container->set( 'post', $post_service );
+		self::$container->set( 'archive', $archive_service );
+		self::$container->set( 'user', $user_service );
+		self::$container->set( 'service', $service_service );
 	}
 
 	/**
 	 * Return service form the container.
 	 */
-	public static function get_service(string $service_name): ServiceInterface
-	{
-		return static::$container->get($service_name);
+	public static function get_service( string $service_name ): ServiceInterface {
+		return self::$container->get( $service_name );
 	}
 
 	/**
 	 * Debug / dump problems on pageload
 	 * Only run if debug is enabled
 	 */
-	public function debug()
-	{
+	public function debug() {
 	}
 } // end App
 

@@ -9,4 +9,4 @@
 /**
  * Constants set by WP Core
  */
-define('ABSPATH', '');
+define( 'ABSPATH', '' );
