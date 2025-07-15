@@ -13,6 +13,7 @@ global $wp_query;
 
 use Pixels\Theme\Controllers\ArchiveController;
 use Pixels\TurvaSatama\App;
+use Timber\Timber;
 
 // Services
 $postService    = App::$container->get( 'post' );
@@ -25,7 +26,7 @@ $controller = new ArchiveController();
 $controller->set_templates( array( 'author/author.twig', 'index/index.twig' ) );
 
 if ( isset( $wp_query->query_vars['author'] ) ) {
-	$author = new TimberUser( $wp_query->query_vars['author'] );
+	$author = Timber::get_user( $wp_query->query_vars['author'] );
 
 	// Get the user_profile post object for the author
 	$specialist_profile = get_field( 'specialist_profile', "user_$author->ID" );
