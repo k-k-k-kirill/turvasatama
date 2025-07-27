@@ -26,7 +26,7 @@ if ( $postAuthorId ) {
 	}
 
 	$postAuthorName = get_the_author();
-	if ( $postAuthorName ) {
+	if ( $postAuthorName && $specialist_profile && isset($specialist_profile->post_title) ) {
 		$authorInfo['name'] = $specialist_profile->post_title;
 	}
 
@@ -50,6 +50,10 @@ $relatedPosts = $postService->getRelatedPosts( $postId );
 if ( $relatedPosts && ! empty( $relatedPosts ) ) {
 	$controller->add_context( 'related_posts', $relatedPosts );
 }
+
+// Add the post object to the context so content is available in the template
+$post = \Timber\Timber::get_post($postId);
+$controller->add_context('post', $post);
 
 // Render the twig.
 $controller->render();

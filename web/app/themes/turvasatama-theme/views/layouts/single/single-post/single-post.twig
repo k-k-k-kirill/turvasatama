@@ -20,7 +20,7 @@
 			with {
 				section: {
 					acf_fc_layout: 'content',
-					content: post.get_paged_content,
+					content: post.post_content|apply_filters('the_content'),
 					paged: true,
 					pagination: post.pagination,
 				}
