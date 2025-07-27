@@ -77,10 +77,9 @@ class Assets {
 		foreach ( $this->manifest as $name => $path ) :
 			if ( strpos( $name, 'vendor' ) !== false ) :
 				wp_enqueue_script( 'pixels/vendor-' . $count, $this->get_asset_uri( $name ), array( 'jquery' ), null, true );
-				$count++;
+				++$count;
 			endif;
 		endforeach;
-
 	}
 
 	/**

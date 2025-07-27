@@ -17,8 +17,10 @@ class PLL_Domain_Mapping {
 	 */
 	public function __construct() {
 		if ( function_exists( 'redirect_to_mapped_domain' ) ) {
-			if ( ! defined( 'PLL_CACHE_HOME_URL' ) && ( $options = get_option( 'polylang' ) ) && $options['force_lang'] < 2 ) {
-				define( 'PLL_CACHE_HOME_URL', false );
+			$options = get_option( 'polylang' );
+
+			if ( is_array( $options ) && $options['force_lang'] < 2 ) {
+				pll_set_constant( 'PLL_CACHE_HOME_URL', false );
 			}
 
 			if ( ! get_site_option( 'dm_no_primary_domain' ) ) {
@@ -35,15 +37,14 @@ class PLL_Domain_Mapping {
 	 * @since 2.2
 	 */
 	public function dm_redirect_to_mapped_domain() {
-		$options = get_option( 'polylang' );
+		// Don't go further if we stopped loading the plugin early (for example when deactivate-polylang=1).
+		if ( ! function_exists( 'PLL' ) ) {
+			// Rely on MU Domain Mapping.
+			redirect_to_mapped_domain();
+		}
 
 		// The language is set from the subdomain or domain name
-		if ( $options['force_lang'] > 1 ) {
-			// Don't go further if we stopped loading the plugin early ( for example when deactivate-polylang=1 ).
-			if ( ! function_exists( 'PLL' ) ) {
-				return;
-			}
-
+		if ( PLL()->options['force_lang'] > 1 ) {
 			// Don't redirect the main site
 			if ( is_main_site() ) {
 				return;
@@ -68,7 +69,7 @@ class PLL_Domain_Mapping {
 
 			if ( empty( $lang ) ) {
 				$status   = get_site_option( 'dm_301_redirect' ) ? '301' : '302'; // Honor status redirect option
-				$redirect = str_replace( '://' . $requested_host, '://' . $hosts[ $options['default_lang'] ], $requested_url );
+				$redirect = str_replace( '://' . $requested_host, '://' . $hosts[ PLL()->options['default_lang'] ], $requested_url );
 				wp_safe_redirect( $redirect, $status );
 				exit;
 			}

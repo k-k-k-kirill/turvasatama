@@ -12,27 +12,25 @@ namespace Pixels\TurvaSatama\Model\Meta\Fields;
  * Register ACF fields for Example
  * Occasionally we need to register fields via PHP
  */
-class Example
-{
+class Example {
+
 
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		// Add order meta fields.
-		add_action('acf/init', array($this, 'add_fields'));
+		add_action( 'acf/init', array( $this, 'add_fields' ) );
 
 		// Optional: Render text content or infos after certain fields.
-		add_action('acf/render_field/type=text', array($this, 'add_human_readable_texts'), 10, 1);
+		add_action( 'acf/render_field/type=text', array( $this, 'add_human_readable_texts' ), 10, 1 );
 	}
 
 	/**
 	 * Register fields
 	 */
-	public function add_fields()
-	{
+	public function add_fields() {
 
 		acf_add_local_field_group(
 			array(
@@ -65,11 +63,10 @@ class Example
 	 *
 	 * @param array $field from ACF.
 	 */
-	public function add_human_readable_texts($field)
-	{
+	public function add_human_readable_texts( $field ) {
 
 		// Example field.
-		if ('example_field_key' === $field['key']) :
+		if ( 'example_field_key' === $field['key'] ) :
 			echo 'Custom text after field';
 		endif;
 	}

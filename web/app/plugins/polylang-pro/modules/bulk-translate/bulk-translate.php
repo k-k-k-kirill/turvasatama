@@ -3,17 +3,14 @@
  * @package Polylang-Pro
  */
 
+defined( 'ABSPATH' ) || exit; // Don't access directly
+
 /**
  * A class to bulk translate posts.
  *
  * @since 2.4
  */
 class PLL_Bulk_Translate {
-
-	const RESULTS = 'data';
-	const ERROR = 'error';
-	const WARNING = 'notice-warning';
-	const UPDATED = 'updated';
 
 	/**
 	 * @var PLL_Model
@@ -25,7 +22,7 @@ class PLL_Bulk_Translate {
 	 *
 	 * @since 2.7
 	 *
-	 * @var WP_Screen
+	 * @var WP_Screen|null
 	 */
 	protected $current_screen;
 
@@ -34,7 +31,7 @@ class PLL_Bulk_Translate {
 	 *
 	 * @since 2.7
 	 *
-	 * @var array
+	 * @var array|null
 	 */
 	protected $results;
 
@@ -130,7 +127,6 @@ class PLL_Bulk_Translate {
 	 * @return void
 	 */
 	public function init( $current_screen ) {
-
 		/**
 		 * Filter the list of post types enabling the bulk translate.
 		 *
@@ -145,6 +141,17 @@ class PLL_Bulk_Translate {
 			return;
 		}
 
+		/**
+		 * Fires before `PLL_Bulk_Translate` init.
+		 * This is the perfect place to register options of the Translate bulk action.
+		 *
+		 * @since 3.6.5
+		 * @see PLL_Bulk_Translate::register_options()
+		 *
+		 * @param PLL_Bulk_Translate $bulk_translate Instance of `PLL_Bulk_Translate`.
+		 */
+		do_action( 'pll_bulk_translate_options_init', $this );
+
 		$this->options = array_filter(
 			$this->options,
 			function ( $option ) {
@@ -156,12 +163,12 @@ class PLL_Bulk_Translate {
 
 		if ( ! empty( $this->options ) ) {
 			add_filter( "bulk_actions-{$current_screen->id}", array( $this, 'add_bulk_action' ) );
-			add_action( "handle_bulk_actions-{$current_screen->id}", array( $this, 'handle_bulk_action' ), 10, 2 );
+			add_filter( "handle_bulk_actions-{$current_screen->id}", array( $this, 'handle_bulk_action' ), 10, 2 );
 			add_action( 'admin_footer', array( $this, 'display_form' ) );
 			add_action( 'admin_notices', array( $this, 'display_notices' ) );
 			// Special case where the wp_redirect() happens before the bulk action is triggered.
 			if ( 'edit' === $current_screen->base ) {
-				add_action( 'wp_redirect', array( $this, 'parse_request_before_redirect' ) );
+				add_filter( 'wp_redirect', array( $this, 'parse_request_before_redirect' ) );
 			}
 		}
 	}
@@ -171,45 +178,54 @@ class PLL_Bulk_Translate {
 	 *
 	 * @since 2.7
 	 *
-	 * @param array $request Parameters from the HTTP Request.
+	 * @param array $request {
+	 *   Parameters from the HTTP Request.
 	 *
-	 * @return array
+	 *   @type int[]    $post               The list of post ids to bulk translate. Must be set if `$post` is not.
+	 *   @type int[]    $media              The list of media ids to bulk translate.  Must be set if `$media` is not.
+	 *   @type string   $translate          The translation action ('pll_copy_post' for copy, 'pll_sync_post' for synchronization).
+	 *   @type string[] $pll-translate-lang The list of language slugs to translate to.
+	 * }
+	 * @return WP_Error|array {
+	 *   @type int[]    $item_ids           The sanitized list of post (or media) ids to translate.
+	 *   @type string   $translate          The sanitized translation action.
+	 *   @type string[] $pll-translate-lang The sanitized list of language slugs to translate to.
+	 * }
 	 */
 	protected function parse_request( $request ) {
+		$args = array();
+
 		$screens_content_keys = array(
 			'upload' => 'media',
-			'edit'    => 'post',
-		);
-		$item_key = $screens_content_keys[ $this->current_screen->base ];
-
-		$filters = array(
-			$item_key            => array(
-				'filter'        => FILTER_VALIDATE_INT,
-				'flags'         => FILTER_REQUIRE_ARRAY,
-				'error_message' => __( 'No item has been selected. Please make sure to select at least one item to be translated.', 'polylang-pro' ),
-			),
-			'translate'          => array(
-				'filter' => FILTER_SANITIZE_STRING,
-			),
-			'pll-translate-lang' => array(
-				'filter'        => FILTER_SANITIZE_STRING,
-				'flags'         => FILTER_REQUIRE_ARRAY,
-				'error_message' => __( 'Error: No target language has been selected. Please make sure to select at least one target language.', 'polylang-pro' ),
-			),
+			'edit'   => 'post',
 		);
 
-		$args = filter_var_array(
-			$request,
-			$filters,
-			true
-		);
-		$args['item_ids'] = $args[ $item_key ];
+		if ( ! empty( $this->current_screen ) && isset( $screens_content_keys[ $this->current_screen->base ] ) ) {
+			$item_key = $screens_content_keys[ $this->current_screen->base ];
 
-		$args[ self::ERROR ] = array();
-		foreach ( $filters as $field_name => $filter_details ) {
-			if ( empty( $args[ $field_name ] ) && array_key_exists( 'error_message', $filter_details ) ) {
-				$args[ self::ERROR ][] = $filter_details['error_message'];
+			if ( isset( $request[ $item_key ] ) && is_array( $request[ $item_key ] ) ) {
+				$args['item_ids'] = array_filter( array_map( 'absint', $request[ $item_key ] ) );
 			}
+		}
+
+		if ( empty( $args['item_ids'] ) ) {
+			return new WP_Error( 'pll_no_items_selected', __( 'No item has been selected. Please make sure to select at least one item to be translated.', 'polylang-pro' ) );
+		}
+
+		foreach ( $args['item_ids'] as $item_id ) {
+			if ( ! current_user_can( 'read_post', (int) $item_id ) ) {
+				return new WP_Error( 'pll_user_cannot_read_item', __( 'You are not allowed to read a selected item.', 'polylang-pro' ) );
+			}
+		}
+
+		$args['translate'] = sanitize_key( $request['translate'] );
+
+		if ( isset( $request['pll-translate-lang'] ) && is_array( $request['pll-translate-lang'] ) ) {
+			$args['pll-translate-lang'] = array_intersect( $request['pll-translate-lang'], $this->model->get_languages_list( array( 'fields' => 'slug' ) ) );
+		}
+
+		if ( empty( $args['pll-translate-lang'] ) ) {
+			return new WP_Error( 'pll_no_target_language', __( 'Error: No target language has been selected. Please make sure to select at least one target language.', 'polylang-pro' ) );
 		}
 
 		return $args;
@@ -227,35 +243,21 @@ class PLL_Bulk_Translate {
 	 * @return string The URL to redirect to.
 	 */
 	public function handle_bulk_action( $sendback, $action ) {
-		if ( 'pll_translate' === $action ) {
-			check_admin_referer( 'pll_translate', '_pll_translate_nonce' );
-
-			$query_args = $this->parse_request( $_GET );
-
-			if ( empty( $query_args[ self::ERROR ] ) ) {
-
-				$selected_option = $this->options[ $query_args['translate'] ];
-
-				$data = $selected_option->do_bulk_action( $query_args['item_ids'], $query_args['pll-translate-lang'] );
-
-			} else {
-				$data = $query_args;
-			}
-
-			if ( is_array( $data ) ) {
-				$notices = array_filter(
-					$data,
-					function( $key ) {
-						return in_array( $key, array( self::ERROR, self::WARNING, self::UPDATED ) );
-					},
-					ARRAY_FILTER_USE_KEY
-				);
-				// Notices are displayed after a wp_redirect, which will re-instantiate all our classes.
-				if ( ! empty( $notices ) ) {
-					set_transient( 'pll_bulk_translate', $data );
-				}
-			}
+		if ( 'pll_translate' !== $action ) {
+			return $sendback;
 		}
+
+		check_admin_referer( 'pll_translate', '_pll_translate_nonce' );
+
+		$query_args = $this->parse_request( $_GET ); // Errors returned by this method are already handled by `parse_request_before_redirect()`.
+
+		if ( ! is_wp_error( $query_args ) ) {
+			$selected_option = $this->options[ $query_args['translate'] ];
+
+			$error = $selected_option->do_bulk_action( $query_args['item_ids'], $query_args['pll-translate-lang'] );
+			$this->add_settings_error( $error );
+		}
+
 		return $sendback;
 	}
 
@@ -281,7 +283,8 @@ class PLL_Bulk_Translate {
 	 * @return void
 	 */
 	public function display_form() {
-		global $post_type; // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
+		global $post_type;
+		$model = $this->model;
 		$bulk_translate_options = $this->options;
 		usort(
 			$bulk_translate_options,
@@ -302,32 +305,25 @@ class PLL_Bulk_Translate {
 	 * @return void
 	 */
 	public function display_notices() {
-		$notice_types = array(
-			self::ERROR   => 'error',
-			self::WARNING => 'notice-warning',
-			self::UPDATED => 'updated',
-		);
+		$transient_name = 'pll_bulk_translate_' . get_current_user_id();
 
-		$results = get_transient( 'pll_bulk_translate' );
-		if ( ! empty( $results ) ) {
+		/** @var string[][] */
+		$notices = get_transient( $transient_name );
 
-			$count = 0;
-			foreach ( array_intersect_key( $results, $notice_types ) as $type => $notices ) {
-				foreach ( $notices as $message ) {
-					$count++;
-					add_settings_error(
-						'pll-translate',
-						'pll-translate-' . $count,
-						$message,
-						$type
-					);
-				}
-			}
-
-			settings_errors( 'pll-translate', true );
-
-			delete_transient( 'pll_bulk_translate' );
+		if ( empty( $notices ) ) {
+			return;
 		}
+
+		foreach ( $notices as $notice ) {
+			/*
+			 * Backward compatibility for PHP < 8.0.0.
+			 * Unpacking operator `...` supports string-keyed associative array only since PHP 8.0.0.
+			 */
+			add_settings_error( ...array_values( $notice ) );
+		}
+
+		settings_errors( 'polylang' );
+		delete_transient( $transient_name );
 	}
 
 	/**
@@ -337,20 +333,36 @@ class PLL_Bulk_Translate {
 	 *
 	 * @param string $sendback The destination URL.
 	 *
-	 * @return string
+	 * @return string Unmodified $sendback.
 	 */
 	public function parse_request_before_redirect( $sendback ) {
-		// Nonce is already verified in edit.php.
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
-		if ( array_key_exists( 'action', $_GET ) && 'pll_translate' === $_GET['action'] ) {
-			$data = $this->parse_request( $_GET );
-			// phpcs:enable
+		if ( ! isset( $_GET['action'], $_REQUEST['_pll_translate_nonce'] ) || 'pll_translate' !== $_GET['action'] || ! wp_verify_nonce( $_REQUEST['_pll_translate_nonce'], 'pll_translate' ) ) {
+			return $sendback;
+		}
 
-			if ( ! empty( $data['translate'] ) && ! empty( $data[ self::ERROR ] ) && false === get_transient( 'pll_bulk_translate' ) ) {
-				set_transient( 'pll_bulk_translate', array( self::ERROR => $data[ self::ERROR ] ) );
-			}
+		$error = $this->parse_request( $_GET );
+
+		if ( is_wp_error( $error ) ) {
+			$this->add_settings_error( $error );
 		}
 
 		return $sendback;
+	}
+
+	/**
+	 * Registers errors if any.
+	 *
+	 * @since 3.6
+	 *
+	 * @param WP_Error $error Error object.
+	 * @return void
+	 */
+	private function add_settings_error( WP_Error $error ) {
+		if ( ! $error->has_errors() ) {
+			return;
+		}
+
+		pll_add_notice( $error );
+		set_transient( 'pll_bulk_translate_' . get_current_user_id(), get_settings_errors( 'polylang' ) );
 	}
 }

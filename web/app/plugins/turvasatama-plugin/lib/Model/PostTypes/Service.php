@@ -17,6 +17,7 @@ use Pixels\TurvaSatama\Model\PostTypes\Contracts\PostTypeInterface;
  */
 class Service extends AbstractPostType implements PostTypeInterface {
 
+
 	/**
 	 * Constant do define if post labels should be translatable
 	 * --> If true, define labels as translatable strings
@@ -28,17 +29,26 @@ class Service extends AbstractPostType implements PostTypeInterface {
 	 * Class constructor
 	 */
 	public function __construct() {
-
 		// Set up post type slug.
 		$this->set_name( 'service' );
 
+		// Hook up Service cpt.
+		add_action( 'init', array( $this, 'register_post_type' ), 0 );
+	}
+
+	/**
+	 * A separate function to delay CPT registration.
+	 *
+	 * @NOTE we need this to fix the notice with translations from 6.7.
+	 */
+	public function register_post_type() {
 		// Set labels.
 		$this->prepare_labels();
 
 		// Define args.
 		$this->set_args( $this->define_args() );
 
-		// Hook up Example cpt.
+		// Register the post type
 		add_action( 'init', array( $this, 'create' ) );
 	}
 
@@ -58,7 +68,6 @@ class Service extends AbstractPostType implements PostTypeInterface {
 			// Automatically generate labels from one word.
 			$this->set_automatic_labels( 'Service' );
 		endif;
-
 	}
 
 	/**

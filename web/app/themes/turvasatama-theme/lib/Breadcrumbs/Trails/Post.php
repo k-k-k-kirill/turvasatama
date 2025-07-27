@@ -50,6 +50,4 @@ class Post extends Page {
 
 		$this->add( $crumb );
 	}
-
-
 } // end Post

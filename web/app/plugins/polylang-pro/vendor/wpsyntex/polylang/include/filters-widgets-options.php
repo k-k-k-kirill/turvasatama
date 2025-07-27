@@ -22,7 +22,7 @@ class PLL_Filters_Widgets_Options {
 	 *
 	 * @since 3.0 Moved actions from PLL_Admin_Filters.
 	 *
-	 * @param PLL_Base $polylang
+	 * @param PLL_Base $polylang The Polylang object.
 	 * @return void
 	 */
 	public function __construct( $polylang ) {
@@ -38,17 +38,19 @@ class PLL_Filters_Widgets_Options {
 	 * @since 3.0 Moved PLL_Admin_Filters.
 	 * @since 3.1 Rename lang_choice field name and id to pll_lang as the widget setting.
 	 *
-	 * @param WP_Widget $widget
-	 * @param null      $return
-	 * @param array     $instance
+	 * @param WP_Widget $widget   The widget instance (passed by reference).
+	 * @param null      $return   Return null if new fields are added.
+	 * @param array     $instance An array of the widget's settings.
 	 * @return void
+	 *
+	 * @phpstan-param WP_Widget<array<string, mixed>> $widget
 	 */
 	public function in_widget_form( $widget, $return, $instance ) {
 		$dropdown = new PLL_Walker_Dropdown();
 
 		$dropdown_html = $dropdown->walk(
 			array_merge(
-				array( (object) array('slug' => 0, 'name' => __( 'All languages', 'polylang' )) ),
+				array( (object) array( 'slug' => 0, 'name' => __( 'All languages', 'polylang' ) ) ),
 				$this->model->get_languages_list()
 			),
 			-1,
@@ -76,7 +78,7 @@ class PLL_Filters_Widgets_Options {
 	 * @since 3.0 Moved from PLL_Admin_Filters.
 	 * @since 3.1 Remove unused $old_instance and $widget parameters.
 	 *
-	 * @param array $instance The current Widget's options.
+	 * @param array $instance     The current Widget's options.
 	 * @param array $new_instance The new Widget's options.
 	 * @return array Widget options.
 	 */
@@ -89,5 +91,4 @@ class PLL_Filters_Widgets_Options {
 
 		return $instance;
 	}
-
 }

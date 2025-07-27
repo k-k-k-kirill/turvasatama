@@ -29,5 +29,4 @@ class Archive extends Post {
 		$this->add_home();
 		$this->add_archive();
 	}
-
 } // end Archive

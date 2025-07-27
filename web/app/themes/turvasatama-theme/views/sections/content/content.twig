@@ -7,7 +7,7 @@
 				{% if additional_images %}
 					{% for item in additional_images %}
 						<div class="mb-4">
-							{% set image_object = TimberImage(item.image.id) %}
+							{% set image_object = get_image(item.image.id) %}
 							{{responsive_image(image_object.id, 'thumbnail-mini', 'thumbnail-mini', image_object.alt)}}
 						</div>
 					{% endfor %}
@@ -26,7 +26,7 @@
 				<div class="author-badge grid grid-cols-3 gap-4">
 						{% if author.photo %}
 							<div class="author-badge__image flex justify-end">
-								{% set image_object = TimberImage(author.photo) %}
+								{% set image_object = get_image(author.photo) %}
 								<img src="{{image_object.src('thumbnail')}}" alt="{{image_object.alt('thumbnail')}}" />
 							</div>
 							<div class="col-span-2">
@@ -50,7 +50,7 @@
 				<h2 class="mb-8">{{__('Other posts', 'turvasatama-theme')}}</h2>
 				<div class="grid md:grid-cols-2 lg:grid-cols-10 gap-3">
 					{% for related_post in related_posts %}
-						{% include '@components/teaser/teaser-post/teaser-post.twig' with { post: TimberPost(related_post), classes: 'lg:col-span-4' } %}
+						{% include '@components/teaser/teaser-post/teaser-post.twig' with { post: get_post(related_post), classes: 'lg:col-span-4' } %}
 					{% endfor %}
 				</div>
 			</section>

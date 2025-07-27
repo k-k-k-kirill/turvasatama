@@ -5,15 +5,14 @@
  * @package Polylang
  *
  * @since 2.7
+ *
+ * @var PLL_Model $model   `PLL_Model` instance.
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Don't access directly.
-};
+defined( 'ABSPATH' ) || exit;
 
-$existing_languages = $this->model->get_languages_list();
-$default_language = count( $existing_languages ) > 0 ? $this->options['default_lang'] : null;
-
+$existing_languages = $model->languages->get_list();
+$default_language = $model->languages->get_default();
 $languages_list = array_diff_key(
 	PLL_Settings::get_predefined_languages(),
 	wp_list_pluck( $existing_languages, 'locale', 'locale' )
@@ -35,16 +34,12 @@ $languages_list = array_diff_key(
 		<select name="lang_list" id="lang_list">
 			<option value=""></option>
 			<?php
-			foreach ( $languages_list as $lg ) {
-				// To set flag base64 encoded for predefined languages as user defined languages.
-				$lg['flag_code'] = $lg['flag'];
-				$language = new PLL_Language( $lg );
-				$language->set_flag();
+			foreach ( $languages_list as $language ) {
 				printf(
 					'<option value="%1$s" data-flag-html="%3$s" data-language-name="%2$s" >%2$s - %1$s</option>' . "\n",
-					esc_attr( $language->locale ),
-					esc_html( $language->name ),
-					esc_html( $language->flag )
+					esc_attr( $language['locale'] ),
+					esc_attr( $language['name'] ),
+					esc_attr( PLL_Language::get_predefined_flag( $language['flag'] ) )
 				);
 			}
 			?>
@@ -72,7 +67,7 @@ $languages_list = array_diff_key(
 	</tbody>
 </table>
 <table id="defined-languages" class="striped<?php echo empty( $existing_languages ) ? ' hide' : ''; ?>">
-	<?php if ( ! is_null( $default_language ) ) : ?>
+	<?php if ( ! empty( $default_language ) ) : ?>
 		<caption><span class="icon-default-lang"></span> <?php esc_html_e( 'Default language', 'polylang' ); ?></caption>
 	<?php endif; ?>
 	<thead>
@@ -87,8 +82,8 @@ $languages_list = array_diff_key(
 			'<tr><td>%3$s<span>%2$s - %1$s</span> %4$s</td></tr>' . "\n",
 			esc_attr( $lg->locale ),
 			esc_html( $lg->name ),
-			$lg->flag,  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			$default_language === $lg->slug ? ' <span class="icon-default-lang"><span class="screen-reader-text">' . esc_html__( 'Default language', 'polylang' ) . '</span></span>' : ''
+			$lg->flag, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$lg->is_default ? ' <span class="icon-default-lang"><span class="screen-reader-text">' . esc_html__( 'Default language', 'polylang' ) . '</span></span>' : ''
 		);
 	}
 	?>

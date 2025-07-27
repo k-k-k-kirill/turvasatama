@@ -15,7 +15,7 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 	 *
 	 * @since 1.2
 	 *
-	 * @param object $polylang
+	 * @param object $polylang The Polylang object.
 	 */
 	public function __construct( &$polylang ) {
 		parent::__construct( $polylang );
@@ -101,7 +101,7 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 		}
 
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		wp_enqueue_script( 'pll_nav_menu', plugins_url( '/js/build/nav-menu' . $suffix . '.js', POLYLANG_ROOT_FILE ), array( 'jquery' ), POLYLANG_VERSION );
+		wp_enqueue_script( 'pll_nav_menu', plugins_url( "/js/build/nav-menu{$suffix}.js", POLYLANG_ROOT_FILE ), array(), POLYLANG_VERSION );
 
 		$data = array(
 			'strings' => PLL_Switcher::get_switcher_options( 'menu', 'string' ), // The strings for the options
@@ -130,12 +130,12 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 	}
 
 	/**
-	 * Save our menu item options
+	 * Save our menu item options.
 	 *
 	 * @since 1.1
 	 *
-	 * @param int $menu_id not used
-	 * @param int $menu_item_db_id
+	 * @param int $menu_id         ID of the updated menu.
+	 * @param int $menu_item_db_id ID of the updated menu item.
 	 * @return void
 	 */
 	public function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0 ) {
@@ -164,29 +164,33 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 	}
 
 	/**
-	 * Assign menu languages and translations based on ( temporary ) locations
+	 * Assigns menu languages and translations based on (temporary) locations.
 	 *
 	 * @since 1.8
 	 *
-	 * @param array $locations nav menu locations
+	 * @param array $locations Nav menu locations.
 	 * @return array
 	 */
 	public function update_nav_menu_locations( $locations ) {
-		// Extract language and menu from locations
+		// Extract language and menu from locations.
+		$nav_menus = $this->options->get( 'nav_menus' );
+
 		foreach ( $locations as $loc => $menu ) {
 			$infos = $this->explode_location( $loc );
-			$this->options['nav_menus'][ $this->theme ][ $infos['location'] ][ $infos['lang'] ] = $menu;
-			if ( $this->options['default_lang'] != $infos['lang'] ) {
-				unset( $locations[ $loc ] ); // Remove temporary locations before database update
+			$nav_menus[ $this->theme ][ $infos['location'] ][ $infos['lang'] ] = $menu ?: 0;
+
+			if ( $this->options->get( 'default_lang' ) !== $infos['lang'] ) {
+				unset( $locations[ $loc ] ); // Remove temporary locations before database update.
 			}
 		}
 
-		update_option( 'polylang', $this->options );
+		$this->options->set( 'nav_menus', $nav_menus );
+
 		return $locations;
 	}
 
 	/**
-	 * Assign menu languages and translations based on ( temporary ) locations.
+	 * Assigns menu languages and translations based on (temporary) locations.
 	 *
 	 * @since 1.1
 	 *
@@ -194,19 +198,25 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 	 * @return mixed
 	 */
 	public function pre_update_option_theme_mods( $mods ) {
-		if ( current_user_can( 'edit_theme_options' ) && isset( $mods['nav_menu_locations'] ) ) {
+		if ( current_user_can( 'edit_theme_options' ) && is_array( $mods ) && isset( $mods['nav_menu_locations'] ) ) {
 
 			// Manage Locations tab in Appearance -> Menus
 			if ( isset( $_GET['action'] ) && 'locations' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
 				check_admin_referer( 'save-menu-locations' );
-				$this->options['nav_menus'][ $this->theme ] = array();
+
+				$nav_menus = $this->options->get( 'nav_menus' );
+				$nav_menus[ $this->theme ] = array();
+				$this->options->set( 'nav_menus', $nav_menus );
 			}
 
 			// Edit Menus tab in Appearance -> Menus
 			// Add the test of $_POST['update-nav-menu-nonce'] to avoid conflict with Vantage theme
 			elseif ( isset( $_POST['action'], $_POST['update-nav-menu-nonce'] ) && 'update' === $_POST['action'] ) {
 				check_admin_referer( 'update-nav_menu', 'update-nav-menu-nonce' );
-				$this->options['nav_menus'][ $this->theme ] = array();
+
+				$nav_menus = $this->options->get( 'nav_menus' );
+				$nav_menus[ $this->theme ] = array();
+				$this->options->set( 'nav_menus', $nav_menus );
 			}
 
 			// Customizer
@@ -230,8 +240,8 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 	 *
 	 * @since 1.2
 	 *
-	 * @param bool|array $menus
-	 * @return bool|array modified list of menu locations
+	 * @param bool|array $menus Associative array of registered navigation menu IDs keyed by their location name.
+	 * @return bool|array
 	 */
 	public function theme_mod_nav_menu_locations( $menus ) {
 		// Prefill locations with 0 value in case a location does not exist in $menus
@@ -263,18 +273,22 @@ class PLL_Admin_Nav_Menu extends PLL_Nav_Menu {
 	 * @return void
 	 */
 	public function delete_nav_menu( $term_id ) {
-		if ( isset( $this->options['nav_menus'] ) ) {
-			foreach ( $this->options['nav_menus'] as $theme => $locations ) {
-				foreach ( $locations as $loc => $languages ) {
-					foreach ( $languages as $lang => $menu_id ) {
-						if ( $menu_id === $term_id ) {
-							unset( $this->options['nav_menus'][ $theme ][ $loc ][ $lang ] );
-						}
+		$nav_menus = $this->options->get( 'nav_menus' );
+
+		if ( empty( $nav_menus ) ) {
+			return;
+		}
+
+		foreach ( $nav_menus as $theme => $locations ) {
+			foreach ( $locations as $loc => $languages ) {
+				foreach ( $languages as $lang => $menu_id ) {
+					if ( $menu_id === $term_id ) {
+						unset( $nav_menus[ $theme ][ $loc ][ $lang ] );
 					}
 				}
 			}
-
-			update_option( 'polylang', $this->options );
 		}
+
+		$this->options->set( 'nav_menus', $nav_menus );
 	}
 }

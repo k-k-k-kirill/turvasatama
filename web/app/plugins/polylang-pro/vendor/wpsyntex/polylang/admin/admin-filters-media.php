@@ -11,7 +11,7 @@
  */
 class PLL_Admin_Filters_Media extends PLL_Admin_Filters_Post_Base {
 	/**
-	 * @var PLL_CRUD_Posts
+	 * @var PLL_CRUD_Posts|null
 	 */
 	public $posts;
 
@@ -20,23 +20,21 @@ class PLL_Admin_Filters_Media extends PLL_Admin_Filters_Post_Base {
 	 *
 	 * @since 1.2
 	 *
-	 * @param object $polylang
+	 * @param object $polylang The Polylang object.
 	 */
 	public function __construct( &$polylang ) {
 		parent::__construct( $polylang );
 
 		$this->posts = &$polylang->posts;
 
-		// Adds the language field and translations tables in the 'Edit Media' panel
+		// Adds the language field and translations tables in the 'Edit Media' panel.
 		add_filter( 'attachment_fields_to_edit', array( $this, 'attachment_fields_to_edit' ), 10, 2 );
 
-		// Adds actions related to languages when creating, saving or deleting media
+		// Adds actions related to languages when creating, saving or deleting media.
 		add_filter( 'attachment_fields_to_save', array( $this, 'save_media' ), 10, 2 );
 
-		// Creates a media translation
-		if ( isset( $_GET['action'], $_GET['new_lang'], $_GET['from_media'] ) && 'translate_media' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification
-			add_action( 'admin_init', array( $this, 'translate_media' ) );
-		}
+		// Maybe creates a media translation.
+		add_action( 'admin_init', array( $this, 'translate_media' ) );
 	}
 
 	/**
@@ -50,8 +48,8 @@ class PLL_Admin_Filters_Media extends PLL_Admin_Filters_Post_Base {
 	 * @return array Modified list of form fields.
 	 */
 	public function attachment_fields_to_edit( $fields, $post ) {
-		if ( 'post.php' == $GLOBALS['pagenow'] ) {
-			return $fields; // Don't add anything on edit media panel for WP 3.5+ since we have the metabox
+		if ( 'post.php' === $GLOBALS['pagenow'] ) {
+			return $fields; // Don't add anything on edit media panel for WP 3.5+ since we have the metabox.
 		}
 
 		$post_id = $post->ID;
@@ -76,30 +74,29 @@ class PLL_Admin_Filters_Media extends PLL_Admin_Filters_Post_Base {
 	}
 
 	/**
-	 * Creates a media translation
+	 * Maybe creates a media translation.
 	 *
 	 * @since 0.9
 	 *
 	 * @return void
 	 */
 	public function translate_media() {
-		if ( isset( $_GET['from_media'], $_GET['new_lang'] ) ) {
-			// Security check
-			check_admin_referer( 'translate_media' );
-			$post_id = (int) $_GET['from_media'];
+		$data = $this->links->get_data_from_new_media_translation_request();
+		if ( empty( $data ) ) {
+			return;
+		}
 
-			// Bails if the translations already exists
-			// See https://wordpress.org/support/topic/edit-translation-in-media-attachments?#post-7322303
-			// Or if the source media does not exist
-			if ( $this->model->post->get_translation( $post_id, sanitize_key( $_GET['new_lang'] ) ) || ! get_post( $post_id ) ) {
-				wp_safe_redirect( wp_get_referer() );
-				exit;
-			}
+		$post_id = $data['from_post']->ID;
 
-			$tr_id = $this->posts->create_media_translation( $post_id, sanitize_key( $_GET['new_lang'] ) );
-			wp_safe_redirect( admin_url( sprintf( 'post.php?post=%d&action=edit', $tr_id ) ) ); // WP 3.5+
+		// Bails if the translations already exists.
+		if ( $this->model->post->get_translation( $post_id, $data['new_lang'] ) ) {
+			wp_safe_redirect( wp_get_referer() );
 			exit;
 		}
+
+		$tr_id = $this->model->post->create_media_translation( $post_id, $data['new_lang'] );
+		wp_safe_redirect( admin_url( sprintf( 'post.php?post=%d&action=edit', $tr_id ) ) ); // WP 3.5+.
+		exit;
 	}
 
 	/**
@@ -108,16 +105,24 @@ class PLL_Admin_Filters_Media extends PLL_Admin_Filters_Post_Base {
 	 *
 	 * @since 0.9
 	 *
-	 * @param array $post
-	 * @param array $attachment
-	 * @return array unmodified $post
+	 * @param array $post       An array of post data.
+	 * @param array $attachment An array of attachment metadata.
+	 * @return array Unmodified $post
 	 */
 	public function save_media( $post, $attachment ) {
 		// Language is filled in attachment by the function applying the filter 'attachment_fields_to_save'
 		// All security checks have been done by functions applying this filter
-		if ( ! empty( $attachment['language'] ) && current_user_can( 'edit_post', $post['ID'] ) ) {
-			$this->model->post->update_language( $post['ID'], $this->model->get_language( $attachment['language'] ) );
+		if ( empty( $attachment['language'] ) || ! current_user_can( 'edit_post', $post['ID'] ) ) {
+			return $post;
 		}
+
+		$language = $this->model->get_language( $attachment['language'] );
+
+		if ( empty( $language ) ) {
+			return $post;
+		}
+
+		$this->model->post->set_language( $post['ID'], $language );
 
 		return $post;
 	}

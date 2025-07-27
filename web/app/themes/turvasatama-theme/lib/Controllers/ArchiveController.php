@@ -8,6 +8,9 @@
 
 namespace Pixels\Theme\Controllers;
 
+// Add this use statement
+use Timber\Timber;
+
 /**
  * Archive Controller class
  *
@@ -24,29 +27,28 @@ class ArchiveController extends Controller {
 		parent::__construct();
 
 		// Add post from default query to context.
-		$this->set_posts( \Timber::get_posts() );
+		$posts = Timber::get_posts();
+		$this->set_posts( $posts );
 
 		// Add pagination.
-		$this->set_pagination( \Timber::get_pagination() );
-
+		$this->set_pagination( $posts->pagination() );
 	}
 
 	/**
 	 * Shorthand for setting up posts context data
 	 *
-	 * @param array $posts to be displayed in archive.
+	 * @param mixed $posts PostQuery or array of posts to be displayed in archive.
 	 */
-	public function set_posts( array $posts ) {
+	public function set_posts( $posts ) {
 		$this->add_context( 'posts', $posts );
 	}
 
 	/**
 	 * Shorthand for setting up pagination context data
 	 *
-	 * @param array $pagination of posts in archive.
+	 * @param mixed $pagination of posts in archive.
 	 */
-	public function set_pagination( array $pagination ) {
+	public function set_pagination( $pagination ) {
 		$this->add_context( 'pagination', $pagination );
 	}
 }
-

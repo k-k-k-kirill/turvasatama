@@ -9,6 +9,5 @@
 /**
  * Test double for wp_clear_scheduled_hook
  */
-function wp_clear_scheduled_hook($hook)
-{
+function wp_clear_scheduled_hook( $hook ) {
 }

@@ -8,13 +8,13 @@
 
 namespace Pixels\TurvaSatama\RestControllers;
 
-use \WP_REST_Request;
+use WP_REST_Request;
 
 // Services controllers use.
 // use \Pixels\TurvaSatama\Services\ExampleService;.
 
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
@@ -22,8 +22,8 @@ if (!defined('ABSPATH')) {
  * TurvaSatama Example Controller class
  * Handle /example/ rest endpoints
  */
-class ExampleController
-{
+class ExampleController {
+
 
 	/**
 	 * GET request to /TurvaSatama/v1/example
@@ -31,8 +31,7 @@ class ExampleController
 	 * @param \WP_REST_Request $request content of the request.
 	 * @return array $response to return.
 	 */
-	public function get(WP_REST_Request $request)
-	{
+	public function get( WP_REST_Request $request ) {
 		$response = array();
 
 		/**
@@ -49,8 +48,7 @@ class ExampleController
 	 * @param \WP_REST_Request $request content of the request.
 	 * @return array $response to return.
 	 */
-	public function post(WP_REST_Request $request)
-	{
+	public function post( WP_REST_Request $request ) {
 		$response = array();
 
 		/**

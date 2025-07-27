@@ -27,7 +27,6 @@ class ArchivePageController extends ArchiveController {
 
 		// Handle archive id.
 		$this->define_archive_id( $template );
-
 	}
 
 	/**
@@ -69,7 +68,6 @@ class ArchivePageController extends ArchiveController {
 		$template = get_posts( $args );
 
 		return $template[0]->ID;
-
 	}
 
 	/**
@@ -78,6 +76,6 @@ class ArchivePageController extends ArchiveController {
 	 * @return int $id of archive page.
 	 */
 	public function get_id() {
-		return $this->get_context( 'page' )->id;
+		return $this->context( 'page' )->id;
 	}
 }

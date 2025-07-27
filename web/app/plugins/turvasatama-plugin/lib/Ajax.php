@@ -16,8 +16,8 @@ use Pixels\TurvaSatama\Ajax\ExampleAjax;
  *
  * --> Create handler instances Ajax endpoints
  */
-class Ajax
-{
+class Ajax {
+
 
 	/**
 	 * ExampleAjax instance
@@ -29,8 +29,7 @@ class Ajax
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		// Initialize individual Ajax endpoints.
 		$this->example_ajax = new ExampleAjax();

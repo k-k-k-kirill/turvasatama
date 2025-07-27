@@ -11,47 +11,46 @@ namespace Pixels\TurvaSatama\Services;
 // Contracts.
 use Pixels\TurvaSatama\Services\Contracts\ServiceInterface;
 
-use \WP_Post;
+use WP_Post;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 /**
  * Serve post archive related data
  */
-class Archive implements ServiceInterface
-{
-  /**
-   * Get title of posts archive
-   */
-  public function getTitle()
-  {
-    $postsPageId = get_option('page_for_posts');
-    return get_the_title($postsPageId);
-  }
+class Archive implements ServiceInterface {
 
-  /**
-   * Get title of posts archive
-   */
-  public function getUrl()
-  {
-    return get_post_type_archive_link( 'post' );
-  }
+	/**
+	 * Get title of posts archive
+	 */
+	public function getTitle() {
+		$postsPageId = get_option( 'page_for_posts' );
+		return get_the_title( $postsPageId );
+	}
 
-  /**
-   * Get all non-empty tags with URLs
-   */
-  public function getTags()
-  {
-    $tags = get_tags([
-      'hide_empty' => true
-    ]);
+	/**
+	 * Get title of posts archive
+	 */
+	public function getUrl() {
+		return get_permalink( get_option( 'page_for_posts' ) );
+	}
 
-    foreach ($tags as $key => $tag) {
-      $tags[$key] = new \Timber\Term($tag->term_id);
-    }
+	/**
+	 * Get all non-empty tags with URLs
+	 */
+	public function getTags() {
+		$tags = get_tags(
+			array(
+				'hide_empty' => true,
+			)
+		);
 
-    return $tags;
-  }
+		foreach ( $tags as $key => $tag ) {
+			$tags[ $key ] = \Timber\Timber::get_term( $tag->term_id );
+		}
+
+		return $tags;
+	}
 }

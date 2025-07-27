@@ -13,7 +13,7 @@
     {% if services_page_fields.subtitle %}
       <h2 class="mb-6">{{services_page_fields.subtitle}}</h2>
     {% endif %}
-    
+
 
     {% if post.content %}
       <div class="grid lg:grid-cols-3 mb-12">
@@ -31,7 +31,7 @@
 
     {% if services %}
       {% for service in services %}
-        {% include "@components/teaser/teaser-service/teaser-service.twig" with { service: TimberPost(service) } %}
+        {% include "@components/teaser/teaser-service/teaser-service.twig" with { service: get_post(service) } %}
       {% endfor %}
     {% endif %}
 

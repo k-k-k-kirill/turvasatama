@@ -8,17 +8,17 @@
 
 namespace Pixels\TurvaSatama\Repositories;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use \WP_Post;
+use WP_Post;
 
 /**
  * Repository for accessing Service related data.
  */
-class Service
-{
+class Service {
+
 
 	/**
 	 * Content type this Repository deals with.
@@ -30,14 +30,13 @@ class Service
 	/**
 	 * Get all services.
 	 */
-  public function getAll()
-  {
-    $args = [
-      'post_type' => self::POST_TYPE,
-      'posts_per_page' => -1,
-      'orderby' => 'DESC'
-    ];
+	public function getAll() {
+		$args = array(
+			'post_type'      => self::POST_TYPE,
+			'posts_per_page' => -1,
+			'orderby'        => 'DESC',
+		);
 
-    return get_posts($args);
-  }
+		return get_posts( $args );
+	}
 }

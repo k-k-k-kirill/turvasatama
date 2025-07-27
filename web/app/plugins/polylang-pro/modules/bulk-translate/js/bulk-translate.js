@@ -5,19 +5,19 @@
  */
 
 jQuery(
-	function( $ ) {
+	function ( $ ) {
 		var t = this;
 
 		$( '.editinline' ).on(
 			'click',
-			function(){
+			function () {
 				$( '#pll-translate' ).find( '.cancel' ).trigger( 'click' ); // Close the form on quick edit
 			}
 		);
 
 		$( '#doaction, #doaction2' ).on(
 			'click',
-			function( e ){
+			function ( e ) {
 				t.whichBulkButtonId = $( this ).attr( 'id' );
 				var n = t.whichBulkButtonId.substr( 2 );
 
@@ -32,6 +32,10 @@ jQuery(
 					// The hidden tr allows to keep the background color.
 					// HTML prepended is hardcoded. So prepend is safe and as no need to be escaped.
 					$( 'table.widefat tbody' ).prepend( $( '#pll-translate' ) ).prepend( '<tr class="hidden"></tr>' ); // phpcs:ignore WordPressVIPMinimum.JS.HTMLExecutingFunctions.prepend
+					// Set initial focus on the Bulk translate region.
+					$( '#pll-translate .inline-edit-wrapper' ).attr( 'tabindex', '-1' ).focus();
+					// Scrolls to the top of the table where the editor is rendered.
+					$('html, body').animate( { scrollTop: 0 }, 'fast' );
 				} else {
 					$( '#pll-translate' ).find( '.cancel' ).trigger( 'click' );
 				}
@@ -42,7 +46,7 @@ jQuery(
 		$( '#pll-translate' ).on(
 			'click',
 			'.cancel',
-			function(){
+			function () {
 				// Close the form on any other bulk action
 				$( '#pll-translate' ).siblings( '.hidden' ).remove();
 				// #pll-translate is built and come from server side and is well escaped when necessary
@@ -56,7 +60,7 @@ jQuery(
 		// Act when pressing enter or esc
 		$( '#pll-translate' ).on(
 			'keydown',
-			function( event ){
+			function ( event ) {
 				if ( 'Enter' === event.key && ! $( event.target ).hasClass( 'cancel' ) ) {
 					event.preventDefault();
 					$( this ).find( 'input[type=submit]' ).trigger( 'click' );
@@ -71,10 +75,10 @@ jQuery(
 		// Clean DOM in case of file download
 		$( '#posts-filter' ).on(
 			'submit',
-			function() {
+			function () {
 				$( '.settings-error' ).remove();
 				setTimeout(
-					function() {
+					function () {
 						$( 'input[type=checkbox]:checked' ).attr( 'checked', false );
 						$( '#pll-translate' ).find( '.cancel' ).trigger( 'click' );
 					},

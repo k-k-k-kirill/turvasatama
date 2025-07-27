@@ -9,7 +9,7 @@
 namespace Pixels\Theme\Twig;
 
 // Main Timber library.
-use \Timber\Timber as TimberLibrary;
+use Timber\Timber as TimberLibrary;
 
 /**
  * Timber class
@@ -18,13 +18,6 @@ use \Timber\Timber as TimberLibrary;
  * Handle Timber related additional functionalities
  */
 class Timber {
-
-	/**
-	 * Timber library class instance.
-	 *
-	 * @var TimberLibrary
-	 */
-	private $timber;
 
 	/**
 	 * Context class instance
@@ -47,8 +40,7 @@ class Timber {
 	 */
 	public function __construct( $navigations ) {
 
-		// Class instances.
-		$this->timber    = new TimberLibrary();
+		// Class instances - Remove the Timber instantiation
 		$this->context   = new Context( $navigations );
 		$this->functions = new Functions();
 
@@ -57,7 +49,6 @@ class Timber {
 
 		// Register Twig namespaces.
 		add_filter( 'timber/loader/loader', array( $this, 'register_namespaces' ) );
-
 	}
 
 	/**
@@ -72,7 +63,7 @@ class Timber {
 		*
 		* @var array
 		 */
-		\Timber::$dirname = array( 'views/layouts', 'views/components' );
+		TimberLibrary::$dirname = array( 'views/layouts', 'views/components' );
 	}
 
 	/**

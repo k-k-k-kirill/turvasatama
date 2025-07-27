@@ -16,8 +16,8 @@ use Symfony\Component\String\Inflector\EnglishInflector;
  * Inherited by all taxonomies we create
  * Offers basic structure for creation & utility functions
  */
-abstract class AbstractTaxonomy
-{
+abstract class AbstractTaxonomy {
+
 
 	/**
 	 * Name of taxonomy
@@ -57,12 +57,11 @@ abstract class AbstractTaxonomy
 	/**
 	 * Create the taxonomy
 	 */
-	public function create()
-	{
+	public function create() {
 
 		// Register & connect to CPT(s).
-		register_taxonomy($this->get_name(), $this->get_post_type(), $this->get_args());
-		register_taxonomy_for_object_type($this->get_name(), $this->get_post_type());
+		register_taxonomy( $this->get_name(), $this->get_post_type(), $this->get_args() );
+		register_taxonomy_for_object_type( $this->get_name(), $this->get_post_type() );
 	}
 
 	/**
@@ -70,8 +69,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @param string $taxonomy name.
 	 */
-	protected function set_name($taxonomy)
-	{
+	protected function set_name( $taxonomy ) {
 		$this->taxonomy = $taxonomy;
 	}
 
@@ -80,8 +78,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @return string $taxonomy name.
 	 */
-	protected function get_name()
-	{
+	protected function get_name() {
 		return $this->taxonomy;
 	}
 
@@ -92,12 +89,11 @@ abstract class AbstractTaxonomy
 	 *
 	 * @param string $label of post type, eg. "Example Category".
 	 */
-	protected function set_automatic_labels($label)
-	{
+	protected function set_automatic_labels( $label ) {
 		$english_inflector = new EnglishInflector();
 
-		$this->set_tax_label_singular($label);
-		$this->set_tax_label_plural($english_inflector->pluralize($label)[0]);
+		$this->set_tax_label_singular( $label );
+		$this->set_tax_label_plural( $english_inflector->pluralize( $label )[0] );
 		$this->set_labels();
 	}
 
@@ -107,10 +103,9 @@ abstract class AbstractTaxonomy
 	 * @param string $singular label of tax, eg. "Category".
 	 * @param string $plural label of tax, eg. "Categories".
 	 */
-	protected function set_manual_labels($singular, $plural)
-	{
-		$this->set_tax_label_singular($singular);
-		$this->set_tax_label_plural($plural);
+	protected function set_manual_labels( $singular, $plural ) {
+		$this->set_tax_label_singular( $singular );
+		$this->set_tax_label_plural( $plural );
 		$this->set_labels();
 	}
 
@@ -119,8 +114,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @param string $label label of taxonomy.
 	 */
-	protected function set_tax_label_singular($label)
-	{
+	protected function set_tax_label_singular( $label ) {
 		$this->tax_label_singular = $label;
 	}
 
@@ -129,8 +123,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @param string $label plural label of taxonomy.
 	 */
-	protected function set_tax_label_plural($label)
-	{
+	protected function set_tax_label_plural( $label ) {
 		$this->tax_label_plural = $label;
 	}
 
@@ -139,8 +132,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @param mixed $post_type either array or string.
 	 */
-	protected function set_post_type($post_type)
-	{
+	protected function set_post_type( $post_type ) {
 		$this->post_type = $post_type;
 	}
 
@@ -149,8 +141,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @return mixed $post_type string or array.
 	 */
-	protected function get_post_type()
-	{
+	protected function get_post_type() {
 		return $this->post_type;
 	}
 
@@ -159,8 +150,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @param array $args name.
 	 */
-	protected function set_args(array $args)
-	{
+	protected function set_args( array $args ) {
 		$this->args = $args;
 	}
 
@@ -169,32 +159,30 @@ abstract class AbstractTaxonomy
 	 *
 	 * @return array $args of tax.
 	 */
-	protected function get_args()
-	{
+	protected function get_args() {
 		return $this->args;
 	}
 
 	/**
 	 * Set label strings for tax registration
 	 */
-	public function set_labels()
-	{
+	public function set_labels() {
 
 		$labels = array(
 			'name'              => sprintf(
-				_x('%s', 'taxonomy general name', 'turvasatama-plugin'),
+				_x( '%s', 'taxonomy general name', 'turvasatama-plugin' ),
 				$this->tax_label_plural
 			),
-			'singular_name'     => sprintf(_x('%s', 'taxonomy singular name', 'turvasatama-plugin'), $this->tax_label_plural),
-			'search_items'      => sprintf(__('Search %s ', 'turvasatama-plugin'), $this->tax_label_plural),
-			'all_items'         => sprintf(__('All %s', 'turvasatama-plugin'), $this->tax_label_plural),
-			'parent_item'       => sprintf(__('Parent %s', 'turvasatama-plugin'), $this->tax_label_plural),
-			'parent_item_colon' => sprintf(__('Parent %s:', 'turvasatama-plugin'), $this->tax_label_plural),
-			'edit_item'         => sprintf(__('Edit %s', 'turvasatama-plugin'), $this->tax_label_plural),
-			'update_item'       => sprintf(__('Update %s', 'turvasatama-plugin'), $this->tax_label_plural),
-			'add_new_item'      => sprintf(__('Add New %s', 'turvasatama-plugin'), $this->tax_label_plural),
-			'delete_item'       => sprintf(__('Delete %s', 'turvasatama-plugin'), $this->tax_label_plural),
-			'new_item_name'     => sprintf(__('New %s', 'turvasatama-plugin'), $this->tax_label_plural),
+			'singular_name'     => sprintf( _x( '%s', 'taxonomy singular name', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'search_items'      => sprintf( __( 'Search %s ', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'all_items'         => sprintf( __( 'All %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'parent_item'       => sprintf( __( 'Parent %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'parent_item_colon' => sprintf( __( 'Parent %s:', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'edit_item'         => sprintf( __( 'Edit %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'update_item'       => sprintf( __( 'Update %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'add_new_item'      => sprintf( __( 'Add New %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'delete_item'       => sprintf( __( 'Delete %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
+			'new_item_name'     => sprintf( __( 'New %s', 'turvasatama-plugin' ), $this->tax_label_plural ),
 		);
 
 		$this->labels = $labels;
@@ -205,8 +193,7 @@ abstract class AbstractTaxonomy
 	 *
 	 * @return array $labels of post.
 	 */
-	public function get_labels()
-	{
+	public function get_labels() {
 		return $this->labels;
 	}
 }

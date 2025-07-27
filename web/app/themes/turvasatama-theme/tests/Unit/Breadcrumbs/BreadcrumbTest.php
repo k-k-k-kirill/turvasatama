@@ -52,5 +52,4 @@ final class BreadcrumbTest extends TestCase {
 			$crumb->get_url()
 		);
 	}
-
 }

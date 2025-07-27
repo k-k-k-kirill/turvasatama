@@ -1,0 +1,180 @@
+{
+    "key": "group_629f6fcf8e0a6",
+    "title": "Specialists page fields",
+    "fields": [
+        {
+            "key": "field_629f6fd6d9151",
+            "label": "Specialists page fields",
+            "name": "specialists_page_fields",
+            "type": "group",
+            "instructions": "Fields that belong to \"Specialists Page\" template",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "aria-label": "",
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_629f7d78fb575",
+                    "label": "CTA",
+                    "name": "cta",
+                    "type": "group",
+                    "instructions": "Details of CTA sections on specialists page.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "aria-label": "",
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_629f7dabfb576",
+                            "label": "Title",
+                            "name": "title",
+                            "type": "text",
+                            "instructions": "Title of CTA section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "aria-label": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "maxlength": "",
+                            "translations": "ignore"
+                        },
+                        {
+                            "key": "field_629f7db7fb577",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "Link text and URL of CTA section URL",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "aria-label": "",
+                            "return_format": "array",
+                            "translations": "ignore"
+                        }
+                    ]
+                },
+                {
+                    "key": "field_629f84e2decc5",
+                    "label": "Contact form",
+                    "name": "contact_form",
+                    "type": "group",
+                    "instructions": "Contact form section fields",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "aria-label": "",
+                    "layout": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_629f84f0decc6",
+                            "label": "Text",
+                            "name": "text",
+                            "type": "wysiwyg",
+                            "instructions": "Text beside contact form",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "aria-label": "",
+                            "default_value": "",
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0,
+                            "translations": "ignore"
+                        },
+                        {
+                            "key": "field_629f857fdecc7",
+                            "label": "Link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "CTA link in contact form section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "aria-label": "",
+                            "return_format": "array",
+                            "translations": "ignore"
+                        },
+                        {
+                            "key": "field_629f858ddecc8",
+                            "label": "Form",
+                            "name": "form",
+                            "type": "post_object",
+                            "instructions": "Contact form to be used in the section",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "aria-label": "",
+                            "post_type": [
+                                "wpcf7_contact_form"
+                            ],
+                            "taxonomy": "",
+                            "allow_null": 0,
+                            "multiple": 0,
+                            "return_format": "object",
+                            "translations": "ignore",
+                            "ui": 1,
+                            "bidirectional_target": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_template",
+                "operator": "==",
+                "value": "controllers\/template-specialists-page.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1750836163
+}

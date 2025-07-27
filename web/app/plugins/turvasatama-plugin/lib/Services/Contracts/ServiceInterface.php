@@ -11,6 +11,6 @@ namespace Pixels\TurvaSatama\Services\Contracts;
 /**
  * Service interface
  */
-interface ServiceInterface
-{
+interface ServiceInterface {
+
 }

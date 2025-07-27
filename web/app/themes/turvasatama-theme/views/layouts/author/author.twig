@@ -5,7 +5,7 @@
 		<div class="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 py-8">
 			{% if author_info.photo %}
 				<div class="author__photo">
-					{% set image_object = TimberImage(author_info.photo.id) %}
+					{% set image_object = get_image(author_info.photo.id) %}
 					{{responsive_image(image_object.id, 'portrait', 'portrait', image_object.alt)}}
 				</div>
 			{% endif %}

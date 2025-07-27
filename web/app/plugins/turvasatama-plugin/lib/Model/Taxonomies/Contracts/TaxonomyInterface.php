@@ -11,8 +11,8 @@ namespace Pixels\TurvaSatama\Model\Taxonomies\Contracts;
 /**
  * Requires each taxonomy to have certain methods.
  */
-interface TaxonomyInterface
-{
+interface TaxonomyInterface {
+
 
 	/**
 	 * Create taxonomy.

@@ -18,8 +18,8 @@ if ( file_exists( get_template_directory() . '/vendor/erusev/parsedown/Parsedown
 	include_once get_template_directory() . '/vendor/erusev/parsedown/Parsedown.php';
 }
 
-$context         = Timber::get_context();
-$context['post'] = Timber::query_post(); // not needed probably.
+$context         = Timber::context();
+$context['post'] = Timber::get_post(); // not needed probably.
 
 $context['current_component'] = get_query_var( 'component', false );
 

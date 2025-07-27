@@ -10,7 +10,7 @@
 
     {% if section.image %}
       <div class="section-hero__image__wrap">
-        {% set image_object = TimberImage(section.image.id) %}
+        {% set image_object = get_image(section.image.id) %}
         {{responsive_image(image_object.id, 'page-hero-mobile', 'page-hero', image_object.alt)}}
       </div>
     {% endif %}

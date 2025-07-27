@@ -50,7 +50,7 @@ class Compatibility {
 	 * @return bool $compatible status;
 	 * @since 1.0
 	 */
-	public static function check_php_version() : bool {
+	public static function check_php_version(): bool {
 
 		$compatible = true;
 
@@ -70,7 +70,7 @@ class Compatibility {
 	 * @return bool $compatible status;
 	 * @since 1.0
 	 */
-	public static function check_wordpress_version() : bool {
+	public static function check_wordpress_version(): bool {
 
 		$compatible = true;
 
@@ -91,7 +91,7 @@ class Compatibility {
 	 * @param string $curr_wp_version
 	 * @return bool $compatible status;
 	 */
-	public static function wp_version_applies( string $wp_version, string $curr_wp_version ) : bool {
+	public static function wp_version_applies( string $wp_version, string $curr_wp_version ): bool {
 
 		$wp_version_arr   = explode( '.', $wp_version );
 		$curr_version_arr = explode( '.', $curr_wp_version );
@@ -120,5 +120,4 @@ class Compatibility {
 
 		return version_compare( $wp_version, $curr_wp_version, '<=' );
 	}
-
 }

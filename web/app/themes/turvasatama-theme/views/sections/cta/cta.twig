@@ -11,7 +11,7 @@
     <div>
       {% if section.image %}
         <div class="section-cta__image__wrap mb-4">
-          {% set image_object = TimberImage(section.image.id) %}
+          {% set image_object = get_image(section.image.id) %}
           {{responsive_image(image_object.id, 'cta', 'cta', image_object.alt)}}
         </div>
       {% endif %}
@@ -19,11 +19,11 @@
       {% if section.subtitle %}
         <h6 class="mb-4">{{section.subtitle}}</h6>
       {% endif %}
-      
+
       {% if section.content %}
         <p class="mb-4">{{section.content}}</p>
       {% endif %}
-      
+
       {% if section.link %}
         <a class="btn" target="{{section.link.target}}" href="{{section.link.url}}">{{section.link.title}}</a>
       {% endif %}

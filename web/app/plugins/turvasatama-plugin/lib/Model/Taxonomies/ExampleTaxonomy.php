@@ -15,8 +15,8 @@ use Pixels\TurvaSatama\Model\Taxonomies\Contracts\TaxonomyInterface;
 /**
  * Registers ExampleTaxonomy tax
  */
-class ExampleTaxonomy extends AbstractTaxonomy implements TaxonomyInterface
-{
+class ExampleTaxonomy extends AbstractTaxonomy implements TaxonomyInterface {
+
 
 	/**
 	 * Constant do define if post labels should be translatable
@@ -28,38 +28,36 @@ class ExampleTaxonomy extends AbstractTaxonomy implements TaxonomyInterface
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		// Set up tax.
-		$this->set_name('example_category');
-		$this->set_post_type('example');
+		$this->set_name( 'example_category' );
+		$this->set_post_type( 'example' );
 
 		// Set labels.
 		$this->prepare_labels();
 
-		$this->set_args($this->define_args());
+		$this->set_args( $this->define_args() );
 
 		// Hook up example taxonomy.
-		add_action('init', array($this, 'create'));
+		add_action( 'init', array( $this, 'create' ) );
 	}
 
 	/**
 	 * Prepare base labels to props.
 	 * Behavior depends on TRANSLATE_LABELS const.
 	 */
-	public function prepare_labels()
-	{
+	public function prepare_labels() {
 
-		if (self::TRANSLATE_LABELS) :
+		if ( self::TRANSLATE_LABELS ) :
 			// If you need to translate labels.
-			$singular = __('Example Category', 'turvasatama-plugin');
-			$plural   = __('Example Categories', 'turvasatama-plugin');
+			$singular = __( 'Example Category', 'turvasatama-plugin' );
+			$plural   = __( 'Example Categories', 'turvasatama-plugin' );
 
-			$this->set_manual_labels($singular, $plural);
+			$this->set_manual_labels( $singular, $plural );
 		else :
 			// Automatically generate labels from one word.
-			$this->set_automatic_labels('Example Category');
+			$this->set_automatic_labels( 'Example Category' );
 		endif;
 	}
 
@@ -68,11 +66,10 @@ class ExampleTaxonomy extends AbstractTaxonomy implements TaxonomyInterface
 	 *
 	 * @return array $labels
 	 */
-	public function define_args()
-	{
+	public function define_args() {
 
 		// Check if we're using manual or automatic labels.
-		if (null === $this->tax_label_singular && null === $this->tax_label_plural) :
+		if ( null === $this->tax_label_singular && null === $this->tax_label_plural ) :
 			$labels = $this->define_labels();
 		else :
 			$labels = $this->get_labels();
@@ -101,21 +98,20 @@ class ExampleTaxonomy extends AbstractTaxonomy implements TaxonomyInterface
 	 *
 	 * @return array $labels
 	 */
-	public function define_labels()
-	{
+	public function define_labels() {
 
 		$labels = array(
-			'name'              => _x('Example Tax', 'taxonomy general name', 'turvasatama-plugin'),
-			'singular_name'     => _x('Example Tax', 'taxonomy singular name', 'turvasatama-plugin'),
-			'search_items'      => __('Search Example ', 'turvasatama-plugin'),
-			'all_items'         => __('All Examples', 'turvasatama-plugin'),
-			'parent_item'       => __('Parent Examples', 'turvasatama-plugin'),
-			'parent_item_colon' => __('Parent Example:', 'turvasatama-plugin'),
-			'edit_item'         => __('Edit Example', 'turvasatama-plugin'),
-			'update_item'       => __('Update Example', 'turvasatama-plugin'),
-			'add_new_item'      => __('Add New Example', 'turvasatama-plugin'),
-			'delete_item'       => __('Delete item', 'turvasatama-plugin'),
-			'new_item_name'     => __('New Example', 'turvasatama-plugin'),
+			'name'              => _x( 'Example Tax', 'taxonomy general name', 'turvasatama-plugin' ),
+			'singular_name'     => _x( 'Example Tax', 'taxonomy singular name', 'turvasatama-plugin' ),
+			'search_items'      => __( 'Search Example ', 'turvasatama-plugin' ),
+			'all_items'         => __( 'All Examples', 'turvasatama-plugin' ),
+			'parent_item'       => __( 'Parent Examples', 'turvasatama-plugin' ),
+			'parent_item_colon' => __( 'Parent Example:', 'turvasatama-plugin' ),
+			'edit_item'         => __( 'Edit Example', 'turvasatama-plugin' ),
+			'update_item'       => __( 'Update Example', 'turvasatama-plugin' ),
+			'add_new_item'      => __( 'Add New Example', 'turvasatama-plugin' ),
+			'delete_item'       => __( 'Delete item', 'turvasatama-plugin' ),
+			'new_item_name'     => __( 'New Example', 'turvasatama-plugin' ),
 		);
 
 		return $labels;

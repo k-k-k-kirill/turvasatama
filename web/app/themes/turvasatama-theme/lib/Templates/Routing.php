@@ -65,4 +65,3 @@ class Routing {
 		return $templates;
 	}
 }
-

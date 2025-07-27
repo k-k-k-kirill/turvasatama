@@ -12,46 +12,46 @@ abstract class PLL_Admin_Base extends PLL_Base {
 	/**
 	 * Current language (used to filter the content).
 	 *
-	 * @var PLL_Language
+	 * @var PLL_Language|null
 	 */
 	public $curlang;
 
 	/**
 	 * Language selected in the admin language filter.
 	 *
-	 * @var PLL_Language
+	 * @var PLL_Language|null
 	 */
 	public $filter_lang;
 
 	/**
 	 * Preferred language to assign to new contents.
 	 *
-	 * @var PLL_Language
+	 * @var PLL_Language|null
 	 */
 	public $pref_lang;
 
 	/**
-	 * @var PLL_Filters_Links
+	 * @var PLL_Filters_Links|null
 	 */
 	public $filters_links;
 
 	/**
-	 * @var PLL_Admin_Links
+	 * @var PLL_Admin_Links|null
 	 */
 	public $links;
 
 	/**
-	 * @var PLL_Admin_Notices
+	 * @var PLL_Admin_Notices|null
 	 */
 	public $notices;
 
 	/**
-	 * @var PLL_Admin_Static_Pages
+	 * @var PLL_Admin_Static_Pages|null
 	 */
 	public $static_pages;
 
 	/**
-	 * @var PLL_Admin_Default_Term
+	 * @var PLL_Admin_Default_Term|null
 	 */
 	public $default_term;
 
@@ -68,11 +68,16 @@ abstract class PLL_Admin_Base extends PLL_Base {
 		// Adds the link to the languages panel in the WordPress admin menu
 		add_action( 'admin_menu', array( $this, 'add_menus' ) );
 
+		add_action( 'admin_menu', array( $this, 'remove_customize_submenu' ) );
+
 		// Setup js scripts and css styles
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'admin_print_footer_scripts', array( $this, 'admin_print_footer_scripts' ), 0 ); // High priority in case an ajax request is sent by an immediately invoked function
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ), 0 ); // High priority in case an ajax request is sent by an immediately invoked function
 
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_controls_enqueue_scripts' ) );
+
+		// Early instantiated to be able to correctly initialize language properties.
+		$this->static_pages = new PLL_Admin_Static_Pages( $this );
+		$this->model->set_languages_ready();
 	}
 
 	/**
@@ -86,15 +91,15 @@ abstract class PLL_Admin_Base extends PLL_Base {
 
 		$this->notices = new PLL_Admin_Notices( $this );
 
-		if ( ! $this->model->get_languages_list() ) {
+		$this->default_term = new PLL_Admin_Default_Term( $this );
+		$this->default_term->add_hooks();
+
+		if ( ! $this->model->has_languages() ) {
 			return;
 		}
 
 		$this->links = new PLL_Admin_Links( $this ); // FIXME needed here ?
-		$this->static_pages = new PLL_Admin_Static_Pages( $this ); // FIXME needed here ?
 		$this->filters_links = new PLL_Filters_Links( $this ); // FIXME needed here ?
-		$this->default_term = new PLL_Admin_Default_Term( $this );
-		$this->default_term->add_hooks();
 
 		// Filter admin language for users
 		// We must not call user info before WordPress defines user roles in wp-settings.php
@@ -119,8 +124,8 @@ abstract class PLL_Admin_Base extends PLL_Base {
 		$tabs = array( 'lang' => __( 'Languages', 'polylang' ) );
 
 		// Only if at least one language has been created
-		if ( $this->model->get_languages_list() ) {
-			$tabs['strings'] = __( 'Strings translations', 'polylang' );
+		if ( $this->model->has_languages() ) {
+			$tabs['strings'] = __( 'Translations', 'polylang' );
 		}
 
 		$tabs['settings'] = __( 'Settings', 'polylang' );
@@ -149,6 +154,16 @@ abstract class PLL_Admin_Base extends PLL_Base {
 	}
 
 	/**
+	 * Dummy method to display the 3 tabs pages: languages, strings translations, settings.
+	 * Overwritten in `PLL_Settings`.
+	 *
+	 * @since 3.7
+	 *
+	 * @return void
+	 */
+	public function languages_page() {}
+
+	/**
 	 * Setup js scripts & css styles ( only on the relevant pages )
 	 *
 	 * @since 0.6
@@ -156,56 +171,81 @@ abstract class PLL_Admin_Base extends PLL_Base {
 	 * @return void
 	 */
 	public function admin_enqueue_scripts() {
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		wp_enqueue_script( 'pll_admin', plugins_url( "/js/build/admin{$suffix}.js", POLYLANG_ROOT_FILE ), array( 'jquery' ), POLYLANG_VERSION, true );
+		$inline_script = sprintf( 'let pll_admin = %s;', wp_json_encode( array( 'ajax_filter' => $this->get_ajax_filter_data() ) ) );
+		wp_add_inline_script( 'pll_admin', $inline_script, 'before' );
+
 		$screen = get_current_screen();
 		if ( empty( $screen ) ) {
 			return;
 		}
 
-		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-
 		/*
 		 * For each script:
 		 * 0 => the pages on which to load the script
 		 * 1 => the scripts it needs to work
-		 * 2 => 1 if loaded even if languages have not been defined yet, 0 otherwise
-		 * 3 => 1 if loaded in footer
+		 * 2 => true if loaded even if languages have not been defined yet, false otherwise
+		 * 3 => true if loaded in footer
 		 */
 		$scripts = array(
-			'user'    => array( array( 'profile', 'user-edit' ), array( 'jquery' ), 0, 0 ),
-			'widgets' => array( array( 'widgets' ), array( 'jquery' ), 0, 0 ),
+			'user'    => array( array( 'profile', 'user-edit' ), array( 'jquery' ), false, false ),
+			'widgets' => array( array( 'widgets' ), array( 'jquery' ), false, false ),
 		);
 
+		$block_screens = array( 'widgets', 'site-editor' );
+
 		if ( ! empty( $screen->post_type ) && $this->model->is_translated_post_type( $screen->post_type ) ) {
-			$scripts['post'] = array( array( 'edit', 'upload' ), array( 'jquery', 'wp-ajax-response' ), 0, 1 );
+			$scripts['post'] = array( array( 'edit' ), array( 'jquery', 'wp-ajax-response' ), false, true );
 
 			// Classic editor.
 			if ( ! method_exists( $screen, 'is_block_editor' ) || ! $screen->is_block_editor() ) {
-				$scripts['classic-editor'] = array( array( 'post', 'media', 'async-upload' ), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-dialog', 'wp-i18n' ), 0, 1 );
+				$scripts['classic-editor'] = array( array( 'post', 'media', 'async-upload' ), array( 'jquery', 'wp-ajax-response', 'post', 'jquery-ui-dialog', 'wp-i18n' ), false, true );
 			}
 
 			// Block editor with legacy metabox in WP 5.0+.
-			if ( method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() && ! pll_use_block_editor_plugin() ) {
-				$scripts['block-editor'] = array( array( 'post' ), array( 'jquery', 'wp-ajax-response', 'wp-api-fetch', 'jquery-ui-dialog', 'wp-i18n' ), 0, 1 );
-			}
+			$block_screens[] = 'post';
+		}
+
+		if ( $this->options['media_support'] ) {
+			$scripts['media'] = array( array( 'upload' ), array( 'jquery' ), false, true );
+		}
+
+		if ( $this->is_block_editor( $screen ) ) {
+			$scripts['block-editor'] = array( $block_screens, array( 'jquery', 'wp-ajax-response', 'wp-api-fetch', 'jquery-ui-dialog', 'wp-i18n' ), false, true );
 		}
 
 		if ( ! empty( $screen->taxonomy ) && $this->model->is_translated_taxonomy( $screen->taxonomy ) ) {
-			$scripts['term'] = array( array( 'edit-tags', 'term' ), array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), 0, 1 );
+			$scripts['term'] = array( array( 'edit-tags', 'term' ), array( 'jquery', 'wp-ajax-response', 'jquery-ui-autocomplete' ), false, true );
 		}
 
 		foreach ( $scripts as $script => $v ) {
-			if ( in_array( $screen->base, $v[0] ) && ( $v[2] || $this->model->get_languages_list() ) ) {
-				wp_enqueue_script( 'pll_' . $script, plugins_url( '/js/build/' . $script . $suffix . '.js', POLYLANG_ROOT_FILE ), $v[1], POLYLANG_VERSION, $v[3] );
+			if ( in_array( $screen->base, $v[0] ) && ( $v[2] || $this->model->has_languages() ) ) {
+				wp_enqueue_script( "pll_{$script}", plugins_url( "/js/build/{$script}{$suffix}.js", POLYLANG_ROOT_FILE ), $v[1], POLYLANG_VERSION, $v[3] );
 				if ( 'classic-editor' === $script || 'block-editor' === $script ) {
-					wp_set_script_translations( 'pll_' . $script, 'polylang' );
+					wp_set_script_translations( "pll_{$script}", 'polylang' );
 				}
 			}
 		}
 
-		wp_register_style( 'polylang_admin', plugins_url( '/css/build/admin' . $suffix . '.css', POLYLANG_ROOT_FILE ), array( 'wp-jquery-ui-dialog' ), POLYLANG_VERSION );
-		wp_enqueue_style( 'polylang_dialog', plugins_url( '/css/build/dialog' . $suffix . '.css', POLYLANG_ROOT_FILE ), array( 'polylang_admin' ), POLYLANG_VERSION );
+		wp_register_style( 'polylang_admin', plugins_url( "/css/build/admin{$suffix}.css", POLYLANG_ROOT_FILE ), array( 'wp-jquery-ui-dialog' ), POLYLANG_VERSION );
+		wp_enqueue_style( 'polylang_dialog', plugins_url( "/css/build/dialog{$suffix}.css", POLYLANG_ROOT_FILE ), array( 'polylang_admin' ), POLYLANG_VERSION );
 
-		$this->localize_scripts();
+		$this->add_inline_scripts();
+	}
+
+	/**
+	 * Tells whether or not the given screen is block editor kind.
+	 * e.g. widget, site or post editor.
+	 *
+	 * @since 3.3
+	 *
+	 * @param WP_Screen $screen Screen object.
+	 * @return bool True if the screen is a block editor, false otherwise.
+	 */
+	protected function is_block_editor( $screen ) {
+		return method_exists( $screen, 'is_block_editor' ) && $screen->is_block_editor() && ! pll_use_block_editor_plugin();
 	}
 
 	/**
@@ -216,21 +256,30 @@ abstract class PLL_Admin_Base extends PLL_Base {
 	 * @return void
 	 */
 	public function customize_controls_enqueue_scripts() {
-		if ( $this->model->get_languages_list() ) {
+		if ( $this->model->has_languages() ) {
 			$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 			wp_enqueue_script( 'pll_widgets', plugins_url( '/js/build/widgets' . $suffix . '.js', POLYLANG_ROOT_FILE ), array( 'jquery' ), POLYLANG_VERSION, true );
-			$this->localize_scripts();
+			$this->add_inline_scripts();
 		}
 	}
 
 	/**
-	 * Localize scripts.
+	 * Adds inline scripts to set the default language in JS
+	 * and localizes scripts.
 	 *
-	 * @since 2.4.0
+	 * @since 3.3
 	 *
 	 * @return void
 	 */
-	public function localize_scripts() {
+	private function add_inline_scripts() {
+		if ( wp_script_is( 'pll_block-editor', 'enqueued' ) ) {
+			$default_lang_script = 'const pllDefaultLanguage = "' . $this->options['default_lang'] . '";';
+			wp_add_inline_script(
+				'pll_block-editor',
+				$default_lang_script,
+				'before'
+			);
+		}
 		if ( wp_script_is( 'pll_widgets', 'enqueued' ) ) {
 			wp_localize_script(
 				'pll_widgets',
@@ -243,22 +292,22 @@ abstract class PLL_Admin_Base extends PLL_Base {
 	}
 
 	/**
-	 * Sets pll_ajax_backend on all backend ajax request
-	 * The final goal is to detect if an ajax request is made on admin or frontend
+	 * Returns the data to use with the AJAX filter.
+	 * The final goal is to detect if an ajax request is made on admin or frontend.
 	 *
 	 * Takes care to various situations:
-	 * when the ajax request has no options.data thanks to ScreenfeedFr
-	 * see: https://wordpress.org/support/topic/ajaxprefilter-may-not-work-as-expected
-	 * when options.data is a json string
-	 * see: https://wordpress.org/support/topic/polylang-breaking-third-party-ajax-requests-on-admin-panels
-	 * when options.data is an empty string (GET request with the method 'load')
-	 * see: https://wordpress.org/support/topic/invalid-url-during-wordpress-new-dashboard-widget-operation
+	 * - When the AJAX request has no `options.data` thanks to ScreenfeedFr.
+	 *   See: https://wordpress.org/support/topic/ajaxprefilter-may-not-work-as-expected.
+	 * - When `options.data` is a JSON string.
+	 *   See: https://wordpress.org/support/topic/polylang-breaking-third-party-ajax-requests-on-admin-panels.
+	 * - When `options.data` is an empty string (GET request with the method 'load').
+	 *   See: https://wordpress.org/support/topic/invalid-url-during-wordpress-new-dashboard-widget-operation.
 	 *
-	 * @since 1.4
+	 * @since 3.7
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function admin_print_footer_scripts() {
+	public function get_ajax_filter_data(): array {
 		global $post_ID, $tag_ID;
 
 		$params = array( 'pll_ajax_backend' => 1 );
@@ -270,63 +319,14 @@ abstract class PLL_Admin_Base extends PLL_Base {
 			$params = array_merge( $params, array( 'pll_term_id' => (int) $tag_ID ) );
 		}
 
-		$str = http_build_query( $params );
-		$arr = wp_json_encode( $params );
-		?>
-		<script type="text/javascript">
-			if (typeof jQuery != 'undefined') {
-				jQuery(
-					function( $ ){
-						$.ajaxPrefilter( function ( options, originalOptions, jqXHR ) {
-							if ( -1 != options.url.indexOf( ajaxurl ) || -1 != ajaxurl.indexOf( options.url ) ) {
-
-								function addPolylangParametersAsString() {
-									if ( 'undefined' === typeof options.data || '' === options.data.trim() ) {
-										// Only Polylang data need to be send. So it could be as a simple query string.
-										options.data = '<?php echo $str; // phpcs:ignore WordPress.Security.EscapeOutput ?>';
-									} else {
-										/*
-										 * In some cases data could be a JSON string like in third party plugins.
-										 * So we need not to break their process by adding polylang parameters as valid JSON datas.
-										 */
-										try {
-											options.data = JSON.stringify( Object.assign( JSON.parse( options.data ), <?php echo $arr; // phpcs:ignore WordPress.Security.EscapeOutput ?> ) );
-										} catch( exception ) {
-											// Add Polylang data to the existing query string.
-											options.data = options.data + '&<?php echo $str; // phpcs:ignore WordPress.Security.EscapeOutput ?>';
-										}
-									}
-								}
-
-								/*
-								 * options.processData set to true is the default jQuery process where the data is converted in a query string by using jQuery.param().
-								 * This step is done before applying filters. Thus here the options.data is already a string in this case.
-								 * @See https://github.com/jquery/jquery/blob/3.5.1/src/ajax.js#L563-L569 jQuery ajax function.
-								 * It is the most case WordPress send ajax request this way however third party plugins or themes could be send JSON string.
-								 * Use JSON format is recommended in jQuery.param() documentation to be able to send complex data structures.
-								 * @See https://api.jquery.com/jquery.param/ jQuery param function.
-								 */
-								if ( options.processData ) {
-									addPolylangParametersAsString();
-								} else {
-									/*
-									 * If options.processData is set to false data could be undefined or pass as a string.
-									 * So data as to be processed as if options.processData is set to true.
-									 */
-									if ( 'undefined' === typeof options.data || 'string' === typeof options.data ) {
-										addPolylangParametersAsString();
-									} else {
-										// Otherwise options.data is probably an object.
-										options.data = Object.assign( options.data || {} , <?php echo $arr; // phpcs:ignore WordPress.Security.EscapeOutput ?> );
-									}
-								}
-							}
-						});
-					}
-				);
-			}
-		</script>
-		<?php
+		/**
+		 * Filters the list of parameters to add to the admin ajax request.
+		 *
+		 * @since 3.4.5
+		 *
+		 * @param array $params List of parameters to add to the admin ajax request.
+		 */
+		return (array) apply_filters( 'pll_admin_ajax_params', $params );
 	}
 
 	/**
@@ -366,8 +366,18 @@ abstract class PLL_Admin_Base extends PLL_Base {
 			$this->curlang = $this->model->get_language( sanitize_key( $_REQUEST['lang'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
+		/**
+		 * Filters the current language used by Polylang in the admin context.
+		 *
+		 * @since 3.2
+		 *
+		 * @param PLL_Language|false|null $curlang  Instance of the current language.
+		 * @param PLL_Admin_Base          $polylang Instance of the main Polylang's object.
+		 */
+		$this->curlang = apply_filters( 'pll_admin_current_language', $this->curlang, $this );
+
 		// Inform that the admin language has been set.
-		if ( $this->curlang ) {
+		if ( $this->curlang instanceof PLL_Language ) {
 			/** This action is documented in frontend/choose-lang.php */
 			do_action( 'pll_language_defined', $this->curlang->slug, $this->curlang );
 		} else {
@@ -394,7 +404,7 @@ abstract class PLL_Admin_Base extends PLL_Base {
 		$this->filter_lang = $this->model->get_language( get_user_meta( get_current_user_id(), 'pll_filter_content', true ) );
 
 		// Set preferred language for use when saving posts and terms: must not be empty
-		$this->pref_lang = empty( $this->filter_lang ) ? $this->model->get_language( $this->options['default_lang'] ) : $this->filter_lang;
+		$this->pref_lang = empty( $this->filter_lang ) ? $this->model->get_default_language() : $this->filter_lang;
 
 		/**
 		 * Filters the preferred language on admin side.
@@ -407,9 +417,6 @@ abstract class PLL_Admin_Base extends PLL_Base {
 		$this->pref_lang = apply_filters( 'pll_admin_preferred_language', $this->pref_lang );
 
 		$this->set_current_language();
-
-		// Plugin i18n, only needed for backend.
-		load_plugin_textdomain( 'polylang' );
 	}
 
 	/**
@@ -420,7 +427,7 @@ abstract class PLL_Admin_Base extends PLL_Base {
 	 *
 	 * @since 1.6.5
 	 *
-	 * @param array $qvars
+	 * @param array $qvars The array of requested query variables.
 	 * @return array
 	 */
 	public function request( $qvars ) {
@@ -450,7 +457,7 @@ abstract class PLL_Admin_Base extends PLL_Base {
 
 		$title = sprintf(
 			'<span class="ab-label"%1$s><span class="screen-reader-text">%2$s</span>%3$s</span>',
-			'all' === $selected->slug ? '' : sprintf( ' lang="%s"', esc_attr( $selected->get_locale( 'display' ) ) ),
+			$selected instanceof PLL_Language ? sprintf( ' lang="%s"', esc_attr( $selected->get_locale( 'display' ) ) ) : '',
 			__( 'Filters content by language', 'polylang' ),
 			esc_html( $selected->name )
 		);
@@ -495,6 +502,33 @@ abstract class PLL_Admin_Base extends PLL_Base {
 					'meta'   => 'all' === $lang->slug ? array() : array( 'lang' => esc_attr( $lang->get_locale( 'display' ) ) ),
 				)
 			);
+		}
+	}
+
+	/**
+	 * Remove the customize submenu when using a block theme.
+	 *
+	 * WordPress removes the Customizer menu if a block theme is activated and no other plugins interact with it.
+	 * As Polylang interacts with the Customizer, we have to delete this menu ourselves in the case of a block theme,
+	 * unless another plugin than Polylang interacts with the Customizer.
+	 *
+	 * @since 3.2
+	 *
+	 * @return void
+	 */
+	public function remove_customize_submenu() {
+		if ( ! $this->should_customize_menu_be_removed() ) {
+			return;
+		}
+
+		global $submenu;
+
+		if ( ! empty( $submenu['themes.php'] ) ) {
+			foreach ( $submenu['themes.php'] as $submenu_item ) {
+				if ( 'customize' === $submenu_item[1] ) {
+					remove_submenu_page( 'themes.php', $submenu_item[2] );
+				}
+			}
 		}
 	}
 }

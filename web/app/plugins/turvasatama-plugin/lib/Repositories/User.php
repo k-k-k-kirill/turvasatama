@@ -8,17 +8,17 @@
 
 namespace Pixels\TurvaSatama\Repositories;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use \WP_Post;
+use WP_Post;
 
 /**
  * Repository for accessing User related data.
  */
-class User
-{
+class User {
+
 
 	/**
 	 * Content type this Repository deals with.
@@ -30,27 +30,27 @@ class User
 	/**
 	 * Get all users with status 'author'.
 	 */
-	public function getAllAuthors()
-	{
-		return get_users(array(
-			'role__in'     => array('author', 'editor'),
-		));
+	public function getAllAuthors() {
+		return get_users(
+			array(
+				'role__in' => array( 'author', 'editor' ),
+			)
+		);
 	}
 
-	public function getAuthorsByService($serviceId)
-	{
-		$filteredAuthors = [];
-		$authors = $this->getAllAuthors();
+	public function getAuthorsByService( $serviceId ) {
+		$filteredAuthors = array();
+		$authors         = $this->getAllAuthors();
 
-		if (!empty($authors) && $authors) {
-			foreach ($authors as $author) {
-				$specialist_profile = get_field('specialist_profile', "user_$author->ID");
+		if ( ! empty( $authors ) && $authors ) {
+			foreach ( $authors as $author ) {
+				$specialist_profile = get_field( 'specialist_profile', "user_$author->ID" );
 
-				if ($specialist_profile) {
-					$services = get_field('services', $specialist_profile->ID);
+				if ( $specialist_profile ) {
+					$services = get_field( 'services', $specialist_profile->ID );
 				}
 
-				if ($services && in_array($serviceId, $services)) {
+				if ( $services && in_array( $serviceId, $services ) ) {
 					$filteredAuthors[] = $author;
 				}
 			}

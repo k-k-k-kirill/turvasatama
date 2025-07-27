@@ -3,60 +3,73 @@
  * @package Polylang-Pro
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Copy the title, content and excerpt from the source when creating a new post translation
- * in the classic editor.
- * Exposes pll_duplicate_content user meta in the REST API
+ * in the block editor.
+ * Exposes the pll_duplicate_content user meta in the REST API.
  *
  * @since 2.6
  */
 class PLL_Duplicate_REST {
-	use PLL_Duplicate_Trait;
+	/**
+	 * @var PLL_Admin_Links
+	 */
+	protected $links;
+
+	/**
+	 * Used to manage user meta.
+	 *
+	 * @var PLL_Toggle_User_Meta
+	 */
+	protected $user_meta;
 
 	/**
 	 * Constructor
 	 *
 	 * @since 2.6
 	 *
-	 * @param object $polylang Polylang object.
+	 * @param PLL_REST_Request|PLL_Admin $polylang Polylang object.
 	 */
 	public function __construct( &$polylang ) {
-		$this->options      = &$polylang->options;
-		$this->sync_content = &$polylang->sync_content;
-
-		add_filter( 'use_block_editor_for_post', array( $this, 'new_post_translation' ), 2000 ); // After class instanciation and before terms and post metas are copied in Polylang.
+		$this->links     = new PLL_Admin_Links( $polylang );
+		$this->user_meta = new PLL_Toggle_User_Meta( PLL_Duplicate_Action::META_NAME );
 
 		register_rest_field(
 			'user',
-			'pll_duplicate_content',
+			$this->user_meta->get_meta_name(),
 			array(
-				'get_callback'    => array( $this, 'get_duplicate_content_meta' ),
-				'update_callback' => array( $this, 'udpate_duplicate_content_meta' ),
+				'get_callback'    => array( $this->user_meta, 'get' ),
+				'update_callback' => array( $this->user_meta, 'update' ),
 			)
 		);
+
+		add_filter( 'block_editor_settings_all', array( $this, 'remove_template' ), 10, 2 );
 	}
 
 	/**
-	 * Get the duplicate content user meta value.
+	 * Avoids that the post template overwrites our duplicated content.
 	 *
-	 * @since 2.6
+	 * @since 3.2
 	 *
-	 * @return bool[]
+	 * @param array                   $editor_settings      Default editor settings.
+	 * @param WP_Block_Editor_Context $block_editor_context The current block editor context.
+	 * @return array
 	 */
-	public function get_duplicate_content_meta() {
-		return get_user_meta( get_current_user_id(), 'pll_duplicate_content', true );
-	}
+	public function remove_template( $editor_settings, $block_editor_context ) {
+		if ( empty( $block_editor_context->post ) || ! $block_editor_context->post instanceof WP_Post || empty( $block_editor_context->post->post_content ) ) {
+			return $editor_settings;
+		}
 
-	/**
-	 * Update the duplicate content user meta.
-	 *
-	 * @since 2.6
-	 *
-	 * @param bool[]  $options An array with post type as key and boolean as value.
-	 * @param WP_User $user    An instance of WP_User.
-	 * @return bool
-	 */
-	public function udpate_duplicate_content_meta( $options, $user ) {
-		return update_user_meta( $user->ID, 'pll_duplicate_content', $options );
+		$data = $this->links->get_data_from_new_post_translation_request( $block_editor_context->post->post_type );
+
+		if ( empty( $data ) ) {
+			return $editor_settings;
+		}
+
+		unset( $editor_settings['template'], $editor_settings['templateLock'] );
+
+		return $editor_settings;
 	}
 }

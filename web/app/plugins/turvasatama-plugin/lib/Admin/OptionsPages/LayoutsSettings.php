@@ -11,18 +11,17 @@ namespace Pixels\TurvaSatama\Admin\OptionsPages;
 /**
  * Register options page for Layouts Settings
  */
-class LayoutsSettings
-{
+class LayoutsSettings {
+
 
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		acf_add_options_page(
 			array(
-				'page_title'  => 'Layouts Settings',
-				'menu_title'  => 'Layouts Settings',
+				'page_title' => 'Layouts Settings',
+				'menu_title' => 'Layouts Settings',
 			)
 		);
 	}

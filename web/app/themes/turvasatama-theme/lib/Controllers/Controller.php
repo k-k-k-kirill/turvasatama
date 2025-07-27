@@ -8,6 +8,9 @@
 
 namespace Pixels\Theme\Controllers;
 
+// Add this use statement
+use Timber\Timber;
+
 /**
  * Controller class
  *
@@ -34,8 +37,8 @@ class Controller implements ControllerInterface {
 	 */
 	public function __construct() {
 
-		// Set up global context.
-		$this->context = \Timber::get_context();
+		// Set up global context - now use the imported class
+		$this->context = Timber::context();
 	}
 
 	/**
@@ -63,7 +66,7 @@ class Controller implements ControllerInterface {
 	 * @param string $key of context.
 	 * @return mixed $value of context.
 	 */
-	public function get_context( $key ) {
+	public function context( $key ) {
 		return $this->context[ $key ];
 	}
 
@@ -90,8 +93,6 @@ class Controller implements ControllerInterface {
 	 * Uses templates & context
 	 */
 	public function render() {
-		\Timber::render( $this->templates, $this->context );
+		Timber::render( $this->templates, $this->context );
 	}
-
 }
-

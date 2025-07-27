@@ -14,9 +14,30 @@ class PLL_Translate_Option {
 	/**
 	 * Array of option keys to translate.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	private $keys;
+
+	/**
+	 * Sanitization callback.
+	 *
+	 * @var callable|null
+	 */
+	private $sanitize_callback;
+
+	/**
+	 * Hashes for registered strings for this option.
+	 *
+	 * @var string[]
+	 */
+	private $hashes = array();
+
+	/**
+	 * Used to prevent filtering when retrieving the raw value of the option.
+	 *
+	 * @var bool
+	 */
+	private static $raw = false;
 
 	/**
 	 * Array of updated strings.
@@ -24,6 +45,18 @@ class PLL_Translate_Option {
 	 * @var array
 	 */
 	private $updated_strings = array();
+
+	/**
+	 * @var PLL_MO[]
+	 */
+	private $translations;
+
+	/**
+	 * Cache for the translated values.
+	 *
+	 * @var PLL_Cache<array|string>
+	 */
+	private $cache;
 
 	/**
 	 * Constructor
@@ -45,13 +78,15 @@ class PLL_Translate_Option {
 	 * @param array  $args {
 	 *    Optional. Array of arguments for registering the option.
 	 *
-	 *    @type string $context           The group in which the strings will be registered.
-	 *    @type string $sanitize_callback A callback function that sanitizes the option's value.
+	 *    @type string   $context           The group in which the strings will be registered.
+	 *    @type callable $sanitize_callback A callback function that sanitizes the option's value.
 	 * }
 	 */
 	public function __construct( $name, $keys = array(), $args = array() ) {
+		$this->cache = new PLL_Cache();
+
 		// Registers the strings.
-		$context = isset( $args['context'] ) ? $args['context'] : 'Polylang';
+		$context = $args['context'] ?? 'Polylang';
 		$this->register_string_recursive( $context, $name, get_option( $name ), $keys );
 
 		// Translates the strings.
@@ -63,11 +98,10 @@ class PLL_Translate_Option {
 		add_action( 'update_option_' . $name, array( $this, 'update_option' ) );
 
 		// Sanitizes translated strings.
-		if ( empty( $args['sanitize_callback'] ) ) {
-			add_filter( 'pll_sanitize_string_translation', array( $this, 'sanitize_option' ), 10, 2 );
-		} else {
-			add_filter( 'pll_sanitize_string_translation', $args['sanitize_callback'], 10, 3 );
+		if ( ! empty( $args['sanitize_callback'] ) ) {
+			$this->sanitize_callback = $args['sanitize_callback'];
 		}
+		add_filter( 'pll_sanitize_string_translation', array( $this, 'sanitize_option' ), 10, 4 );
 	}
 
 	/**
@@ -79,7 +113,27 @@ class PLL_Translate_Option {
 	 * @return mixed Translated string(s).
 	 */
 	public function translate( $value ) {
-		return $this->translate_string_recursive( $value, $this->keys );
+		if ( self::$raw ) {
+			return $value;
+		}
+
+		if ( empty( $GLOBALS['l10n']['pll_string'] ) || ! $GLOBALS['l10n']['pll_string'] instanceof PLL_MO ) {
+			return $value;
+		}
+
+		$lang = $GLOBALS['l10n']['pll_string']->get_header( 'Language' );
+
+		if ( ! is_string( $lang ) || '' === $lang ) {
+			return $value;
+		}
+
+		$cache = $this->cache->get( $lang );
+		if ( false === $cache ) {
+			$cache = $this->translate_string_recursive( $value, $this->keys );
+			$this->cache->set( $lang, $cache );
+		}
+
+		return $cache;
 	}
 
 	/**
@@ -89,13 +143,16 @@ class PLL_Translate_Option {
 	 *
 	 * @param mixed      $values Either a string to translate or a list of strings to translate.
 	 * @param array|bool $key    Array of option keys to translate.
-	 * @return array|string Translated string(s)
+	 * @return array|string Translated string(s).
 	 */
 	protected function translate_string_recursive( $values, $key ) {
 		$children = is_array( $key ) ? $key : array();
 
 		if ( is_array( $values ) || is_object( $values ) ) {
+			/** @var array|Traversable $values */
 			if ( count( $children ) ) {
+				$matcher = new PLL_Format_Util();
+
 				foreach ( $children as $name => $child ) {
 					if ( is_array( $values ) && isset( $values[ $name ] ) ) {
 						$values[ $name ] = $this->translate_string_recursive( $values[ $name ], $child );
@@ -107,11 +164,9 @@ class PLL_Translate_Option {
 						continue;
 					}
 
-					$pattern = '#^' . str_replace( '*', '(?:.+)', $name ) . '$#';
-
 					foreach ( $values as $n => &$value ) {
 						// The first case could be handled by the next one, but we avoid calls to preg_match here.
-						if ( '*' === $name || ( false !== strpos( $name, '*' ) && preg_match( $pattern, $n ) ) ) {
+						if ( $matcher->matches( $n, $name ) ) {
 							$value = $this->translate_string_recursive( $value, $child );
 						}
 					}
@@ -150,17 +205,20 @@ class PLL_Translate_Option {
 			$children = is_array( $key ) ? $key : array();
 
 			if ( count( $children ) ) {
+				$matcher = new PLL_Format_Util();
+
 				foreach ( $children as $name => $child ) {
 					if ( isset( $values[ $name ] ) ) {
 						$this->register_string_recursive( $context, $name, $values[ $name ], $child );
 						continue;
 					}
 
-					$pattern = '#^' . str_replace( '*', '(?:.+)', $name ) . '$#';
+					if ( ! $matcher->is_format( $name ) ) {
+						continue;
+					}
 
 					foreach ( $values as $n => $value ) {
-						// The first case could be handled by the next one, but we avoid calls to preg_match here.
-						if ( '*' === $name || ( false !== strpos( $name, '*' ) && preg_match( $pattern, $n ) ) ) {
+						if ( $matcher->matches( $n, $name ) ) {
 							$this->register_string_recursive( $context, $n, $value, $child );
 						}
 					}
@@ -171,9 +229,30 @@ class PLL_Translate_Option {
 					$this->register_string_recursive( $context, $n, $value, $key );
 				}
 			}
-		} else {
-			PLL_Admin_Strings::register_string( $option, $values, $context, true );
+		} elseif ( is_scalar( $values ) ) {
+			$string         = (string) $values;
+			$this->hashes[] = md5( "$string|$option|$context" );
+			PLL_Admin_Strings::register_string( $option, $string, $context, true );
 		}
+	}
+
+	/**
+	 * Returns the raw value of an option (without this class' filter).
+	 *
+	 * A static property is used to make sure that the option is not filtered
+	 * whatever the number of instances of this class filtering the option.
+	 *
+	 * @since 3.3
+	 *
+	 * @param string $option_name Option name.
+	 * @return mixed
+	 */
+	protected function get_raw_option( $option_name ) {
+		self::$raw    = true;
+		$option_value = get_option( $option_name );
+		self::$raw    = false;
+
+		return $option_value;
 	}
 
 	/**
@@ -192,19 +271,31 @@ class PLL_Translate_Option {
 	 */
 	public function pre_update_option( $value, $old_value, $name ) {
 		// Stores the unfiltered old option value before it is updated in DB.
-		remove_filter( 'option_' . $name, array( $this, 'translate' ), 10, 2 );
-		$unfiltered_old_value = get_option( $name );
-		add_filter( 'option_' . $name, array( $this, 'translate' ), 20, 2 );
+		$unfiltered_old_value = $this->get_raw_option( $name );
 
-		// Load strings translations according to the admin language filter
-		$locale = pll_current_language( 'locale' );
-		if ( empty( $locale ) ) {
-			$locale = pll_default_language( 'locale' );
+		$languages = PLL()->model->get_languages_list();
+
+		if ( empty( $languages ) ) {
+			return $value;
 		}
-		PLL()->load_strings_translations( $locale );
+
+		// Load translations in all languages.
+		foreach ( $languages as $language ) {
+			$this->translations[ $language->slug ] = new PLL_MO();
+			$this->translations[ $language->slug ]->import_from_db( $language );
+		}
+
+		$lang = pll_current_language();
+		if ( empty( $lang ) ) {
+			$lang = pll_default_language();
+		}
+
+		if ( empty( $lang ) ) {
+			return $value; // Something's wrong.
+		}
 
 		// Filters out the strings which would be updated to their translations and stores the updated strings.
-		$value = $this->check_value_recursive( $unfiltered_old_value, $value, $this->keys );
+		$value = $this->check_value_recursive( $unfiltered_old_value, $value, $this->keys, $this->translations[ $lang ] );
 
 		return $value;
 	}
@@ -224,26 +315,25 @@ class PLL_Translate_Option {
 		$curlang = pll_current_language();
 
 		if ( ! empty( $this->updated_strings ) ) {
-			foreach ( pll_languages_list() as $lang ) {
+			foreach ( PLL()->model->get_languages_list() as $language ) {
 
-				$language = PLL()->model->get_language( $lang );
-				$mo = new PLL_MO();
-				$mo->import_from_db( $language );
+				$mo = &$this->translations[ $language->slug ];
 
 				foreach ( $this->updated_strings as $old_string => $string ) {
 					$translation = $mo->translate( $old_string );
-					if ( ( empty( $curlang ) && $translation === $old_string ) || $lang === $curlang ) {
+					if ( ( empty( $curlang ) && $translation === $old_string ) || $language->slug === $curlang ) {
 						$translation = $string;
 					}
 
-					// Removes the old entry and replace it by the new one, with the same translation.
-					$mo->delete_entry( $old_string );
+					// Add new entry with new string and old translation.
 					$mo->add_entry( $mo->make_entry( $string, $translation ) );
 				}
 
 				$mo->export_to_db( $language );
 			}
 		}
+
+		$this->cache->clean();
 	}
 
 	/**
@@ -256,39 +346,42 @@ class PLL_Translate_Option {
 	 * later assign the translations to the new value in {@see PLL_Translate_Option::update_option()}.
 	 *
 	 * @since 2.9
+	 * @since 3.5 Added $mo parameter.
 	 *
 	 * @param mixed      $old_values The old option value.
-	 * @param mixed      $values     The new option value..
+	 * @param mixed      $values     The new option value.
 	 * @param array|bool $key        Array of option keys to translate.
+	 * @param PLL_MO     $mo         Translations used to compare the updated string to the translated old string.
 	 * @return mixed
 	 */
-	protected function check_value_recursive( $old_values, $values, $key ) {
+	protected function check_value_recursive( $old_values, $values, $key, $mo ) {
 		$children = is_array( $key ) ? $key : array();
 
 		if ( is_array( $values ) || is_object( $values ) ) {
+			/** @var array|Traversable $values */
 			if ( count( $children ) ) {
+				$matcher = new PLL_Format_Util();
+
 				foreach ( $children as $name => $child ) {
 					if ( is_array( $values ) && is_array( $old_values ) && isset( $old_values[ $name ], $values[ $name ] ) ) {
-						$values[ $name ] = $this->check_value_recursive( $old_values[ $name ], $values[ $name ], $child );
+						$values[ $name ] = $this->check_value_recursive( $old_values[ $name ], $values[ $name ], $child, $mo );
 						continue;
 					}
 
 					if ( is_object( $values ) && is_object( $old_values ) && isset( $old_values->$name, $values->$name ) ) {
-						$values->$name = $this->check_value_recursive( $old_values->$name, $values->$name, $child );
+						$values->$name = $this->check_value_recursive( $old_values->$name, $values->$name, $child, $mo );
 						continue;
 					}
 
-					$pattern = '#^' . str_replace( '*', '(?:.+)', $name ) . '$#';
-
 					foreach ( $values as $n => $value ) {
 						// The first case could be handled by the next one, but we avoid calls to preg_match here.
-						if ( '*' === $name || ( false !== strpos( $name, '*' ) && preg_match( $pattern, $n ) ) ) {
+						if ( $matcher->matches( $n, $name ) ) {
 							if ( is_array( $values ) && is_array( $old_values ) && isset( $old_values[ $n ] ) ) {
-								$values[ $n ] = $this->check_value_recursive( $old_values[ $n ], $value, $child );
+								$values[ $n ] = $this->check_value_recursive( $old_values[ $n ], $value, $child, $mo );
 							}
 
 							if ( is_object( $values ) && is_object( $old_values ) && isset( $old_values->$n ) ) {
-								$values->$n = $this->check_value_recursive( $old_values->$n, $value, $child );
+								$values->$n = $this->check_value_recursive( $old_values->$n, $value, $child, $mo );
 							}
 						}
 					}
@@ -297,16 +390,16 @@ class PLL_Translate_Option {
 				// Parent key is a wildcard and no sub-key has been whitelisted.
 				foreach ( $values as $n => $value ) {
 					if ( is_array( $values ) && is_array( $old_values ) && isset( $old_values[ $n ] ) ) {
-						$values[ $n ] = $this->check_value_recursive( $old_values[ $n ], $value, $key );
+						$values[ $n ] = $this->check_value_recursive( $old_values[ $n ], $value, $key, $mo );
 					}
 
 					if ( is_object( $values ) && is_object( $old_values ) && isset( $old_values->$n ) ) {
-						$values->$n = $this->check_value_recursive( $old_values->$n, $value, $key );
+						$values->$n = $this->check_value_recursive( $old_values->$n, $value, $key, $mo );
 					}
 				}
 			}
 		} elseif ( $old_values !== $values ) {
-			if ( pll__( $old_values ) === $values ) {
+			if ( $mo->translate( $old_values ) === $values ) {
 				$values = $old_values; // Prevents updating the value to its translation.
 			} else {
 				$this->updated_strings[ $old_values ] = $values; // Stores the updated strings.
@@ -317,15 +410,27 @@ class PLL_Translate_Option {
 	}
 
 	/**
-	 * Sanitizes the option value.
+	 * Sanitizes the string translation.
 	 *
 	 * @since 2.9
+	 * @since 3.7 Add $context and $original parameters.
 	 *
-	 * @param string $value The unsanitised value.
-	 * @param string $name  The name of the option.
+	 * @param string $value    The unsanitised string translation value.
+	 * @param string $name     The name registered for the string.
+	 * @param string $context  The context registered for the string.
+	 * @param string $original The original string to translate.
 	 * @return string Sanitized value.
 	 */
-	public function sanitize_option( $value, $name ) {
+	public function sanitize_option( $value, $name, $context, $original ) {
+		if ( ! in_array( md5( "$original|$name|$context" ), $this->hashes, true ) ) {
+			return $value;
+		}
+
+		if ( is_callable( $this->sanitize_callback ) ) {
+			return call_user_func( $this->sanitize_callback, $value, $name, $context, $original );
+		}
+
+		/** @var string */
 		return sanitize_option( $name, $value );
 	}
 }

@@ -14,7 +14,7 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	 *
 	 * @since 1.2
 	 *
-	 * @param object $polylang
+	 * @param object $polylang The Polylang object.
 	 */
 	public function __construct( &$polylang ) {
 		parent::__construct( $polylang );
@@ -66,36 +66,47 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	 * @since 0.8
 	 *
 	 * @param int[] $posts List of sticky posts ids.
-	 * @return int[] Modified list of sticky posts ids
+	 * @return int[] Modified list of sticky posts ids.
 	 */
 	public function option_sticky_posts( $posts ) {
 		global $wpdb;
 
-		// Do not filter sticky posts on REST requests as $this->curlang is *not* the 'lang' parameter set in the request
-		if ( ! defined( 'REST_REQUEST' ) && ! empty( $this->curlang ) && ! empty( $posts ) ) {
-			$_posts = wp_cache_get( 'sticky_posts', 'options' ); // This option is usually cached in 'all_options' by WP
-
-			if ( empty( $_posts ) || ! is_array( $_posts[ $this->curlang->term_taxonomy_id ] ) ) {
-				$posts = array_map( 'intval', $posts );
-				$posts = implode( ',', $posts );
-
-				$languages = $this->model->get_languages_list( array( 'fields' => 'term_taxonomy_id' ) );
-				$_posts = array_fill_keys( $languages, array() ); // Init with empty arrays
-				$languages = implode( ',', $languages );
-
-				// PHPCS:ignore WordPress.DB.PreparedSQL
-				$relations = $wpdb->get_results( "SELECT object_id, term_taxonomy_id FROM {$wpdb->term_relationships} WHERE object_id IN ({$posts}) AND term_taxonomy_id IN ({$languages})" );
-
-				foreach ( $relations as $relation ) {
-					$_posts[ $relation->term_taxonomy_id ][] = (int) $relation->object_id;
-				}
-				wp_cache_add( 'sticky_posts', $_posts, 'options' );
-			}
-
-			$posts = $_posts[ $this->curlang->term_taxonomy_id ];
+		// Do not filter sticky posts on REST requests as $this->curlang is *not* the 'lang' parameter set in the request.
+		if ( defined( 'REST_REQUEST' ) || empty( $this->curlang ) || empty( $posts ) ) {
+			return $posts;
 		}
 
-		return $posts;
+		$_posts = wp_cache_get( 'sticky_posts', 'options' ); // This option is usually cached in 'all_options' by WP.
+		$tt_id  = $this->curlang->get_tax_prop( 'language', 'term_taxonomy_id' );
+
+		if ( ! empty( $_posts ) && is_array( $_posts ) && ! empty( $_posts[ $tt_id ] ) && is_array( $_posts[ $tt_id ] ) ) {
+			return $_posts[ $tt_id ];
+		}
+
+		$languages = array();
+		foreach ( $this->model->get_languages_list() as $language ) {
+			$languages[] = $language->get_tax_prop( 'language', 'term_taxonomy_id' );
+		}
+
+		$relations = $wpdb->get_results(
+			$wpdb->prepare(
+				sprintf(
+					"SELECT object_id, term_taxonomy_id FROM {$wpdb->term_relationships} WHERE object_id IN (%s) AND term_taxonomy_id IN (%s)",
+					implode( ',', array_fill( 0, count( $posts ), '%d' ) ),
+					implode( ',', array_fill( 0, count( $languages ), '%d' ) )
+				),
+				array_merge( $posts, $languages )
+			)
+		);
+
+		$_posts = array_fill_keys( $languages, array() ); // Init with empty arrays.
+
+		foreach ( $relations as $relation ) {
+			$_posts[ $relation->term_taxonomy_id ][] = (int) $relation->object_id;
+		}
+
+		wp_cache_add( 'sticky_posts', $_posts, 'options' );
+		return $_posts[ $tt_id ];
 	}
 
 	/**
@@ -121,7 +132,15 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	 * @return string modified WHERE clause
 	 */
 	public function getarchives_where( $sql, $r ) {
-		return ! empty( $r['post_type'] ) && $this->model->is_translated_post_type( $r['post_type'] ) ? $sql . $this->model->post->where_clause( $this->curlang ) : $sql;
+		if ( ! $this->curlang instanceof PLL_Language ) {
+			return $sql;
+		}
+
+		if ( empty( $r['post_type'] ) || ! $this->model->is_translated_post_type( $r['post_type'] ) ) {
+			return $sql;
+		}
+
+		return $sql . $this->model->post->where_clause( $this->curlang );
 	}
 
 	/**
@@ -167,18 +186,18 @@ class PLL_Frontend_Filters extends PLL_Filters {
 	}
 
 	/**
-	 * Translates biography
+	 * Translates the biography.
 	 *
 	 * @since 0.9
 	 *
-	 * @param null   $null
-	 * @param int    $id       User id
-	 * @param string $meta_key
-	 * @param bool   $single   Whether to return only the first value of the specified $meta_key
-	 * @return null|string
+	 * @param null   $null     Expecting the default null value.
+	 * @param int    $id       The user id.
+	 * @param string $meta_key The metadata key.
+	 * @param bool   $single   Whether to return only the first value of the specified $meta_key.
+	 * @return string|null
 	 */
 	public function get_user_metadata( $null, $id, $meta_key, $single ) {
-		return 'description' === $meta_key && $this->curlang->slug !== $this->options['default_lang'] ? get_user_meta( $id, 'description_' . $this->curlang->slug, $single ) : $null;
+		return 'description' === $meta_key && ! empty( $this->curlang ) && ! $this->curlang->is_default ? get_user_meta( $id, 'description_' . $this->curlang->slug, $single ) : $null;
 	}
 
 	/**

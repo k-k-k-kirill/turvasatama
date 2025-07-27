@@ -8,15 +8,15 @@
 
 namespace Pixels\TurvaSatama\Ajax;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 /**
  * TurvaSatama Example Ajax class
  */
-class ExampleAjax
-{
+class ExampleAjax {
+
 
 	/**
 	 * Ajax endpoint name.
@@ -32,19 +32,17 @@ class ExampleAjax
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 
 		// Register endpoints.
-		add_action('wp_ajax_nopriv_' . self::AJAX_ENDPOINT, array($this, 'handle_request'));
-		add_action('wp_ajax_' . self::AJAX_ENDPOINT, array($this, 'handle_request'));
+		add_action( 'wp_ajax_nopriv_' . self::AJAX_ENDPOINT, array( $this, 'handle_request' ) );
+		add_action( 'wp_ajax_' . self::AJAX_ENDPOINT, array( $this, 'handle_request' ) );
 	}
 
 	/**
 	 * Handle AJAX request.
 	 */
-	public function handle_request()
-	{
+	public function handle_request() {
 
 		/**
 		 * Access data with $_REQUEST array.
@@ -54,15 +52,15 @@ class ExampleAjax
 
 		// Nonce verification.
 		if (
-			isset($_REQUEST['nonce']) &&
-			wp_verify_nonce(sanitize_key($_REQUEST['nonce']), self::NONCE_NAME)
+			isset( $_REQUEST['nonce'] ) &&
+			wp_verify_nonce( sanitize_key( $_REQUEST['nonce'] ), self::NONCE_NAME )
 		) :
 
 			// Business logic.
-			wp_send_json('ok');
+			wp_send_json( 'ok' );
 		else :
 			// Error handling.
-			wp_send_json('not ok');
+			wp_send_json( 'not ok' );
 		endif;
 	}
 }

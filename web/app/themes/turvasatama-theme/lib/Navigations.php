@@ -27,12 +27,8 @@ class Navigations {
 	 * Class constructor
 	 */
 	public function __construct() {
-
-		// Setup list of menus to use in theme.
-		$this->setup_menus();
-
 		// Actions.
-		add_action( 'after_setup_theme', array( $this, 'register_theme_navigations' ) );
+		add_action( 'init', array( $this, 'setup_menus' ) );
 	}
 
 	/**
@@ -46,6 +42,9 @@ class Navigations {
 			'mobile'  => __( 'Mobile Menu', 'turvasatama-theme' ),
 			'footer'  => __( 'Footer Menu', 'turvasatama-theme' ),
 		);
+
+		// Register menus immediately after setting them up
+		$this->register_theme_navigations();
 	}
 
 	/**
