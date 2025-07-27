@@ -47,7 +47,7 @@ class Post implements ServiceInterface {
 
 		if ( $tags && ! empty( $tags ) ) {
 			foreach ( $tags as $key => $tag ) {
-				$tags[ $key ] = new \Timber\Term( $tag->term_id );
+				$tags[ $key ] = \Timber\Timber::get_term( $tag->term_id );
 			}
 		}
 
