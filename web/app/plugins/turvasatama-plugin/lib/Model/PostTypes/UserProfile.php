@@ -36,6 +36,28 @@ class UserProfile extends AbstractPostType implements PostTypeInterface {
 
 		// Hook up User Profile cpt.
 		add_action( 'init', array( $this, 'register_post_type' ), 0 );
+
+		// Simple filtering - show only own posts for non-editors
+		add_filter( 'pre_get_posts', array( $this, 'filter_user_profiles_by_author' ) );
+	}
+
+	/**
+	 * Filter user profiles to show only user's own profiles for non-editors
+	 */
+	public function filter_user_profiles_by_author( $query ) {
+		if ( ! is_admin() || ! $query->is_main_query() ) {
+			return;
+		}
+
+		global $pagenow, $typenow;
+
+		// Only apply to user_profile post type in admin list
+		if ( $pagenow == 'edit.php' && $typenow == 'user_profile' ) {
+			// Authors can only see their own posts, Editors+ can see all
+			if ( ! current_user_can( 'edit_others_posts' ) ) {
+				$query->set( 'author', get_current_user_id() );
+			}
+		}
 	}
 
 	/**
@@ -99,7 +121,7 @@ class UserProfile extends AbstractPostType implements PostTypeInterface {
 			'hierarchical'       => false,
 			'menu_position'      => null,
 			'menu_icon'          => 'dashicons-id', // see list at https://developer.wordpress.org/resource/dashicons/
-			'supports'           => array( 'title', 'editor', 'thumbnail' ),
+			'supports'           => array( 'title', 'editor', 'thumbnail', 'author' ),
 		);
 
 		return $args;
