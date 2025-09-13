@@ -50,37 +50,6 @@
 		</section>
 	{% endif %}
 
-	{% if author_info.education %}
-		<section class="py-12 author__education mb-12">
-			<div class="container">
-				<h2 class="mb-8">{{single_author_fields.qualification_section_title}}</h2>
-
-				<div>
-					{% for education in author_info.education %}
-						<details class="py-4">
-							<summary>
-								<h5>{{education.title}}</h5>
-								<span class="author__summary__icon author__summary__icon--open">+</span>
-								<span class="author__summary__icon author__summary__icon--closed">-</span>
-							</summary>
-							<p class="pt-4 lead">{{education.description}}</p>
-						</details>
-					{% endfor %}
-				</div>
-			</div>
-		</section>
-	{% endif %}
-
-	{% if posts %}
-		{% set section_object = {
-      posts: posts,
-      title: single_author_fields.feed_section_title,
-      archive_url: archive_url
-    } %}
-
-		{% include '@sections/feed/feed.twig' with { section: section_object } %}
-	{% endif %}
-
 	{% if author_info.consultations %}
 		{% embed "@components/offset-content/offset-content.twig" with { classes: 'author__consultations' } %}
 			{% block title %}
@@ -115,6 +84,37 @@
 				{% endfor %}
 			{% endblock %}
 		{% endembed %}
+	{% endif %}
+
+	{% if author_info.education %}
+		<section class="py-12 author__education mb-12">
+			<div class="container">
+				<h2 class="mb-8">{{single_author_fields.qualification_section_title}}</h2>
+
+				<div>
+					{% for education in author_info.education %}
+						<details class="py-4">
+							<summary>
+								<h5>{{education.title}}</h5>
+								<span class="author__summary__icon author__summary__icon--open">+</span>
+								<span class="author__summary__icon author__summary__icon--closed">-</span>
+							</summary>
+							<p class="pt-4 lead">{{education.description}}</p>
+						</details>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	{% endif %}
+
+	{% if posts and posts|length > 0 %}
+		{% set section_object = {
+      posts: posts,
+      title: single_author_fields.feed_section_title,
+      archive_url: archive_url
+    } %}
+
+		{% include '@sections/feed/feed.twig' with { section: section_object } %}
 	{% endif %}
 
 	{% if single_author_fields.contact_form %}
