@@ -14,6 +14,9 @@ use Pixels\TurvaSatama\Services\Contracts\ServiceInterface;
 // Repositories.
 use Pixels\TurvaSatama\Repositories\Post as PostRepository;
 
+// App container  
+use Pixels\TurvaSatama\App;
+
 use WP_Post;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -98,6 +101,9 @@ class Post implements ServiceInterface {
 			return $sections;
 		}
 
+		// Get user service for specialists injection
+		$userService = App::$container->get( 'user' );
+
 		foreach ( $sections as $key => $section ) {
 			// Ensure $section is an array before accessing its elements
 			if ( ! is_array( $section ) ) {
@@ -112,6 +118,26 @@ class Post implements ServiceInterface {
 				$section['posts']       = $this->posts_repository->get_latest( $post_count );
 				$section['archive_url'] = get_permalink( get_option( 'page_for_posts' ) );
 				$sections[ $key ]       = $section;
+			}
+
+			// Handle specialists section with ACF description logic:
+			// "display all specialists which provide the service (if used on service template) 
+			//  or all specialists if used elsewhere"
+			if ( isset( $section['acf_fc_layout'] ) && $section['acf_fc_layout'] === 'specialists' ) {
+				$currentPostId = get_the_id();
+				$postType = get_post_type( $currentPostId );
+				
+				if ( $postType === 'service' ) {
+					// Service template: use filtered specialists
+					$specialists = $userService->getAuthorsByService( $currentPostId );
+				} else {
+					// Elsewhere: use all specialists
+					$specialists = $userService->getAuthors();
+				}
+				
+				if ( ! empty( $specialists ) && $specialists ) {
+					$sections[ $key ]['specialists_data'] = $specialists;
+				}
 			}
 		}
 
