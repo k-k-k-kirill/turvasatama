@@ -17,11 +17,5 @@ $sections = get_field( 'sectioned_fields', get_the_id() );
 $sections = $postService->injectFeedData( $sections );
 $controller->add_context( 'sections', $sections );
 
-$specialists = $userService->getAuthorsByService( get_the_id() );
-
-if ( $specialists && ! empty( $specialists ) ) {
-	$controller->add_context( 'specialists', $specialists );
-}
-
 // Render the twig.
 $controller->render();
