@@ -1,0 +1,46 @@
+{#
+ # View template for the base document construction.
+ #}
+<!doctype html>
+<html class="no-js" {{ site.language_attributes }}>
+
+  {% block head %}
+		<head>
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<meta http-equiv="x-ua-compatible" content="ie=edge">
+			{{ function('wp_head') }}
+		</head>
+  {% endblock %}
+
+  <body class="{{ body_class }}">
+		{# Skip links for a11y purposes. Should always be the first thing after the body tag #}
+		<a href="#main-content" class="skip-link">{{ __( 'Skip to main content', 'turvasatama-theme-v2' ) }}</a>
+		{# Element with id of 'main-menu' is in components/site-header/site-header.twig #}
+		<a href="#main-menu" class="skip-link">{{ __( 'Skip to menu menu', 'turvasatama-theme-v2' ) }}</a>
+
+    {{ function('wp_body_open') }}
+
+    {% block site_body %}
+
+      {% block site_header %}
+        {% include '@sections/site-header/site-header.twig' %}
+      {% endblock %}
+
+      <main id="main-content" role="main">
+				{% block site_content %}
+					{{ __('Sorry, no content was found!', 'turvasatama-theme-v2') }}
+				{% endblock %}
+      </main>
+
+      {% block site_footer %}
+        {% include '@sections/site-footer/site-footer.twig' %}
+      {% endblock %}
+
+    {% endblock %}
+
+    {{ function('wp_footer') }}
+
+  </body>
+
+</html>

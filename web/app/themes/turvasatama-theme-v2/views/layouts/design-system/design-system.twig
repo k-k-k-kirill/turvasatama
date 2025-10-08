@@ -1,0 +1,52 @@
+{#
+ # Template file for the design system.
+ #
+ # @version 1.0.0
+ #}
+
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+	<div class="ds">
+		<h1 class="ds__title">{{ __('Design System', 'turvasatama-theme-v2') }}</h1>
+		<div class="ds__navigation">
+			<div class="ds__navigation-list" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				{% for navigation_item in navigation %}
+					<a class="ds__link {{ navigation_item.active ? 'active' }}" href="{{ navigation_item.link }}">
+						{{ navigation_item.label }}
+					</a>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="ds__component">
+			<h2>{{ component.label }}</h2>
+
+			{% if component.description %}
+			<div class="ds__component-description">
+				{{ component.description }}
+			</div>
+			{% endif %}
+
+			{% if component.variations %}
+
+				{# Loop through variations, variations are (at the moment) organized per file. #}
+				{% for variation in component.variations %}
+					<h3><code>{{ variation.filename }}</code></h3>
+
+					{% if variation.data %}
+						{% for example_data in variation.data %}
+
+							<div>
+								{% include [variation.filepath] with example_data %}
+							</div>
+						{% endfor %}
+					{% else %}
+						<p>{{ __('No valid data file found for <code>%s</code>. Create one to display an example of this component. If you have created a file, check that the file contains vaild JSON syntax.', 'turvasatama-theme-v2')|format(variation.filename) }}</p>
+					{% endif %}
+				{% endfor %}
+
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

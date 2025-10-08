@@ -1,0 +1,35 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-10 md:mb-20">
+    {% if section.title %}
+      <h2 class="mb-4">{{section.title}}</h2>
+    {% endif %}
+
+    {% if section.specialists_data %}
+      <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% for specialist in section.specialists_data %}
+          {% if specialist.info %}
+            {% include "@components/teaser/teaser-specialist/teaser-specialist.twig" with { specialist: specialist, classes: 'mb-12' } %}
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="splide js-services-slider container md:hidden">
+        <div class="splide__slider">
+          <div class="splide__track">
+            <ul class="splide__list">
+              {% for specialist in section.specialists_data %}
+                {% if specialist.info %}
+                  <li class="splide__slide">
+                    {% include "@components/teaser/teaser-specialist/teaser-specialist.twig" with { specialist: specialist, classes: 'mb-12' } %}
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

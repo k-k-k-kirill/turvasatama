@@ -1,0 +1,40 @@
+.section-hero {
+  &__title {
+    width: 90%;
+    text-align: center;
+    text-transform: uppercase;
+
+    @media (min-width: $media-md) {
+      width: 40%;
+    }
+
+    &__wrap {
+      display: flex;
+      justify-content: center;
+      transform: translateY(50%);
+    }
+  }
+
+  &__image {
+    &__wrap {
+      // 10px horizontal margin for mobile/tablet, no margin on desktop
+      margin-left: 10px;
+      margin-right: 10px;
+
+      @media (min-width: $media-lg) {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      img {
+        border-radius: $border-radius;
+      }
+    }
+  }
+
+  .container {
+    @media (max-width: $media-md) {
+      padding: 0;
+    }
+  }
+}

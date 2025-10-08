@@ -1,0 +1,16 @@
+{% extends "teaser/teaser.twig" %}
+
+{% block content %}
+  {% if post.thumbnail %}
+    <a class="teaser-post__image__link" href="{{post.link}}">
+      <img class="teaser-post__image" src="{{get_image(post.thumbnail).src('thumbnail')}}" alt="{{get_image(post.thumbnail).alt('thumbnail')}}" />
+    </a>
+  {% endif %}
+  <div class="teaser-post__details mt-6">
+    <p class="teaser-post__date mb-4">{{post.date('d.m.Y')}}</p>
+    <a href="{{post.link}}" class="mb-4 h5 teaser-post__title">{{post.title}}</a>
+  </div>
+
+{% endblock %}
+
+

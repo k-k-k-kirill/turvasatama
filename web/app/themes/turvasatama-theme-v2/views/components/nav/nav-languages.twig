@@ -1,0 +1,27 @@
+{#
+ # Template for multilingual navigation.
+ #
+ # @version 1.0.0
+ #
+ # @var nav_items	Array of menu items from WordPress.
+ #}
+
+{% if site.multilingual and site.multilingual.languages|length > 1 %}
+	<nav class="nav-languages">
+		<a class="nav-languages__link js-nav-languages__link" href="#" id="LanguageDropdown" role="button" aria-haspopup="true" aria-expanded="false">
+      <span class="nav-languages__link__label">{{ site.multilingual.current }}</span>
+			<span class="sr-only">{{ _x( 'Toggle languages menu', 'Screen reader text for drop down toggle', 'turvasatama-theme-v2' ) }}</span>
+			<span class="nav-languages__link__toggle-icon"></span>
+    </a>
+
+		<ul class="nav-languages__list js-nav-languages__list {{ classes }}">
+			{% for language in site.multilingual.languages %}
+        {% if language.name != site.multilingual.current %}
+					<li class="nav-languages__list__item {{ item.classes|join(' ') }}">
+						<a class="nav-languages__list__item__link {{ language.classes|join(' ') }}" href="{{ language.url }}">{{ language.name }}</a>
+					</li>
+        {% endif %}
+      {% endfor %}
+		</ul>
+	</nav>
+{% endif %}

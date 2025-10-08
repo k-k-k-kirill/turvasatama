@@ -1,0 +1,7 @@
+<ol class="comments__list">
+	{% for comment in comments %}
+		<li class="comments__list__item">
+			{% include '@components/comments-loop/comment.twig' %}
+		</li>
+	{% endfor %}
+</ol>

@@ -1,0 +1,11 @@
+{#
+ # Partial for a search posts loop
+ #}
+
+<div class="posts-loop posts-loop-search">
+	{% for post in posts %}
+		<div class="posts-loop__item posts-loop-search__item posts-loop-{{ post.type }}__item">
+			{% include ['@components/teaser/teaser-search.twig', '@components/teaser/teaser-' ~ post.type ~ '.twig', '@components/teaser/teaser.twig'] %}
+		</div>
+	{% endfor %}
+</div>

@@ -1,0 +1,88 @@
+/************************************ SITE HEADER *****************************************/
+
+.admin-bar-showing {
+  top: 48px;
+
+  @include media-tablet {
+    top: 32px;
+  }
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+
+  &__brand {
+    background-color: $color-red;
+    padding: 25px 0;
+
+    @media (min-width: $media-md) {
+      padding: 40px 20px;
+    }
+
+    svg {
+      @media (max-width: $media-md) {
+        height: 45px;
+      }
+    }
+  }
+
+  &__nav-wrap {
+    display: flex;
+  }
+
+  &__cta {
+    display: none;
+    align-items: center;
+
+    @media (min-width: $media-md) {
+      display: flex;
+    }
+  }
+
+  &--dark {
+    background-color: $color-red;
+
+    .nav-desktop__link--toggle {
+      color: white;
+
+      svg {
+        fill: white;
+      }
+    }
+
+    .nav-desktop__link {
+      color: white;
+    }
+
+    .nav-mobile__toggle__icon--open {
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    .nav-mobile__toggle__icon--close {
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    .site-header__cta {
+      a {
+        color: white;
+        border-color: white;
+
+        &:hover {
+          background-color: transparent;
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+/************************************ SITE HEADER ENDS ************************************/

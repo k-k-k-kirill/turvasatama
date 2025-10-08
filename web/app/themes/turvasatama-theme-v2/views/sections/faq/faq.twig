@@ -1,0 +1,27 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-8 md:mb-12 grid lg:grid-cols-3 gap-5">
+    {% if section.title %}
+      <div>
+        <h2>{{section.title}}</h2>
+      </div>
+    {% endif %}
+
+    {% if section.items %}
+      <div class="lg:col-start-2 lg:col-span-2">
+        {% for item in section.items %}
+          <details class="py-4">
+            <summary>
+              <h5>{{item.question}}</h5>
+              <span class="section-faq__summary__icon section-faq__summary__icon--open">+</span>
+              <span class="section-faq__summary__icon section-faq__summary__icon--closed">-</span>
+            </summary>
+            <p class="pt-4 lead">{{item.answer}}</p>
+          </details>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
+  </div>
+{% endblock %}
