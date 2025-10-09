@@ -1,0 +1,26 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-10 md:mb-20">
+    {% if section.title %}
+      <h2 class="mb-4">{{section.title}}</h2>
+    {% endif %}
+
+    <div class="grid md:grid-cols-6 gap-8">
+      <div class="flex flex-col justify-center items-start flex-shrink-0 max-w-full">
+        {% if section.left_content %}
+          <div class="mb-3 section-contact-form__text text-wrap break-words">{{section.left_content}}</div>
+        {% endif %}
+
+        {% if section.link %}
+          {% set link_object = section.link %}
+          <a href="{{link_object.url}}" target="{{link_object.target}}" class="btn btn--weird mt-4 block flex-shrink-0">{{link_object.title}}</a>
+        {% endif %}
+      </div>
+
+      <div class="md:col-start-4 md:col-span-3">
+        {% include "@components/contact-form/contact-form.twig" with { id: section.contact_form.ID} %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+.section-services {
+  &__service {
+    border: solid 1px $separator;
+    width: 100%;
+    transition: all 0.15s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    border-radius: $border-radius;
+
+    &__content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 100%;
+      height: 100%;
+    }
+
+    &::before {
+      padding-bottom: 100%;
+      content: "";
+      display: block;
+    }
+
+    svg {
+      align-self: flex-end;
+      transform: rotate(-45deg);
+      transition: all 0.15s ease-in-out;
+
+      path {
+        stroke: none;
+        fill: $color-red;
+      }
+    }
+
+    &:hover {
+      background-color: $color-red;
+
+      h5 {
+        color: white;
+      }
+
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    &__title {
+      color: $color-body;
+      transition: all 0.15s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Helper class for services grid with right-aligned second row
+.services-grid {
+  @media (min-width: 1024px) {
+    .section-services__service:nth-child(4) {
+      grid-column: 3 / 4;
+      grid-row: 2;
+    }
+
+    .section-services__service:nth-child(5) {
+      grid-column: 4 / -1;
+      grid-row: 2;
+    }
+  }
+}

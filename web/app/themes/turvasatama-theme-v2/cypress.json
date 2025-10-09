@@ -1,0 +1,14 @@
+{
+  "retries": 4,
+  "fixturesFolder": "tests/Integration/config/fixtures",
+  "integrationFolder": "tests/Integration/tests",
+  "pluginsFile": "tests/Integration/config/plugins/index.js",
+  "supportFile": "tests/Integration/config/support/index.js",
+  "screenshotsFolder": "tests/Integration/logs/screenshots",
+  "videosFolder": "tests/Integration/logs/videos",
+  "env": {
+    "localUrl": "https://pixelsstartertheme.local",
+    "productionUrl": "https://pixelsstartertheme.local",
+    "themeName": "pixels-starter-theme"
+  }
+}

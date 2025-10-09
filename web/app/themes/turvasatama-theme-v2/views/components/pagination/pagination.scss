@@ -1,0 +1,77 @@
+.pagination {
+  &__list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+
+    @media (min-width: $media-md) {
+      justify-content: flex-end;
+    }
+
+    &__item {
+      a {
+        color: $color-body;
+        transition: all 0.15s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        margin-left: 5px;
+        margin-right: 5px;
+
+        &:hover {
+          color: white;
+          background-color: $color-red;
+        }
+      }
+
+      &.active {
+        a {
+          color: white;
+          background-color: $color-red;
+        }
+      }
+    }
+
+    &__next,
+    &__prev {
+      display: flex;
+      align-items: center;
+
+      a {
+        color: $color-body;
+      }
+
+      svg {
+        transition: all 0.15s ease-in-out;
+      }
+    }
+
+    &__prev {
+      svg {
+        margin-right: 5px;
+      }
+
+      &:hover {
+        svg {
+          transform: translateX(-5px);
+        }
+      }
+    }
+
+    &__next {
+      svg {
+        margin-left: 5px;
+      }
+
+      &:hover {
+        svg {
+          transform: translateX(5px);
+        }
+      }
+    }
+  }
+}

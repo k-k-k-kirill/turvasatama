@@ -1,0 +1,46 @@
+{#
+ # Template for pagination.
+ #
+ # @version 1.0.0
+ #
+ # @var pagination        The pagination object from an index page or single content.
+ # @var pagination_title  The ARIA descriptor for this pagination.
+ #}
+
+{% if pagination %}
+  <nav class="pagination" aria-label="{{ pagination_title }}">
+    <ul class="pagination__list {{ classes }}">
+      {% if pagination.prev %}
+        <li class="pagination__list__prev mr-1 {{ pagination.prev.link|length ?: 'disabled' }}">
+          {% include 'assets/images/chevron_left.svg' %}
+          <a class="pagination__list__item__link" href="{{ pagination.prev.link }}" {{ pagination.prev.link|length ?: 'tabindex="-1"' }}>
+						{{ _x('Previous', 'Pagination previous link', 'turvasatama-theme-v2') }}
+					</a>
+        </li>
+      {% endif %}
+
+      {% for page in pagination.pages %}
+        <li class="pagination__list__item {{ page.current ? 'active' }}">
+          <a class="pagination__list__item__link" href="{{ page.link }}">
+						{{ page.title }}
+
+						{% if page.current %}
+							<span class="sr-only">
+								{{ _x('current', 'Pagination current page indicator', 'turvasatama-theme-v2') }}
+							</span>
+						{% endif %}
+					</a>
+        </li>
+      {% endfor %}
+
+      {% if pagination.next %}
+        <li class="pagination__list__next ml-1 {{ pagination.next.link|length ?: 'disabled' }}">
+          <a class="pagination__list__item__link" href="{{ pagination.next.link }}" {{ pagination.next.link|length ?: 'tabindex="-1"' }}>
+						{{ _x('Next', 'Pagination next link',  'turvasatama-theme-v2') }}
+					</a>
+          {% include 'assets/images/chevron_right.svg' %}
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

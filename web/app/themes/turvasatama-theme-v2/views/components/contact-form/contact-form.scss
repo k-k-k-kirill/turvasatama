@@ -1,0 +1,62 @@
+.contact-form {
+  .wpcf7-form-control-wrap {
+    display: block;
+    width: 100%;
+    max-width: 593px !important;
+    margin-bottom: 0 !important;
+  }
+
+  // Remove any extra spacing from CF7 validation spans
+  .wpcf7-not-valid-tip,
+  .wpcf7-validation-errors {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  // Normalize spacing for all form elements
+  p {
+    margin: 0 !important;
+  }
+
+  br {
+    display: none; // Hide any unwanted line breaks
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    padding: 10px;
+    border: 1px solid rgba($color-body, 0.2);
+    border-radius: $border-radius;
+    margin-bottom: 20px;
+
+    &::placeholder {
+      color: $color-body;
+    }
+  }
+
+  textarea {
+    display: block;
+    background-color: transparent;
+    border: 1px solid rgba($color-body, 0.2);
+    border-radius: $border-radius;
+    height: 170px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 60px;
+
+    &::placeholder {
+      color: $color-body;
+    }
+  }
+
+  input[type="submit"] {
+    @extend .btn;
+    @extend .btn--outline;
+
+    background-color: $color-red;
+    color: white;
+  }
+}

@@ -1,0 +1,71 @@
+.btn,
+button {
+  display: inline-block;
+  font-size: rem(16px);
+  line-height: 1.5;
+  font-weight: 400;
+  border: 1px solid $color-body;
+  padding: 10px 30px;
+  color: $color-body;
+  border-radius: 40px;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    background-color: $color-body;
+    color: white;
+    cursor: pointer;
+  }
+
+  &--outline {
+    color: $color-body;
+    border-color: $color-body;
+    background-color: transparent;
+
+    &:hover {
+      background-color: $color-body;
+      color: white;
+    }
+
+    &--light {
+      border-color: white;
+      color: white;
+
+      &:hover {
+        background-color: white;
+        color: $color-body;
+      }
+    }
+  }
+
+  &--weird {
+    color: $color-body;
+    border: none;
+    background-color: transparent;
+    position: relative;
+    height: 73px;
+    z-index: 1;
+
+    &:hover {
+      background-color: transparent;
+      color: white;
+
+      &::after {
+        background-color: $color-body;
+      }
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 20%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: solid 1px $color-body;
+      border-radius: 50%;
+      transform: rotate(-9deg);
+      transition: all 0.15s ease-in-out;
+      z-index: -1;
+    }
+  }
+}

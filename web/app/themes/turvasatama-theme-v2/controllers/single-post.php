@@ -1,0 +1,59 @@
+<?php
+
+use Pixels\Theme\Controllers\PostController;
+use Pixels\TurvaSatama\App;
+
+// Services
+$postService = App::$container->get( 'post' );
+
+// Set up Controller instance.
+$controller = new PostController();
+
+// Set templates.
+$controller->set_templates( 'single/single-post/single-post.twig' );
+$postId = $controller->get_id();
+
+// Get fields.
+$additionalImages = get_field( 'additional_images', $postId );
+$controller->add_context( 'additional_images', $additionalImages );
+$postAuthorId = get_the_author_meta( 'ID' );
+
+if ( $postAuthorId ) {
+	$specialist_profile = get_field( 'specialist_profile', "user_$postAuthorId" );
+
+	if ( $specialist_profile ) {
+		$authorInfo = get_field( 'specialist_info', $specialist_profile->ID );
+	}
+
+	$postAuthorName = get_the_author();
+	if ( $postAuthorName && $specialist_profile && isset($specialist_profile->post_title) ) {
+		$authorInfo['name'] = $specialist_profile->post_title;
+	}
+
+	$postAuthorPostsUrl = get_author_posts_url( $postAuthorId );
+	if ( $postAuthorPostsUrl ) {
+		$authorInfo['url'] = $postAuthorPostsUrl;
+	}
+
+	$controller->add_context( 'author', $authorInfo );
+}
+
+// Get tags
+$tags = $postService->getTimberTags( $postId );
+
+if ( $tags && ! empty( $tags ) ) {
+	$controller->add_context( 'tags', $tags );
+}
+
+$relatedPosts = $postService->getRelatedPosts( $postId );
+
+if ( $relatedPosts && ! empty( $relatedPosts ) ) {
+	$controller->add_context( 'related_posts', $relatedPosts );
+}
+
+// Add the post object to the context so content is available in the template
+$post = \Timber\Timber::get_post($postId);
+$controller->add_context('post', $post);
+
+// Render the twig.
+$controller->render();

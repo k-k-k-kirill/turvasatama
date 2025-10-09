@@ -1,0 +1,24 @@
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+	{% include ['@sections/header/header-search.twig', '@sections/header/header.twig']
+		with {
+			section: {
+				acf_fc_layout: 'header',
+				title: title,
+				post_type: 'search',
+			}
+		}
+	%}
+
+	{% include ['@sections/posts/posts-search.twig', '@sections/posts/posts.twig']
+		with {
+			section: {
+				acf_fc_layout: 'posts',
+				post_type: post_type,
+				posts: posts,
+				pagination: pagination,
+			}
+		}
+	%}
+{% endblock %}

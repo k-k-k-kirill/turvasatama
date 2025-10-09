@@ -1,0 +1,19 @@
+{#
+ # @version 1.0.0
+ #
+ # @var checked           If the input is checked.
+ # @var classes           Classes for the input.
+ # @var disabled          If the input is disabled.
+ # @var id                Id attribute for the input.
+ # @var label             Label for the input.
+ # @var name              Name attribute for the input
+ # @var required          If the input is required.
+ # @var value             The value of the input.
+ #}
+
+<div class="{{ classes }}">
+  <label>
+    <input id="{{ id }}" name="{{ name }}" type="checkbox" value="{{ value }}" {{ checked ? 'checked' }} {{ disabled ? 'disabled' }} {{ required ? 'required' }}>
+    {{ label }}
+  </label>
+</div>

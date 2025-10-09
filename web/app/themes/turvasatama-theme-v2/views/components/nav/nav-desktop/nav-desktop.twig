@@ -1,0 +1,37 @@
+{% if nav_items %}
+	<ul class="nav-desktop {{ classes }}">
+		{% for item in nav_items %}
+			<li class="nav-desktop__item {{ item.children ? 'nav-desktop__item--dropdown' }} {{ item.classes|join(' ') }} md:mr-5">
+				{% if not item.children %}
+					<a class="nav-desktop__link" target="{{ item.target }}" href="{{ item.link }}">{{ item.title }}</a>
+				{% else %}
+					<div class="nav-desktop__link nav-desktop__link--toggle js-desktop-dropdown-toggle" data-toggle="{{item.slug}}-dropdown" aria-haspopup="true" aria-expanded="false">
+						<span>{{ item.title }}</span>
+						{% include 'assets/images/chevron-down-thin.svg' %}
+					</div>
+					<div class="nav-desktop__dropdown-menu js-dropdown-menu" aria-labelledby="{{ item.slug }}-dropdown" id="{{item.slug}}-dropdown">
+						{% for sub_item in item.children %}
+							<a class="nav-desktop__dropdown-item js-dropdown-menu-item {{ sub_item.classes|join(' ') }} {{loop.last == false ? 'mb-2' : ''}}" target="{{ sub_item.target }}" href="{{ sub_item.link }}">{{ sub_item.title }}</a>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</li>
+		{% endfor %}
+
+		{% if site.multilingual and site.multilingual.languages|length > 1 %}
+			<li class="nav-desktop__languages nav-desktop__item nav-desktop__item--dropdown">
+				<div class="nav-desktop__link nav-desktop__link--toggle js-desktop-dropdown-toggle" data-toggle="{{item.slug}}-dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="capitalize">{{ site.multilingual.current }}</span>
+					{% include 'assets/images/chevron-down-thin.svg' %}
+				</div>
+				<div class="nav-desktop__dropdown-menu js-dropdown-menu" aria-labelledby="{{ item.slug }}-dropdown" id="{{item.slug}}-dropdown">
+					{% for language in site.multilingual.languages %}
+						{% if language.slug != site.multilingual.current %}
+							<a class="nav-desktop__dropdown-item js-dropdown-menu-item capitalize {{ sub_item.classes|join(' ') }} {{loop.last == false ? 'mb-2' : ''}}" href="{{ language.url }}">{{ language.slug }}</a>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</li>
+		{% endif %}
+	</ul>
+{% endif %}

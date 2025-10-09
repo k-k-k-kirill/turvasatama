@@ -1,0 +1,21 @@
+{% extends "teaser/teaser.twig" %}
+
+{% block content %}
+	{% if specialist.info.photo %}
+		<a class="teaser-specialist__image__link mb-2" href="{{specialist.link}}">
+			<img class="teaser-specialist__image" src="{{get_image(specialist.info.photo).src('specialist')}}" alt="{{get_image(specialist.info.photo).alt('specialist')}}"/>
+		</a>
+	{% endif %}
+
+	{% if specialist.display_name %}
+		<h5 class="mb-1">{{specialist.info.name}}</h5>
+	{% endif %}
+
+	{% if specialist.info.description %}
+		<p class="mb-4">{{specialist.info.description}}</p>
+	{% endif %}
+
+	{% if specialist.link %}
+		<a href="{{specialist.link}}" class="teaser-specialist__link">{{__('Read more', 'turvasatama-theme-v2')}}</a>
+	{% endif %}
+{% endblock %}

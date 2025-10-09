@@ -1,0 +1,54 @@
+{#
+ # Template for the site footer.
+ #}
+
+<footer class="site-footer">
+	<div class="js-footer-cursor site-footer__cursor"></div>
+	<section class="site-footer__content container pb-9">
+		{% block contents %}
+			<div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-4">
+				<div class="md:col-span-2 mb-6 md:mb-0">
+					<a href="/">
+						{% include 'assets/images/logo.svg' %}
+					</a>
+				</div>
+				<div class="mb-6 md:mb-0">
+					{% include '@components/nav/nav-footer/nav-footer.twig' with {
+            nav_items: menu.desktop.get_items,
+          } %}
+				</div>
+				<div class="mb-6 md:mb-0">
+					<div>
+						{% if site.street_address %}
+							<p>{{site.street_address}},</p>
+						{% endif %}
+						{% if site.postal_code or site.city %}
+							<p>{{site.postal_code}}
+								{{site.city}}</p>
+						{% endif %}
+					</div>
+					{% if site.email %}
+						<a class="mt-2 site-footer__email" href="mailto:{{site.email}}">{{site.email}}</a>
+					{% endif %}
+				</div>
+				<div class="site-footer__social">
+					{% if site.facebook %}
+						<a href="{{site.facebook}}">{% include 'assets/images/facebook.svg' %}</a>
+					{% endif %}
+					{% if site.instagram %}
+						<a class="ml-3" href="{{site.instagram}}">{% include 'assets/images/instagram.svg' %}</a>
+					{% endif %}
+					{% if site.youtube %}
+						<a class="ml-3" href="{{site.youtube}}">{% include 'assets/images/youtube.svg' %}</a>
+					{% endif %}
+				</div>
+			</div>
+		{% endblock %}
+	</section>
+	<section class="site-footer__credits container text-center">
+    <div>
+		  {{ __('&copy; %1$s %2$s.', 'turvasatama-theme-v2')|format(("now"|date('Y')), 'TurvaSatama') }}
+    </div>
+		<a href="{{ site.key_pages.privacy_policy }}">{{ __('Privacy policy', 'turvasatama-theme-v2') }}</a>
+	</section>
+</footer>

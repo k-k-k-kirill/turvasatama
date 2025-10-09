@@ -1,0 +1,33 @@
+{% extends "base/base.twig" %}
+
+{% block site_content %}
+  <div class="container">
+    <div class="home__header py-12">
+      <h1 class="home__title">{{title}}</h1>
+    </div>
+    <div class="home__tags pt-2 mb-8">
+      {% if url %}
+
+        <a class="home__tag {{home ? 'active' : ''}} mr-2 mb-2" href="{{url}}">{{__('All', 'turvasatama-theme-v2')}}</a>
+      {% endif %}
+
+      {% if tags %}
+        {% for tag in tags %}
+          <a href="{{tag.link}}" class="home__tag {{current_tag.term_id == tag.term_id ? 'active' : ''}} {{loop.last ? '' : 'mr-2'}} mb-2">{{tag.title}}</a>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if posts %}
+      <div class="grid md:grid-cols-2 gap-12 mb-12">
+        {% for item in posts %}
+          {% include 'teaser/teaser-post/teaser-post.twig' with { post: item } %}
+        {% endfor %}
+      </div>
+
+      <div class="mb-12">
+        {% include '@components/pagination/pagination.twig' with { pagination: pagination } %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

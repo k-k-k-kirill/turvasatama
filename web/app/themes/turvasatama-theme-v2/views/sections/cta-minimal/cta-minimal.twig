@@ -1,0 +1,19 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_classes %}
+  section-cta-minimal
+  mb-10 md:mb-20
+{% endblock %}
+
+{% block section_content %}
+  <div class="container section-cta-minimal__container py-8">
+    <h2 class="section-cta-minimal__title h1 mb-4">{{section.title}}</h2>
+
+    {% if section.link %}
+        <div class="text-center">
+          <a class="btn btn--outline btn--outline--light" target="{{section.link.target}}" href="{{section.link.url}}">{{section.link.title}}</a>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

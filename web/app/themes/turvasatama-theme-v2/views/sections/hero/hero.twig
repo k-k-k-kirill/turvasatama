@@ -1,0 +1,18 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-10 md:mb-20">
+    {% if section.title %}
+      <div class="section-hero__title__wrap">
+        <h1 class="section-hero__title">{{section.title}}</h1>
+      </div>
+    {% endif %}
+
+    {% if section.image %}
+      <div class="section-hero__image__wrap">
+        {% set image_object = get_image(section.image.id) %}
+        {{responsive_image(image_object.id, 'page-hero-mobile', 'page-hero', image_object.alt)}}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
