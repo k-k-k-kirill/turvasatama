@@ -1,0 +1,26 @@
+{% extends "teaser/teaser.twig" %}
+
+{% block content %}
+  <div class="grid lg:grid-cols-3 mb-10 md:mb-20">
+    <div class="lg:col-start-2 lg:col-span-2">
+      <div class="grid md:grid-cols-3 gap-2">
+        <div class="teaser-service__title">
+          <div class="teaser-service__title__icon">
+            {% include "assets/images/arrow_right_thin.svg" %}
+          </div>
+          <a href="{{service.link}}" class="h5">
+            {{service.title}}
+          </a>
+        </div>
+
+          <div class="md:col-span-2 md:col-start-2">
+            <div>
+              {{service.content}}
+            </div>
+
+            <a href="{{service.link}}" class="btn btn--outline mt-4">{{__('Read more', 'turvasatama-theme-v2')}}</a>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

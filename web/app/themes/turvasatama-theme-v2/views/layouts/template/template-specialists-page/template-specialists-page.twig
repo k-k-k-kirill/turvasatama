@@ -1,0 +1,32 @@
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+	<section class="container">
+		<h1 class="specialists__title my-12">{{post.title}}</h1>
+
+		{% if specialists %}
+			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+				{% for specialist in specialists %}
+					{% if specialist.info %}
+						{% include "@components/teaser/teaser-specialist/teaser-specialist.twig" with { specialist: specialist, classes: 'mb-12' } %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
+	</section>
+
+	{% if specialists_fields.cta %}
+		{% include "@sections/cta-minimal/cta-minimal.twig" with { section: specialists_fields.cta } %}
+	{% endif %}
+
+	{% if specialists_fields.contact_form %}
+		{% set section_object = {
+      left_content: specialists_fields.contact_form.text,
+      contact_form: specialists_fields.contact_form.form,
+      link: specialists_fields.contact_form.link
+    } %}
+		{% include "@sections/contact-form/contact-form.twig" with {
+      section: section_object
+    } %}
+	{% endif %}
+{% endblock %}

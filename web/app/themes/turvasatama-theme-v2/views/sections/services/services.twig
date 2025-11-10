@@ -1,0 +1,58 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="container mb-10 md:mb-20">
+    <div class="grid md:grid-cols-2 mb-6 md:mb-10">
+      {% if section.title %}
+        <div>
+          <h2 class="mb-4">{{section.title}}</h2>
+        </div>
+      {% endif %}
+
+      {% if section.content or section.link %}
+        <div>
+          <div>{{section.content}}</div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-2 services-grid">
+      {% for service in section.services %}
+        {% set service_object = get_post(service) %}
+        <a href="{{service_object.link}}" class="section-services__service p-2 
+          {%- if loop.index == 4 -%}
+            lg:col-start-3 lg:row-start-2 {# Second row: 4th item starts at column 3, row 2 #}
+          {%- elseif loop.index == 5 -%}
+            lg:col-start-4 lg:row-start-2 {# Second row: 5th item at column 4, row 2 #}
+          {%- endif -%}">
+          <div class="section-services__service__content">
+            <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
+
+            {% include "assets/images/arrow_right.svg" %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="splide js-services-slider container md:hidden">
+      <div class="splide__slider">
+        <div class="splide__track">
+          <ul class="splide__list">
+            {% for service in section.services %}
+              {% set service_object = get_post(service) %}
+              <li class="splide__slide">
+                <a href="{{service_object.link}}" class="section-services__service p-2 {{loop.index == 4 or loop.index == 7 ? 'lg:col-start-2' : ''}}">
+                    <div class="section-services__service__content">
+                      <h5 class="h5 section-services__service__title">{{service_object.title}}</h5>
+
+                      {% include "assets/images/arrow_right.svg" %}
+                    </div>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

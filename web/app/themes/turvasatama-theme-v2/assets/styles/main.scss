@@ -1,0 +1,72 @@
+@import "reset-css";
+@import "common/variables";
+@import "~@splidejs/splide/dist/css/splide.min.css";
+@import "~tailwindcss/base";
+@import "~tailwindcss/components";
+@import "~tailwindcss/utilities";
+
+// *************
+// Common styles
+// *************
+@import "common/fonts";
+@import "common/mixins/fluid-type";
+@import "common/mixins/media";
+@import "common/mixins/placeholder";
+@import "common/functions/rem";
+@import "common/typography";
+@import "common/global";
+@import "common/a11y";
+@import "common/buttons";
+@import "common/tinymce";
+@import "common/wordpress";
+@import "common/cookie-notice";
+@import "common/video-embeds";
+
+// ****************
+// Component styles
+// ****************
+@import "../../views/components/comments-loop/comments-loop";
+@import "../../views/components/colors/colors";
+@import "../../views/components/form/form";
+@import "../../views/components/form/form-new-comment";
+@import "../../views/components/typography/typography";
+@import "../../views/components/nav/nav-desktop/nav-desktop.scss";
+@import "../../views/components/nav/nav-mobile/nav-mobile.scss";
+@import "../../views/components/nav/nav-footer/nav-footer.scss";
+@import "../../views/components/teaser/teaser-post/teaser-post.scss";
+@import "../../views/components/pagination/pagination.scss";
+@import "../../views/components/separator/separator.scss";
+@import "../../views/components/contact-form/contact-form.scss";
+@import "../../views/components/teaser/teaser-specialist/teaser-specialist.scss";
+@import "../../views/components/teaser/teaser-service/teaser-service.scss";
+
+// ****************
+// Section styles
+// ****************
+
+@import "../../views/sections/site-header/site-header";
+@import "../../views/sections/site-footer/site-footer.scss";
+@import "../../views/sections/hero/hero.scss";
+@import "../../views/sections/cta/cta.scss";
+@import "../../views/sections/header/header-post.scss";
+@import "../../views/sections/feed/feed.scss";
+@import "../../views/sections/cta-minimal/cta-minimal.scss";
+@import "../../views/sections/thirty-seventy/thirty-seventy.scss";
+@import "../../views/sections/bullet-points/bullet-points.scss";
+@import "../../views/sections/cases/cases.scss";
+@import "../../views/sections/faq/faq.scss";
+@import "../../views/sections/contact-form/contact-form.scss";
+@import "../../views/sections/services/services.scss";
+@import "../../views/sections/bubbles/bubbles.scss";
+@import "../../views/sections/about/about.scss";
+
+// ***********
+// Layout styles
+// ***********
+@import "../../views/layouts/design-system/design-system";
+@import "../../views/layouts/author/author.scss";
+@import "../../views/layouts/single/single-post/single-post.scss";
+@import "../../views/layouts/home/home.scss";
+@import "../../views/layouts/template/template-specialists-page/template-specialists-page.scss";
+@import "../../views/layouts/single/single-service/single-service.scss";
+@import "../../views/layouts/template/template-contacts-page/template-contacts-page.scss";

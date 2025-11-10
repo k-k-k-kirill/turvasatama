@@ -1,0 +1,41 @@
+.ds {
+  &__title {
+    width: 100%;
+  }
+
+  &__navigation {
+    &-list {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    color: $color-link;
+
+    &.active {
+      color: $color-link-hover;
+    }
+  }
+}
+
+@include media-desktop {
+  .ds {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &__title {
+      width: 100%;
+    }
+
+    &__navigation {
+      width: 40%;
+    }
+
+    &__component {
+      width: 60%;
+    }
+  }
+}

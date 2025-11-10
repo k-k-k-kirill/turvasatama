@@ -1,0 +1,32 @@
+.teaser-service {
+  &__title {
+    display: flex;
+
+    @media (max-width: $media-md) {
+      svg {
+        transform: translateY(3px);
+      }
+    }
+
+    a {
+      color: $color-body;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    svg {
+      path {
+        stroke: none !important;
+        fill: $color-red;
+      }
+    }
+
+    &__icon {
+      width: 30px;
+      height: 30px;
+      margin-right: 15px;
+    }
+  }
+}

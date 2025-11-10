@@ -1,0 +1,11 @@
+{#
+ # Template for a single post meta.
+ #
+ # @version 1.0.0
+ #
+ # @var post	The Timber Post object.
+ #}
+
+<div class="meta meta-{{ post.type }}">
+  <p>{{ _x('By %1$s &bull; %2$s', 'Meta byline for a post', 'turvasatama-theme-v2')|format(post.author.name, post.date) }}</p>
+</div>

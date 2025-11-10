@@ -1,0 +1,17 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_content %}
+  <div class="section-posts__wrap">
+		{% include ['@components/posts-loop/posts-loop-' ~ section.post_type ~ '.twig', '@components/posts-loop/posts-loop.twig']
+			with {
+				posts: section.posts
+			}
+		%}
+
+		{% include ['@components/pagination/pagination-' ~ section.post_type ~ '.twig', '@components/pagination/pagination.twig']
+			with {
+				pagination: section.pagination
+			}
+		%}
+  </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{#
+ # Template for a Bootstrap button using the <button> element.
+ #
+ # @see https://getbootstrap.com/docs/4.0/components/buttons/
+ # @version 1.0.0
+ #
+ # @var classes   Classes to be applied to this button.
+ # @var data      Data attributes to be added to this button.
+ # @var disabled  If this button is disabled.
+ # @var label     Label for the button, can contain HTML.
+ # @var type      The type for this button (button, reset or submit)
+ #}
+
+{% for key, datum in data %}
+  {% set data_attributes = data_attributes ~ 'data-' ~ key ~ '=\'' ~ datum ~ '\' ' %}
+{% endfor %}
+
+<button class="btn {{ classes }}" type="{{ type ? type : 'button' }}" {{ data_attributes ? data_attributes }} {{ disabled ? 'disabled' }}>{{ label }}</button>

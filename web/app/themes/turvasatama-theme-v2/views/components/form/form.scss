@@ -1,0 +1,28 @@
+/**
+ * Form styles
+ */
+
+.search-form {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+
+.search-form label {
+  font-weight: normal;
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.search-form .search-field {
+  display: block;
+  width: 100;
+}
+
+.search-form .search-submit {
+  @extend .btn;
+}

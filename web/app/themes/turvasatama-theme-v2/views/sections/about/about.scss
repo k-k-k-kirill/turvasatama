@@ -1,0 +1,11 @@
+.section-about {
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  &__title {
+    // Ensure consistent 16px margin-bottom on mobile
+    margin-bottom: 1rem !important; // 16px
+  }
+}

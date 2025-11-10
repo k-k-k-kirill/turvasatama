@@ -1,0 +1,149 @@
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+	<section class="author__header mt-20 mb-10 md:mb-20">
+		<div class="container author__header__grid">
+			{% if author_info.photo %}
+				<div class="author__photo rounded-full overflow-hidden">
+					{% set image_object = get_image(author_info.photo.id) %}
+					<div class="w-full h-full">
+						{{responsive_image(image_object.id, 'portrait', 'portrait', image_object.alt)}}
+					</div>
+				</div>
+			{% endif %}
+
+			<div>
+				<h1 class="author__name mb-4 md:mb-6">{{author_info.name}}</h1>
+				<div class="author__separator mb-4 md:mb-6"></div>
+
+				{% if author_info.description %}
+					<p class="author__description mb-4 md:mb-6">{{author_info.description}}</p>
+					<div class="author__separator mb-4 md:mb-6"></div>
+				{% endif %}
+
+				{% if author_info.phone %}
+					<a href="tel:{{author_info.phone}}" class="author__header__link mb-4 md:mb-6">{{author_info.phone}}</a>
+				{% endif %}
+
+				{% if author_info.email %}
+					<a href="mailto:{{author_info.email}}" class="author__header__link mb-4 md:mb-6">{{author_info.email}}</a>
+				{% endif %}
+				{% if single_author_fields.contact_form %}
+					<a class="btn btn--outline mb-4 md:mb-6" href="#contact-form">{{ single_author_fields.get_in_touch_text ?: __('Get in touch', 'turvasatama-theme-v2') }}</a>
+				{% endif %}
+				<div class="author__separator mb-4 md:mb-6"></div>
+				{% if author_info.about %}
+					<section class="mb-10 md:mb-20">
+						<div class="author__about author__about--collapsible" data-collapsed="false">
+							<div class="author__about__content">
+								<div class="lead">{{author_info.about}}</div>
+							</div>
+							<a href="#" class="author__about__toggle" 
+								data-toggle="about"
+								data-text-more="{{ single_author_fields.read_more_text ?: __('Read more', 'turvasatama-theme-v2') }}"
+								data-text-less="{{ single_author_fields.read_less_text ?: __('Read less', 'turvasatama-theme-v2') }}">
+								<span class="author__about__toggle-text">{{ single_author_fields.read_more_text ?: __('Read more', 'turvasatama-theme-v2') }}</span>
+							</a>
+						</div>
+					</section>
+				{% endif %}
+				{% if author_info.consultations %}
+					<section class="author__consultations mb-10 md:mb-20">
+						<h2 class="mb-4">{{single_author_fields.pricing_section_title}}</h2>
+						<div>
+							{% for consultation in author_info.consultations %}
+								<div class="py-4">
+									<h6 class="mb-4">{{consultation.title}}</h3>
+									<div>
+										<p class="my-4">{{consultation.description}}</p>
+
+										{% if consultation.prices %}
+											{% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+
+											{% for pricing in consultation.prices %}
+												<div class="grid grid-cols-2 md:grid-cols-3 mb-4">
+													<div>{{pricing.title}}</div>
+													<div>{{pricing.price}}</div>
+												</div>
+
+												{% include "@components/separator/separator.twig" with { classes: 'mb-4' } %}
+											{% endfor %}
+										{% endif %}
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</section>
+				{% endif %}
+				{% if author_info.skills %}
+					{% set section_object = {
+				title: single_author_fields.services_section_title,
+				items: author_info.skills
+				} %}
+
+					{% include "@sections/bullet-points/bullet-points.twig" with { section: section_object, no_container: true } %}
+					{% if single_author_fields.contact_form %}
+						<a class="btn btn--outline mb-4 md:mb-6" href="#contact-form">{{ single_author_fields.get_in_touch_text ?: __('Get in touch', 'turvasatama-theme-v2') }}</a>
+					{% endif %}
+				{% endif %}
+			</div> {# end of about section #}
+		</div>
+	</section>
+
+
+
+	{% if author_info.education %}
+		<section class="py-12 author__education mb-10 md:mb-20">
+			<div class="container">
+				<h2 class="mb-8">{{single_author_fields.qualification_section_title}}</h2>
+
+				<div>
+					{% for education in author_info.education %}
+						<details class="py-4">
+							<summary>
+								<h5>{{education.title}}</h5>
+								<span class="author__summary__icon author__summary__icon--open">+</span>
+								<span class="author__summary__icon author__summary__icon--closed">-</span>
+							</summary>
+							<p class="pt-4 lead">{{education.description}}</p>
+						</details>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+	{% endif %}
+
+	{% if posts and posts|length > 0 %}
+		{% set section_object = {
+      posts: posts,
+      title: single_author_fields.feed_section_title,
+      archive_url: archive_url
+    } %}
+
+		{% include '@sections/feed/feed.twig' with { section: section_object } %}
+	{% endif %}
+
+	{% if single_author_fields.contact_form %}
+		<div id="contact-form" class="container mb-10 md:mb-20">
+			<h2 class="mb-4">{{single_author_fields.contact_form_title}}</h2>
+
+			<div class="grid md:grid-cols-6 gap-8">
+			<div class="flex flex-col justify-center items-start flex-shrink-0 max-w-full">
+				{% if section.left_content %}
+				<div class="mb-3 section-contact-form__text text-wrap break-words">{{section.left_content}}</div>
+				{% endif %}
+
+				{% if section.link %}
+				{% set link_object = section.link %}
+				<a href="{{link_object.url}}" target="{{link_object.target}}" class="btn btn--weird mt-4 block flex-shrink-0">{{link_object.title}}</a>
+				{% endif %}
+			</div>
+
+			<div class="md:col-start-4 md:col-span-3">
+				{% include "@components/contact-form/contact-form.twig" with { id: single_author_fields.contact_form.ID } %}
+				
+			</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}

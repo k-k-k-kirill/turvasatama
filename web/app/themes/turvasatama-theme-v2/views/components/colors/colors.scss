@@ -1,0 +1,24 @@
+/*************************** COLOR SWATCHES *******************************/
+.color-item {
+  display: inline-block;
+  width: 100%;
+
+  &__list {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  @include media-tablet {
+    width: 50%;
+  }
+
+  @include media-desktop {
+    width: 20%;
+  }
+}
+
+.color-swatch {
+  min-height: 100px;
+}
+
+/*************************** END COLOR SWATCHES *******************************/

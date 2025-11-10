@@ -1,0 +1,23 @@
+/**
+ * Comment form styles
+ */
+
+.comment-form p {
+  display: flex;
+  flex: 0 0 auto;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea {
+  display: block;
+  width: 100;
+}
+
+.comment-form input[type="submit"] {
+  @extend .btn;
+}

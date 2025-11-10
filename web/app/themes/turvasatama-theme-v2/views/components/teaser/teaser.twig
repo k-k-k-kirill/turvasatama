@@ -1,0 +1,23 @@
+{#
+ # Template for a single content's teaser.
+ #}
+
+<article class="teaser teaser-{{ post.type }} {{classes}}" id="teaser-{{ post.ID }}">
+
+	{% block content %}
+
+		<h2 class="teaser__title teaser-{{ post.type }}__title">
+      <a href="{{ post.link }}">{{ post.title }}</a>
+    </h2>
+
+		<div class="teaser__content teaser-{{ post.type }}__content">
+			<p>{{ post.preview.read_more(__('Read more<span class="sr-only"> about %s</span>', 'turvasatama-theme-v2')|format(post.title)) }}</p>
+		</div>
+
+		{% if post.get_thumbnail %}
+			<img src="{{ post.thumbnail.src }}" alt="{{ post.thumbnail.alt }}" class="teaser__image teaser-{{ post.type }}__image img-fluid">
+		{% endif %}
+
+	{% endblock %}
+
+</article>

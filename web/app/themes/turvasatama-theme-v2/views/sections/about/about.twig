@@ -1,0 +1,32 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_classes %}
+mb-10 md:mb-20
+{% endblock %}
+
+{% block section_content %}
+  <div class="container py-4 grid md:grid-cols-2">
+    {% if section.title %}
+      <div>
+        <h2 class="section-about__title mb-4">{{section.title}}</h2>
+      </div>
+    {% endif %}
+
+    <div>
+      {% if section.content %}
+        <div>{{section.content}}</div>
+      {% endif %}
+
+      {% if section.link %}
+        <a class="btn btn--outline btn--outline--light mt-6" target="{{section.link.target}}" href="{{section.link.url}}">{{section.link.title}}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.image %}
+    <div class="container pb-10">
+      {% set image_object = get_image(section.image.id) %}
+      {{responsive_image(image_object.id, 'page-hero-mobile', 'page-hero', image_object.alt)}}
+    </div>
+  {% endif %}
+{% endblock %}

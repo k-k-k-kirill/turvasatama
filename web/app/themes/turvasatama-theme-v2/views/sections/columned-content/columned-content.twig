@@ -1,0 +1,34 @@
+{% extends '@sections/section/section.twig' %}
+
+{% block section_classes %}
+container
+{% endblock %}
+
+{% block section_content %}
+  {% include "@components/separator/separator.twig" with { classes: 'mb-6' } %}
+
+  <div class="mb-8 md:mb-12 grid md:grid-cols-3">
+    {% if section.title %}
+      <h2 class="mb-4">{{section.title}}</h2>
+    {% endif %}
+
+    <div class="md:col-start-2 md:col-span-2">
+      {% if section.left_column or section.right_column %}
+          <div class="grid md:grid-cols-2 gap-2 mb-4">
+            {% if section.left_column %}
+              <div>{{section.left_column}}</div>
+            {% endif %}
+
+            {% if section.right_column %}
+              <div>{{section.right_column}}</div>
+            {% endif %}
+          </div>
+      {% endif %}
+
+      {% if section.image %}
+        {% set image_object = get_image(section.image.id) %}
+        {{responsive_image(image_object.id, 'medium', 'medium', image_object.alt)}}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,85 +1,111 @@
 {
-    "key": "group_62a639db7d226",
-    "title": "Services page fields",
-    "fields": [
+  "key": "group_62a639db7d226",
+  "title": "Services page fields",
+  "fields": [
+    {
+      "key": "field_62a639e0b7eec",
+      "label": "Services page fields",
+      "name": "services_page_fields",
+      "type": "group",
+      "instructions": "Fields for services page",
+      "required": 0,
+      "conditional_logic": 0,
+      "wrapper": {
+        "width": "",
+        "class": "",
+        "id": ""
+      },
+      "aria-label": "",
+      "layout": "block",
+      "sub_fields": [
         {
-            "key": "field_62a639e0b7eec",
-            "label": "Services page fields",
-            "name": "services_page_fields",
-            "type": "group",
-            "instructions": "Fields for services page",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "aria-label": "",
-            "layout": "block",
-            "sub_fields": [
-                {
-                    "key": "field_62a639f5b7eed",
-                    "label": "Subtitle",
-                    "name": "subtitle",
-                    "type": "text",
-                    "instructions": "Subtitle of services page",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "aria-label": "",
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": "",
-                    "translations": "ignore"
-                },
-                {
-                    "key": "field_62a63c3b7b3da",
-                    "label": "Services list title",
-                    "name": "services_list_title",
-                    "type": "text",
-                    "instructions": "Title of services list section",
-                    "required": 0,
-                    "conditional_logic": 0,
-                    "wrapper": {
-                        "width": "",
-                        "class": "",
-                        "id": ""
-                    },
-                    "aria-label": "",
-                    "default_value": "",
-                    "placeholder": "",
-                    "prepend": "",
-                    "append": "",
-                    "maxlength": "",
-                    "translations": "ignore"
-                }
-            ]
+          "key": "field_62a639e1b7eea",
+          "label": "Hero image",
+          "name": "hero_image",
+          "type": "image",
+          "instructions": "Hero image for the services page",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "aria-label": "",
+          "return_format": "array",
+          "preview_size": "medium",
+          "library": "all",
+          "min_width": "",
+          "min_height": "",
+          "min_size": "",
+          "max_width": "",
+          "max_height": "",
+          "max_size": "",
+          "mime_types": "",
+          "translations": "ignore"
+        },
+        {
+          "key": "field_62a639f5b7eed",
+          "label": "Subtitle",
+          "name": "subtitle",
+          "type": "text",
+          "instructions": "Subtitle of services page",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "aria-label": "",
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": "",
+          "translations": "ignore"
+        },
+        {
+          "key": "field_62a63c3b7b3da",
+          "label": "Services list title",
+          "name": "services_list_title",
+          "type": "text",
+          "instructions": "Title of services list section",
+          "required": 0,
+          "conditional_logic": 0,
+          "wrapper": {
+            "width": "",
+            "class": "",
+            "id": ""
+          },
+          "aria-label": "",
+          "default_value": "",
+          "placeholder": "",
+          "prepend": "",
+          "append": "",
+          "maxlength": "",
+          "translations": "ignore"
         }
-    ],
-    "location": [
-        [
-            {
-                "param": "post_template",
-                "operator": "==",
-                "value": "controllers\/template-services-page.php"
-            }
-        ]
-    ],
-    "menu_order": 0,
-    "position": "normal",
-    "style": "default",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "hide_on_screen": "",
-    "active": true,
-    "description": "",
-    "show_in_rest": 0,
-    "modified": 1750836179
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_template",
+        "operator": "==",
+        "value": "controllers/template-services-page.php"
+      }
+    ]
+  ],
+  "menu_order": 0,
+  "position": "normal",
+  "style": "default",
+  "label_placement": "top",
+  "instruction_placement": "label",
+  "hide_on_screen": "",
+  "active": true,
+  "description": "",
+  "show_in_rest": 0,
+  "modified": 1750836179
 }

@@ -1,0 +1,25 @@
+.section-cta-minimal {
+  &__title {
+    font-size: $h2-font-size-mobile;
+    color: white;
+    font-weight: 600;
+    line-height: 150%;
+    letter-spacing: 0%;
+    text-align: center;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+
+    @media (min-width: $media-lg) {
+      font-size: 30px;
+    }
+  }
+
+  &__container {
+    background-color: $color-red;
+
+    @media (min-width: $media-lg) {
+      border-radius: $border-radius;
+    }
+  }
+}

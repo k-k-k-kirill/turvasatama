@@ -1,0 +1,46 @@
+.author-badge {
+  &__name {
+    color: $color-body;
+  }
+
+  &__description {
+    max-width: 570px;
+    color: $color-body;
+    opacity: 0.6;
+  }
+
+  &__image {
+    img {
+      width: 135px;
+      height: 135px;
+      border-radius: 50%;
+    }
+  }
+
+  &__link {
+    color: $color-body;
+    text-decoration: underline;
+    transition: all 0.15s ease-in-out;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  border-top: 1px solid $separator;
+  border-bottom: 1px solid $separator;
+
+  a {
+    font-size: 16px;
+    color: $color-body;
+    transition: all 0.15s ease-in-out;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

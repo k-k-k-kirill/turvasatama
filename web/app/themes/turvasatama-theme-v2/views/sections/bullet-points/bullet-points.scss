@@ -1,0 +1,15 @@
+.section-bullet-points {
+  &__title {
+    font-weight: 400;
+  }
+
+  &__item {
+    &__circle {
+      content: "";
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: $color-light-red;
+    }
+  }
+}

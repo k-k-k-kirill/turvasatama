@@ -1,0 +1,30 @@
+{#
+ # View template for the most generic index of content.
+ #
+ # @version 1.0.0
+ #}
+
+{% extends 'base/base.twig' %}
+
+{% block site_content %}
+	{% include ['@sections/header/header-' ~ post_type ~ '.twig', '@sections/header/header.twig']
+		with {
+			section: {
+				acf_fc_layout: 'header',
+				title: title,
+				post_type: post_type,
+			}
+		}
+	%}
+
+	{% include ['@sections/posts/posts-' ~ post_type ~ '.twig', '@sections/posts/posts.twig']
+		with {
+			section: {
+				acf_fc_layout: 'posts',
+				post_type: post_type,
+				posts: posts,
+				pagination: pagination,
+			}
+		}
+	%}
+{% endblock %}
